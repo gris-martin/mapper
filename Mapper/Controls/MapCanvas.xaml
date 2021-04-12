@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Mapper.Controls.MapCanvas"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Mapper.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.CommandBindings>
+        <CommandBinding Command="local:CustomCommands.AddMarker" CanExecute="AddMarkerCommand_CanExecute" Executed="AddMarkerCommand_Executed"/>
+    </UserControl.CommandBindings>
+    <Grid>
+        <ItemsControl
+                ItemsSource="{Binding Path=MapSymbols}"
+                Name="pnlMainGrid" Background="LightBlue"
+                MouseMove="pnlMainGrid_MouseMove"
+                MouseLeave="pnlMainGrid_MouseLeave"
+                MouseRightButtonDown="pnlMainGrid_MouseRightButtonDown"
+                ContextMenuOpening="pnlMainGrid_ContextMenuOpening"
+                ClipToBounds="True">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding Path=Image}" Width="25" Height="25"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Canvas.Left" Value="{Binding Path=Pos.X}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Path=Pos.Y}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+        <Popup Name="mousePositionTip" Placement="Relative" AllowsTransparency="True">
+            <TextBlock Name="mousePosition" FontWeight="Bold">Look at me</TextBlock>
+        </Popup>
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Command="local:CustomCommands.AddMarker"
+                          CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType={x:TypeExtension ContextMenu}}}"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
+    </Grid>
+</UserControl>
