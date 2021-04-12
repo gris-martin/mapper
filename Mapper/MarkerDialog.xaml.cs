@@ -30,7 +30,7 @@ namespace Mapper
         {
             var b = e.Source as Button;
             var i = b.Content as Image;
-            MainWindowModel.Instance.MapSymbols.Add(new MapSymbolModel(i.Source as BitmapImage, pos));
+            MainViewModel.Instance.MapSymbols.Add(new MapSymbolModel(i.Source as BitmapImage, pos));
             Close();
         }
     }

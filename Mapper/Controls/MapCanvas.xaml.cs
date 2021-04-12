@@ -24,7 +24,7 @@ namespace Mapper.Controls
         public MapCanvas()
         {
             InitializeComponent();
-            this.DataContext = MainWindowModel.Instance;
+            this.DataContext = MainViewModel.Instance;
         }
 
 

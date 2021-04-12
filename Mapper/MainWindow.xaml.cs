@@ -23,7 +23,7 @@ namespace Mapper
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = MainWindowModel.Instance;
+            this.DataContext = MainViewModel.Instance;
         }
     }
 }
