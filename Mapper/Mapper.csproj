@@ -1,0 +1,175 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="images\001-helmet.png" />
+    <None Remove="images\002-snorkel.png" />
+    <None Remove="images\003-coral.png" />
+    <None Remove="images\004-flippers.png" />
+    <None Remove="images\005-oxygen tank.png" />
+    <None Remove="images\006-diver.png" />
+    <None Remove="images\007-camera.png" />
+    <None Remove="images\008-submarine.png" />
+    <None Remove="images\009-flashlight.png" />
+    <None Remove="images\010-turtle.png" />
+    <None Remove="images\011-shark.png" />
+    <None Remove="images\012-boat.png" />
+    <None Remove="images\013-reef.png" />
+    <None Remove="images\014-fish.png" />
+    <None Remove="images\015-diving watch.png" />
+    <None Remove="images\016-puffer fish.png" />
+    <None Remove="images\017-shell.png" />
+    <None Remove="images\018-gauge.png" />
+    <None Remove="images\019-diving suit.png" />
+    <None Remove="images\020-starfish.png" />
+    <None Remove="images\021-harpoon.png" />
+    <None Remove="images\022-coral.png" />
+    <None Remove="images\023-coral.png" />
+    <None Remove="images\024-scuba diving.png" />
+    <None Remove="images\025-fish.png" />
+    <None Remove="images\026-jellyfish.png" />
+    <None Remove="images\027-clownfish.png" />
+    <None Remove="images\028-bag.png" />
+    <None Remove="images\029-cave.png" />
+    <None Remove="images\030-reef.png" />
+    <None Remove="images\031-manta ray.png" />
+    <None Remove="images\032-snorkel gear.png" />
+    <None Remove="images\033-shipwreck.png" />
+    <None Remove="images\034-fish.png" />
+    <None Remove="images\035-manatee.png" />
+    <None Remove="images\036-octopus.png" />
+    <None Remove="images\037-snorkel.png" />
+    <None Remove="images\038-face mask.png" />
+    <None Remove="images\039-dolphin.png" />
+    <None Remove="images\040-compass.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="images\001-helmet.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\002-snorkel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\003-coral.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\004-flippers.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\005-oxygen tank.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\006-diver.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\007-camera.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\008-submarine.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\009-flashlight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\010-turtle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\011-shark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\012-boat.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\013-reef.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\014-fish.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\015-diving watch.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\016-puffer fish.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\017-shell.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\018-gauge.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\019-diving suit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\020-starfish.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\021-harpoon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\022-coral.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\023-coral.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\024-scuba diving.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\025-fish.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\026-jellyfish.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\027-clownfish.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\028-bag.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\029-cave.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\030-reef.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\031-manta ray.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\032-snorkel gear.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\033-shipwreck.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\034-fish.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\035-manatee.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\036-octopus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\037-snorkel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\038-face mask.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\039-dolphin.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\040-compass.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
