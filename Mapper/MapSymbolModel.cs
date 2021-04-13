@@ -12,7 +12,7 @@ namespace Mapper
         public MapSymbolModel(BitmapImage image, Point pos)
         {
             this.image = image;
-            this.pos = new Point(pos.X - Math.Round(image.Width / 2.0), pos.Y - Math.Round(image.Height / 2.0));
+            this.worldPos = new Point(pos.X - Math.Round(image.Width / 2.0), pos.Y - Math.Round(image.Height / 2.0));
         }
 
         private BitmapImage image;
@@ -25,14 +25,25 @@ namespace Mapper
             }
         }
 
-        private Point pos;
-        public Point Pos
+        private Point worldPos;
+        public Point WorldPos
         {
-            get => pos;
+            get => worldPos;
             set
             {
-                pos = value;
-                NotifyPropertyChanged("Pos");
+                worldPos = value;
+                NotifyPropertyChanged("WorldPos");
+            }
+        }
+
+        private Point screenPos;
+        public Point ScreenPos
+        {
+            get => screenPos;
+            set
+            {
+                screenPos = value;
+                NotifyPropertyChanged("ScreenPos");
             }
         }
 

@@ -30,8 +30,8 @@
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>
                 <Style>
-                    <Setter Property="Canvas.Left" Value="{Binding Path=Pos.X}"/>
-                    <Setter Property="Canvas.Top" Value="{Binding Path=Pos.Y}"/>
+                    <Setter Property="Canvas.Left" Value="{Binding Path=ScreenPos.X}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Path=ScreenPos.Y}"/>
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>

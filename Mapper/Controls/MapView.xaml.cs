@@ -38,28 +38,25 @@ namespace Mapper.Controls
         {
             Console.WriteLine("Something clicked!");
             MarkerDialog markerDialog = new MarkerDialog(lastRightClick);
-            if (markerDialog.ShowDialog() == true)
-            {
-                Console.WriteLine("HEJ");
-            }
+            markerDialog.ShowDialog();
         }
 
 
         private void pnlMainGrid_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!mousePositionTip.IsOpen)
-                mousePositionTip.IsOpen = true;
+            if (!this.mousePositionTip.IsOpen)
+                this.mousePositionTip.IsOpen = true;
 
             Point currentPos = e.GetPosition(pnlMainGrid);
 
-            mousePositionTip.HorizontalOffset = currentPos.X;
-            mousePositionTip.VerticalOffset = currentPos.Y + 20;
-            mousePosition.Text = $"{Math.Round(currentPos.X)}, {Math.Round(currentPos.Y)}";
+            this.mousePositionTip.HorizontalOffset = currentPos.X;
+            this.mousePositionTip.VerticalOffset = currentPos.Y + 20;
+            this.mousePosition.Text = $"{Math.Round(currentPos.X)}, {Math.Round(currentPos.Y)}";
         }
 
         private void pnlMainGrid_MouseLeave(object sender, MouseEventArgs e)
         {
-            mousePositionTip.IsOpen = false;
+            this.mousePositionTip.IsOpen = false;
         }
 
 
