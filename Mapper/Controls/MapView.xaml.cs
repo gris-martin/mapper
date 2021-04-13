@@ -14,17 +14,17 @@ using System.Windows.Shapes;
 namespace Mapper.Controls
 {
     /// <summary>
-    /// Interaction logic for MapCanvas.xaml
+    /// Interaction logic for MapView.xaml
     /// </summary>
-    public partial class MapCanvas : UserControl
+    public partial class MapView : UserControl
     {
         private Point lastRightClick = new Point();
 
 
-        public MapCanvas()
+        public MapView()
         {
             InitializeComponent();
-            this.DataContext = MainViewModel.Instance;
+            this.DataContext = MapViewModel.Instance;
         }
 
 

@@ -6,9 +6,9 @@ using System.Windows;
 
 namespace Mapper
 {
-    class MainViewModel
+    class MapViewModel
     {
-        public static MainViewModel Instance = new MainViewModel();
+        public static MapViewModel Instance = new MapViewModel();
 
         public ObservableCollection<MapSymbolModel> MapSymbols { get; } = new ObservableCollection<MapSymbolModel>();
 

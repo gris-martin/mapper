@@ -21,6 +21,6 @@
                 <MenuItem Header="_Exit"/>
             </MenuItem>
         </Menu>
-        <uc:MapCanvas/>
+        <uc:MapView/>
     </DockPanel>
 </Window>
