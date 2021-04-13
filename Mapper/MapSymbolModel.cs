@@ -9,10 +9,18 @@ namespace Mapper
 {
     class MapSymbolModel : INotifyPropertyChanged
     {
-        public MapSymbolModel(BitmapImage image, Point pos)
+        private static int staticId = 0;
+
+        public MapSymbolModel(BitmapImage image, Point pos, string name)
         {
+
             this.image = image;
-            this.worldPos = new Point(pos.X - Math.Round(image.Width / 2.0), pos.Y - Math.Round(image.Height / 2.0));
+            this.worldPos = new Point(pos.X - Math.Round(image.Width / 2.0),
+                                      pos.Y - Math.Round(image.Height / 2.0));
+            this.name = name;
+            this.Id = staticId;
+            this.name += staticId;
+            staticId += 1;
         }
 
         private BitmapImage image;
@@ -36,19 +44,25 @@ namespace Mapper
             }
         }
 
-        private Point screenPos;
-        public Point ScreenPos
+        private string name;
+        public string Name
         {
-            get => screenPos;
+            get => name;
             set
             {
-                screenPos = value;
-                NotifyPropertyChanged("ScreenPos");
+                name = value;
+                NotifyPropertyChanged("Name");
             }
         }
 
+
+
+        public int Id { get; }
+            
+        public Point ScreenPos { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         public void NotifyPropertyChanged(string propName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));

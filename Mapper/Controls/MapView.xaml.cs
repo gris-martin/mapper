@@ -102,20 +102,14 @@ namespace Mapper.Controls
         private void Image_MouseEnter(object sender, MouseEventArgs e)
         {
             var image = sender as Image;
-            //var tipPosition = image.TranslatePoint(new Point(0, 0), null);
-            this.markerTip.IsOpen = true;
-            this.markerName.Text = "Martin";
-
             this.markerTip.PlacementTarget = image;
             this.markerTip.Placement = System.Windows.Controls.Primitives.PlacementMode.Center;
+            this.markerTip.IsOpen = true;
+
             this.markerTip.VerticalOffset = -25;
 
             var markerData = image.DataContext as MapSymbolModel;
-            Console.WriteLine(context);
-
-            //this.markerTip.Horiz
-            //this.markerTip.VerticalAlignment = VerticalAlignment.Top;
-            //this.markerTip.HorizontalAlignment = HorizontalAlignment.Center;
+            this.markerName.Text = markerData.Name;
         }
 
         private void Image_MouseLeave(object sender, MouseEventArgs e)
