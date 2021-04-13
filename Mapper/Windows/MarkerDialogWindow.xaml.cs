@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Mapper.Models;
+using Mapper.ViewModels;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,16 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Mapper
+namespace Mapper.Windows
 {
     /// <summary>
-    /// Interaction logic for MarkerDialog.xaml
+    /// Interaction logic for MarkerDialogWindow.xaml
     /// </summary>
-    public partial class MarkerDialog : Window
+    public partial class MarkerDialogWindow : Window
     {
         private Point pos;
 
-        public MarkerDialog(Point pos)
+        public MarkerDialogWindow(Point pos)
         {
             this.pos = pos;
             InitializeComponent();

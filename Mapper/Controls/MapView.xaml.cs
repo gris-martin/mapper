@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Mapper.Models;
+using Mapper.ViewModels;
+using Mapper.Windows;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -40,8 +43,10 @@ namespace Mapper.Controls
         private void AddMarkerCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Console.WriteLine("Something clicked!");
-            MarkerDialog markerDialog = new MarkerDialog(lastRightClickPosition);
-            markerDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            MarkerDialogWindow markerDialog = new MarkerDialogWindow(lastRightClickPosition)
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
             markerDialog.ShowDialog();
         }
 

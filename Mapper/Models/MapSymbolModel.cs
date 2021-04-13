@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
-namespace Mapper
+namespace Mapper.Models
 {
     class MapSymbolModel : INotifyPropertyChanged
     {

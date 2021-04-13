@@ -1,11 +1,11 @@
-﻿<Window x:Class="Mapper.MarkerDialog"
+﻿<Window x:Class="Mapper.Windows.MarkerDialogWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Mapper"
+        xmlns:local="clr-namespace:Mapper.Windows"
         mc:Ignorable="d"
-        Title="MarkerDialog" Height="200" Width="245">
+        Title="MarkerDialogWindow" Height="450" Width="800">
     <UniformGrid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <ItemsControl Name="icMarkerGrid" ItemsSource="{DynamicResource MarkerSymbols}">

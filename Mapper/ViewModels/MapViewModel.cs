@@ -1,9 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using Mapper.Models;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
-namespace Mapper
+namespace Mapper.ViewModels
 {
     class MapViewModel : INotifyPropertyChanged
     {
