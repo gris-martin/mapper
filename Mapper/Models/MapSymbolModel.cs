@@ -55,12 +55,17 @@ namespace Mapper.Models
             }
         }
 
-
+        private Point screenPos;
+        public Point ScreenPos { 
+            get => screenPos;
+            set {
+                screenPos = value;
+                NotifyPropertyChanged("ScreenPos");
+            }
+        }
 
         public int Id { get; }
             
-        public Point ScreenPos { get; set; }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged(string propName)
