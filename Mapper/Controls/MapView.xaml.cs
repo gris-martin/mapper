@@ -41,6 +41,7 @@ namespace Mapper.Controls
         {
             Console.WriteLine("Something clicked!");
             MarkerDialog markerDialog = new MarkerDialog(lastRightClickPosition);
+            markerDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             markerDialog.ShowDialog();
         }
 
