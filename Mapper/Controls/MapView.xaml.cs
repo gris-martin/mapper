@@ -18,8 +18,9 @@ namespace Mapper.Controls
     /// </summary>
     public partial class MapView : UserControl
     {
-        private Point lastRightClick = new Point();
-
+        private Point lastRightClickPosition = new Point();
+        private bool isPanning = false;
+        private Point lastPanPosition = new Point();
 
         public MapView()
         {
@@ -27,6 +28,8 @@ namespace Mapper.Controls
             this.DataContext = MapViewModel.Instance;
         }
 
+
+        #region AddMarker callbacks
 
         private void AddMarkerCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -37,42 +40,93 @@ namespace Mapper.Controls
         private void AddMarkerCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Console.WriteLine("Something clicked!");
-            MarkerDialog markerDialog = new MarkerDialog(lastRightClick);
+            MarkerDialog markerDialog = new MarkerDialog(lastRightClickPosition);
             markerDialog.ShowDialog();
         }
 
+        #endregion
 
-        private void pnlMainGrid_MouseMove(object sender, MouseEventArgs e)
+
+        #region MapGrid callbacks
+
+        private void MapGrid_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!this.mousePositionTip.IsOpen)
-                this.mousePositionTip.IsOpen = true;
+            Point currentPos = e.GetPosition(MapGrid);
+            if (this.isPanning)
+            {
+                double deltaX = this.lastPanPosition.X - currentPos.X;
+                double deltaY = this.lastPanPosition.Y - currentPos.Y;
+                Point origin = MapViewModel.Instance.Origin;
+                double newX = origin.X + deltaX;
+                double newY = origin.Y + deltaY;
 
-            Point currentPos = e.GetPosition(pnlMainGrid);
+                MapViewModel.Instance.Origin = new Point(newX, newY);
 
-            this.mousePositionTip.HorizontalOffset = currentPos.X;
-            this.mousePositionTip.VerticalOffset = currentPos.Y + 20;
-            this.mousePosition.Text = $"{Math.Round(currentPos.X)}, {Math.Round(currentPos.Y)}";
+                this.lastPanPosition = currentPos;
+            }
+
+            // Tooltip displaying world position
+            if (!this.worldPositionTip.IsOpen)
+                this.worldPositionTip.IsOpen = true;
+
+            this.worldPositionTip.HorizontalOffset = currentPos.X;
+            this.worldPositionTip.VerticalOffset = currentPos.Y + 20;
+            this.worldPosition.Text = $"{Math.Round(currentPos.X)}, {Math.Round(currentPos.Y)}";
         }
 
-        private void pnlMainGrid_MouseLeave(object sender, MouseEventArgs e)
+        private void MapGrid_MouseLeave(object sender, MouseEventArgs e)
         {
-            this.mousePositionTip.IsOpen = false;
+            this.worldPositionTip.IsOpen = false;
         }
 
-
-        private void pnlMainGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void MapGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-
+            lastRightClickPosition = new Point(e.CursorLeft, e.CursorTop);
         }
 
-
-        private void pnlMainGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        private void MapGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            lastRightClick = new Point(e.CursorLeft, e.CursorTop);
+            isPanning = true;
+            this.lastPanPosition = e.GetPosition(MapGrid);
         }
+
+        private void MapGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            isPanning = false;
+        }
+        #endregion
+
+
+        #region Image callbacks
+
+        private void Image_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var image = sender as Image;
+            //var tipPosition = image.TranslatePoint(new Point(0, 0), null);
+            this.markerTip.IsOpen = true;
+            this.markerName.Text = "Martin";
+
+            this.markerTip.PlacementTarget = image;
+            this.markerTip.Placement = System.Windows.Controls.Primitives.PlacementMode.Center;
+            this.markerTip.VerticalOffset = -25;
+
+            var markerData = image.DataContext as MapSymbolModel;
+            Console.WriteLine(context);
+
+            //this.markerTip.Horiz
+            //this.markerTip.VerticalAlignment = VerticalAlignment.Top;
+            //this.markerTip.HorizontalAlignment = HorizontalAlignment.Center;
+        }
+
+        private void Image_MouseLeave(object sender, MouseEventArgs e)
+        {
+            this.markerTip.IsOpen = false;
+        }
+
+        #endregion
     }
 
-    public static class CustomCommands
+        public static class CustomCommands
     {
         public static readonly RoutedUICommand AddMarker = new RoutedUICommand(
             "Add marker...",

@@ -7,16 +7,20 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.CommandBindings>
-        <CommandBinding Command="local:CustomCommands.AddMarker" CanExecute="AddMarkerCommand_CanExecute" Executed="AddMarkerCommand_Executed"/>
+        <CommandBinding Command="local:CustomCommands.AddMarker"
+                        CanExecute="AddMarkerCommand_CanExecute"
+                        Executed="AddMarkerCommand_Executed"/>
     </UserControl.CommandBindings>
-    <Grid>
+    <Grid Name="MapGrid"
+          Background="LightBlue"
+          MouseMove="MapGrid_MouseMove"
+          MouseLeave="MapGrid_MouseLeave"
+          MouseLeftButtonDown="MapGrid_MouseLeftButtonDown"
+          MouseLeftButtonUp="MapGrid_MouseLeftButtonUp"
+          ContextMenuOpening="MapGrid_ContextMenuOpening">
         <ItemsControl
+                Grid.Column="2"
                 ItemsSource="{Binding Path=MapSymbols}"
-                Name="pnlMainGrid" Background="LightBlue"
-                MouseMove="pnlMainGrid_MouseMove"
-                MouseLeave="pnlMainGrid_MouseLeave"
-                MouseRightButtonDown="pnlMainGrid_MouseRightButtonDown"
-                ContextMenuOpening="pnlMainGrid_ContextMenuOpening"
                 ClipToBounds="True">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -25,7 +29,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding Path=Image}" Width="25" Height="25"/>
+                    <Image Source="{Binding Path=Image}" Width="25" Height="25" MouseEnter="Image_MouseEnter" MouseLeave="Image_MouseLeave"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>
@@ -35,8 +39,11 @@
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
-        <Popup Name="mousePositionTip" Placement="Relative" AllowsTransparency="True">
-            <TextBlock Name="mousePosition" FontWeight="Bold">Look at me</TextBlock>
+        <Popup Name="worldPositionTip" Placement="Relative" AllowsTransparency="True">
+            <TextBlock Name="worldPosition" FontWeight="Bold">Look at me</TextBlock>
+        </Popup>
+        <Popup Name="markerTip" Placement="Relative" AllowsTransparency="True">
+            <TextBlock Name="markerName" FontWeight="Bold">Look at me</TextBlock>
         </Popup>
         <Grid.ContextMenu>
             <ContextMenu>
