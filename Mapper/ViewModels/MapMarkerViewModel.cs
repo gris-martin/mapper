@@ -7,11 +7,11 @@ using System.Windows.Media.Imaging;
 
 namespace Mapper.Models
 {
-    class MapSymbolModel : INotifyPropertyChanged
+    public class MapMarkerViewModel : INotifyPropertyChanged
     {
         private static int staticId = 0;
 
-        public MapSymbolModel(BitmapImage image, Point pos, string name)
+        public MapMarkerViewModel(BitmapImage image, Point pos, string name)
         {
 
             this.image = image;
@@ -19,7 +19,6 @@ namespace Mapper.Models
                                       pos.Y - Math.Round(image.Height / 2.0));
             this.name = name;
             this.Id = staticId;
-            this.name += staticId;
             staticId += 1;
         }
 

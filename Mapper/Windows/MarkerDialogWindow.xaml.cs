@@ -19,11 +19,10 @@ namespace Mapper.Windows
     /// </summary>
     public partial class MarkerDialogWindow : Window
     {
-        private Point pos;
+        public BitmapImage Image { get; private set; }
 
-        public MarkerDialogWindow(Point pos)
+        public MarkerDialogWindow()
         {
-            this.pos = pos;
             InitializeComponent();
         }
 
@@ -31,7 +30,8 @@ namespace Mapper.Windows
         {
             var b = e.Source as Button;
             var i = b.Content as Image;
-            MapViewModel.Instance.MapSymbols.Add(new MapSymbolModel(i.Source as BitmapImage, pos, "hej"));
+            Image = i.Source as BitmapImage;
+            DialogResult = true;
             Close();
         }
     }

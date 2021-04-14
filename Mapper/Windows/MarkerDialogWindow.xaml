@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mapper.Windows"
         mc:Ignorable="d"
-        Title="MarkerDialogWindow" Height="450" Width="800">
+        Title="MarkerDialogWindow" Height="200" Width="245">
     <UniformGrid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <ItemsControl Name="icMarkerGrid" ItemsSource="{DynamicResource MarkerSymbols}">
@@ -18,7 +18,6 @@
                     <DataTemplate>
                         <Button Style="{StaticResource ImageButtonStyle}" Click="Button_Click">
                             <Image Source="{Binding}" Width="25" Height="25" Margin="5"/>
-                            <!--<Image Source="{Binding}" Width="25" Height="25" Margin="5"/>-->
                         </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

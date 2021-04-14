@@ -21,6 +21,17 @@
                 <MenuItem Header="_Exit"/>
             </MenuItem>
         </Menu>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Text="{Binding Origin,
+                                  StringFormat='Origin: {0},'}"></TextBlock>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock Text="{Binding Scale,
+                                  StringFormat='Scale: {0}'}"></TextBlock>
+            </StatusBarItem>
+        </StatusBar>
         <uc:MapView/>
     </DockPanel>
 </Window>

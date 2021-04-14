@@ -43,11 +43,26 @@ namespace Mapper.Controls
         private void AddMarkerCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Console.WriteLine("Something clicked!");
-            MarkerDialogWindow markerDialog = new MarkerDialogWindow(lastRightClickPosition)
+            MarkerDialogWindow markerDialog = new MarkerDialogWindow()
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
-            markerDialog.ShowDialog();
+            var status = markerDialog.ShowDialog();
+            if (status != true)
+                return;
+
+            var nameDialog = new NameDialogWindow()
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+            status = nameDialog.ShowDialog();
+            if (status != true)
+                return;
+
+            var image = markerDialog.Image;
+            var pos = lastRightClickPosition;
+            var name = nameDialog.CreatedName;
+            MapViewModel.Instance.MapSymbols.Add(new MapMarkerViewModel(image, pos, name));
         }
 
         #endregion
@@ -114,7 +129,7 @@ namespace Mapper.Controls
 
             this.markerTip.VerticalOffset = -25;
 
-            var markerData = image.DataContext as MapSymbolModel;
+            var markerData = image.DataContext as MapMarkerViewModel;
             this.markerName.Text = markerData.Name;
         }
 

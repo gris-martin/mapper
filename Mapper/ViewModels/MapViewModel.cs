@@ -10,7 +10,7 @@ namespace Mapper.ViewModels
     {
         public static MapViewModel Instance = new MapViewModel();
 
-        public ObservableCollection<MapSymbolModel> MapSymbols { get; } = new ObservableCollection<MapSymbolModel>();
+        public ObservableCollection<MapMarkerViewModel> MapSymbols { get; } = new ObservableCollection<MapMarkerViewModel>();
 
 
         public MapViewModel()
@@ -23,16 +23,16 @@ namespace Mapper.ViewModels
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
             {
-                foreach (MapSymbolModel removedSymbol in e.OldItems)
+                foreach (MapMarkerViewModel removedSymbol in e.OldItems)
                 {
                     removedSymbol.PropertyChanged -= NewSymbol_PropertyChanged;
                 }
             }
             else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
-                foreach (MapSymbolModel newSymbol in e.NewItems)
+                foreach (MapMarkerViewModel newSymbol in e.NewItems)
                 {
-                    newSymbol.ScreenPos = ToScreenCoordinate(newSymbol.WorldPos);
+                    newSymbol.ScreenPos = ToViewSpace(newSymbol.WorldPos);
                     newSymbol.PropertyChanged += NewSymbol_PropertyChanged;
                 }
             }
@@ -43,8 +43,8 @@ namespace Mapper.ViewModels
         {
             if (e.PropertyName == "WorldPos")
             {
-                var symbol = sender as MapSymbolModel;
-                symbol.ScreenPos = ToScreenCoordinate(symbol.WorldPos);
+                var symbol = sender as MapMarkerViewModel;
+                symbol.ScreenPos = ToViewSpace(symbol.WorldPos);
             }
         }
 
@@ -58,7 +58,7 @@ namespace Mapper.ViewModels
             {
                 origin = value;
                 foreach (var symbol in MapSymbols)
-                    symbol.ScreenPos = ToScreenCoordinate(symbol.WorldPos);
+                    symbol.ScreenPos = ToViewSpace(symbol.WorldPos);
                 OnPropertyChanged();
             }
         }
@@ -72,7 +72,7 @@ namespace Mapper.ViewModels
             set
             {
                 foreach (var symbol in MapSymbols)
-                    symbol.ScreenPos = ToScreenCoordinate(symbol.WorldPos);
+                    symbol.ScreenPos = ToViewSpace(symbol.WorldPos);
                 scale = value;
                 OnPropertyChanged();
             }
@@ -80,23 +80,33 @@ namespace Mapper.ViewModels
         private double scale = 1;
 
 
-        public Point ToWorldCoordinate(Point screenPoint)
+        /// <summary>
+        /// Convert a point in view space to world space
+        /// </summary>
+        /// <param name="viewPoint">A point in view space</param>
+        /// <returns>The same point in world space</returns>
+        public Point ToWorldSpace(Point viewPoint)
         {
-            var screenX = screenPoint.X;
-            var screenY = screenPoint.Y;
-            var worldX = screenX * Scale + Origin.X;
-            var worldY = screenY * Scale + Origin.Y;
+            var viewX = viewPoint.X;
+            var viewY = viewPoint.Y;
+            var worldX = viewX * Scale + Origin.X;
+            var worldY = viewY * Scale + Origin.Y;
             return new Point(worldX, worldY);
         }
 
 
-        public Point ToScreenCoordinate(Point worldPoint)
+        /// <summary>
+        /// Convert a point in world space to view space
+        /// </summary>
+        /// <param name="worldPoint">A point in world space</param>
+        /// <returns>The same point in view space</returns>
+        public Point ToViewSpace(Point worldPoint)
         {
             var worldX = worldPoint.X;
             var worldY = worldPoint.Y;
-            var screenX = (worldX - Origin.X) / Scale;
-            var screenY = (worldY - Origin.Y) / Scale;
-            return new Point(screenX, screenY);
+            var viewX = (worldX - Origin.X) / Scale;
+            var viewY = (worldY - Origin.Y) / Scale;
+            return new Point(viewX, viewY);
         }
 
 
