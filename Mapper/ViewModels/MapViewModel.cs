@@ -49,6 +49,18 @@ namespace Mapper.ViewModels
         }
 
 
+        private double lastZoom;
+        public double LastZoom
+        {
+            get => lastZoom;
+            set
+            {
+                lastZoom = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         /// <summary>
         /// Current world coordinate of lower left corner
         /// </summary>
@@ -78,6 +90,49 @@ namespace Mapper.ViewModels
             }
         }
         private double scale = 1;
+
+
+        /// <summary>
+        /// Set the scale of the map given a view center.
+        /// </summary>
+        /// <param name="center">The point in view coordinates that the scaling should 
+        /// be done around. This point will have the same coordinates (screen and world)
+        /// before and after the scaling.</param>
+        /// <param name="zoomIn">Set to true if the scaling is a zoom in operation 
+        /// (Scale will decrease), and false if the scaling is a zoom out operation
+        /// (Scale will increase).</param>
+        public void SetScaleAroundPoint(Point center, bool zoomIn)
+        {
+            var zoomConstant = 1.3;
+            var mousePos = ToWorldSpace(center);
+
+            var scaleAmount = zoomConstant;
+            if (zoomIn)
+                scaleAmount = 1.0 / scaleAmount;
+
+            Scale *= scaleAmount;
+
+            var mouseX = mousePos.X;
+            var mouseY = mousePos.Y;
+            var oldX = origin.X;
+            var oldY = origin.Y;
+
+            // Zoom in
+            if (zoomIn)
+            {
+                var newX = mouseX + (oldX - mouseX) * scaleAmount;
+                var newY = mouseY + (oldY - mouseY) * scaleAmount;
+                Origin = new Point(newX, newY);
+            }
+            // Zoom out
+            else
+            {
+                var newX = oldX - (mouseX - oldX) * (scaleAmount - 1);
+                var newY = oldY - (mouseY - oldY) * (scaleAmount - 1);
+                Origin = new Point(newX, newY);
+            }
+            LastZoom = scaleAmount;
+        }
 
 
         /// <summary>

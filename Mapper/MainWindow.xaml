@@ -29,7 +29,12 @@
             <Separator/>
             <StatusBarItem>
                 <TextBlock Text="{Binding Scale,
-                                  StringFormat='Scale: {0}'}"></TextBlock>
+                                  StringFormat='Scale: {0} meters per pixel'}"></TextBlock>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock Text="{Binding LastZoom,
+                                  StringFormat='Last zoom amount: {0}'}"></TextBlock>
             </StatusBarItem>
         </StatusBar>
         <uc:MapView/>

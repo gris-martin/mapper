@@ -14,8 +14,11 @@
     <Grid Name="MapGrid"
           Background="LightBlue"
           MouseMove="MapGrid_MouseMove"
+          MouseEnter="MapGrid_MouseEnter"
           MouseLeave="MapGrid_MouseLeave"
+          MouseDown="MapGrid_MouseDown"
           MouseLeftButtonDown="MapGrid_MouseLeftButtonDown"
+          MouseWheel="MapGrid_MouseWheel"
           MouseLeftButtonUp="MapGrid_MouseLeftButtonUp"
           ContextMenuOpening="MapGrid_ContextMenuOpening">
         <ItemsControl
@@ -29,7 +32,13 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding Path=Image}" Width="25" Height="25" MouseEnter="Image_MouseEnter" MouseLeave="Image_MouseLeave"/>
+                    <Image Source="{Binding Path=Image}"
+                           Width="25"
+                           Height="25"
+                           MouseEnter="Image_MouseEnter"
+                           MouseLeave="Image_MouseLeave"
+                           MouseLeftButtonDown="Image_MouseDown"
+                           MouseLeftButtonUp="Image_MouseUp"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>

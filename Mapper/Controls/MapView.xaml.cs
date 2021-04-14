@@ -75,8 +75,8 @@ namespace Mapper.Controls
             Point currentPos = e.GetPosition(MapGrid);
             if (this.isPanning)
             {
-                double deltaX = this.lastPanPosition.X - currentPos.X;
-                double deltaY = this.lastPanPosition.Y - currentPos.Y;
+                double deltaX = (this.lastPanPosition.X - currentPos.X) * MapViewModel.Instance.Scale;
+                double deltaY = (this.lastPanPosition.Y - currentPos.Y) * MapViewModel.Instance.Scale;
                 Point origin = MapViewModel.Instance.Origin;
                 double newX = origin.X + deltaX;
                 double newY = origin.Y + deltaY;
@@ -92,12 +92,19 @@ namespace Mapper.Controls
 
             this.worldPositionTip.HorizontalOffset = currentPos.X;
             this.worldPositionTip.VerticalOffset = currentPos.Y + 20;
-            this.worldPosition.Text = $"{Math.Round(currentPos.X)}, {Math.Round(currentPos.Y)}";
+            var worldPos = MapViewModel.Instance.ToWorldSpace(currentPos);
+            this.worldPosition.Text = $"{Math.Round(worldPos.X)}, {Math.Round(worldPos.Y)}";
         }
 
         private void MapGrid_MouseLeave(object sender, MouseEventArgs e)
         {
             this.worldPositionTip.IsOpen = false;
+        }
+
+        private void MapGrid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Released)
+                this.isPanning = false;
         }
 
         private void MapGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -115,22 +122,43 @@ namespace Mapper.Controls
         {
             isPanning = false;
         }
+
+        private void MapGrid_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            MapViewModel.Instance.SetScaleAroundPoint(e.GetPosition(MapGrid), e.Delta > 0);
+        }
+
+        private void MapGrid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Middle)
+            {
+                MapViewModel.Instance.Scale = 1;
+                MapViewModel.Instance.Origin = new Point(0, 0);
+            }
+        }
         #endregion
 
 
         #region Image callbacks
 
-        private void Image_MouseEnter(object sender, MouseEventArgs e)
+        private void ShowMarkerTip(FrameworkElement target)
         {
-            var image = sender as Image;
-            this.markerTip.PlacementTarget = image;
+            this.markerTip.PlacementTarget = target;
             this.markerTip.Placement = System.Windows.Controls.Primitives.PlacementMode.Center;
             this.markerTip.IsOpen = true;
 
             this.markerTip.VerticalOffset = -25;
 
-            var markerData = image.DataContext as MapMarkerViewModel;
+            var markerData = target.DataContext as MapMarkerViewModel;
             this.markerName.Text = markerData.Name;
+        }
+
+        private void Image_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (isPanning)
+                return;
+
+            ShowMarkerTip(sender as FrameworkElement);
         }
 
         private void Image_MouseLeave(object sender, MouseEventArgs e)
@@ -138,10 +166,19 @@ namespace Mapper.Controls
             this.markerTip.IsOpen = false;
         }
 
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.markerTip.IsOpen = false;
+        }
+
+        private void Image_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            ShowMarkerTip(sender as FrameworkElement);
+        }
         #endregion
     }
 
-        public static class CustomCommands
+    public static class CustomCommands
     {
         public static readonly RoutedUICommand AddMarker = new RoutedUICommand(
             "Add marker...",
