@@ -22,33 +22,5 @@
                 _Cancel
             </Button>
         </UniformGrid>
-        <!--<Grid>
-                <Grid.Resources>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Margin" Value="0, 5, 5, 0"/>
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
-                <TextBox Margin="5"
-                         Name="MarkerName"
-                         AcceptsReturn="True"
-                         MaxLines="1"
-                         MaxLength="20"
-                         Grid.Row="0"
-                         Grid.Column="0"/>
-                <Button Grid.Row="1" Grid.Column="0">
-                    <TextBlock>OK</TextBlock>
-                </Button>
-                <Button Grid.Row="1" Grid.Column="1">
-                    <TextBlock>Cancel</TextBlock>
-                </Button>
-            </Grid>-->
     </StackPanel>
 </Window>

@@ -92,6 +92,31 @@ namespace Mapper.ViewModels
 
 
         /// <summary>
+        /// Reset the Origin and Scale. I.e. Scale == 1 and Origin == (0, 0).
+        /// </summary>
+        public void Reset()
+        {
+            Scale = 1;
+            Origin = new Point(0, 0);
+        }
+
+
+        /// <summary>
+        /// Update the Origin from a mouse movement.
+        /// </summary>
+        /// <param name="lastPosition">The previous position of the mouse.</param>
+        /// <param name="currentPosition">The current position of the mouse.</param>
+        public void UpdateOriginFromMouseMovement(Point lastPosition, Point currentPosition)
+        {
+            double scaledDeltaX = (lastPosition.X - currentPosition.X) * Scale;
+            double scaledDeltaY = (lastPosition.Y - currentPosition.Y) * Scale;
+            double newX = Origin.X + scaledDeltaX;
+            double newY = Origin.Y + scaledDeltaY;
+            Origin = new Point(newX, newY);
+        }
+
+
+        /// <summary>
         /// Set the scale of the map given a view center.
         /// </summary>
         /// <param name="center">The point in view coordinates that the scaling should 

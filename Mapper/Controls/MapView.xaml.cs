@@ -38,10 +38,8 @@ namespace Mapper.Controls
             e.CanExecute = true;
         }
 
-
         private void AddMarkerCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Console.WriteLine("Something clicked!");
             MarkerDialogWindow markerDialog = new()
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner
@@ -74,14 +72,7 @@ namespace Mapper.Controls
             Point currentPos = e.GetPosition(MapGrid);
             if (this.isPanning)
             {
-                double deltaX = (this.lastPanPosition.X - currentPos.X) * MapViewModel.Instance.Scale;
-                double deltaY = (this.lastPanPosition.Y - currentPos.Y) * MapViewModel.Instance.Scale;
-                Point origin = MapViewModel.Instance.Origin;
-                double newX = origin.X + deltaX;
-                double newY = origin.Y + deltaY;
-
-                MapViewModel.Instance.Origin = new Point(newX, newY);
-
+                MapViewModel.Instance.UpdateOriginFromMouseMovement(this.lastPanPosition, currentPos);
                 this.lastPanPosition = currentPos;
             }
 
@@ -131,8 +122,7 @@ namespace Mapper.Controls
         {
             if (e.ChangedButton == MouseButton.Middle)
             {
-                MapViewModel.Instance.Scale = 1;
-                MapViewModel.Instance.Origin = new Point(0, 0);
+                MapViewModel.Instance.Reset();
             }
         }
         #endregion
