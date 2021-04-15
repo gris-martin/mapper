@@ -6,9 +6,15 @@
         xmlns:local="clr-namespace:Mapper.Windows"
         mc:Ignorable="d"
         Title="MarkerDialogWindow" Height="200" Width="245">
-    <UniformGrid>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Markers.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>    <UniformGrid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ItemsControl Name="icMarkerGrid" ItemsSource="{DynamicResource MarkerSymbols}">
+            <ItemsControl Name="icMarkerGrid" ItemsSource="{StaticResource Markers}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel/>

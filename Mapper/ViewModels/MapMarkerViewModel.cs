@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Mapper.Models
@@ -11,9 +12,8 @@ namespace Mapper.Models
     {
         private static int staticId = 0;
 
-        public MapMarkerViewModel(BitmapImage image, Point pos, string name)
+        public MapMarkerViewModel(DrawingImage image, Point pos, string name)
         {
-
             this.image = image;
             this.worldPos = new Point(pos.X - Math.Round(image.Width / 2.0),
                                       pos.Y - Math.Round(image.Height / 2.0));
@@ -22,8 +22,8 @@ namespace Mapper.Models
             staticId += 1;
         }
 
-        private BitmapImage image;
-        public BitmapImage Image {
+        private DrawingImage image;
+        public DrawingImage Image {
             get => image;
             set
             {

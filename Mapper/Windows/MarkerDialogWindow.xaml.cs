@@ -19,7 +19,7 @@ namespace Mapper.Windows
     /// </summary>
     public partial class MarkerDialogWindow : Window
     {
-        public BitmapImage Image { get; private set; }
+        public DrawingImage Image { get; private set; }
 
         public MarkerDialogWindow()
         {
@@ -30,7 +30,7 @@ namespace Mapper.Windows
         {
             var b = e.Source as Button;
             var i = b.Content as Image;
-            Image = i.Source as BitmapImage;
+            Image = i.Source as DrawingImage;
             DialogResult = true;
             Close();
         }
