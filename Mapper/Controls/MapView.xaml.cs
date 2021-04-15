@@ -1,5 +1,4 @@
-﻿using Mapper.Models;
-using Mapper.ViewModels;
+﻿using Mapper.ViewModels;
 using Mapper.Windows;
 using System;
 using System.Collections.Generic;
@@ -21,9 +20,9 @@ namespace Mapper.Controls
     /// </summary>
     public partial class MapView : UserControl
     {
-        private Point lastRightClickPosition = new Point();
+        private Point lastRightClickPosition = new();
         private bool isPanning = false;
-        private Point lastPanPosition = new Point();
+        private Point lastPanPosition = new();
 
         public MapView()
         {
@@ -43,7 +42,7 @@ namespace Mapper.Controls
         private void AddMarkerCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Console.WriteLine("Something clicked!");
-            MarkerDialogWindow markerDialog = new MarkerDialogWindow()
+            MarkerDialogWindow markerDialog = new()
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner
             };

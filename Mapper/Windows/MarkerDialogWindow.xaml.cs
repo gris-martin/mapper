@@ -1,5 +1,4 @@
-﻿using Mapper.Models;
-using Mapper.ViewModels;
+﻿using Mapper.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;

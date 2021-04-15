@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace Mapper.Models
+namespace Mapper.ViewModels
 {
     public class MapMarkerViewModel : INotifyPropertyChanged
     {
@@ -15,8 +15,7 @@ namespace Mapper.Models
         public MapMarkerViewModel(DrawingImage image, Point pos, string name)
         {
             this.image = image;
-            this.worldPos = new Point(pos.X - Math.Round(image.Width / 2.0),
-                                      pos.Y - Math.Round(image.Height / 2.0));
+            this.worldPos = MapViewModel.Instance.ToWorldSpace(pos);
             this.name = name;
             this.Id = staticId;
             staticId += 1;
