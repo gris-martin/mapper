@@ -7,7 +7,7 @@ namespace Mapper.ViewModels
 {
     class MapViewModel : INotifyPropertyChanged
     {
-        public static MapViewModel Instance = new MapViewModel();
+        public static MapViewModel Instance = new();
 
         public ObservableCollection<MapMarkerViewModel> MapSymbols { get; } = new ObservableCollection<MapMarkerViewModel>();
 
@@ -72,7 +72,7 @@ namespace Mapper.ViewModels
                 OnPropertyChanged();
             }
         }
-        private Point origin = new Point(0, 0);
+        private Point origin = new(0, 0);
 
         /// <summary>
         /// Scale in meters per pixel

@@ -27,7 +27,7 @@ namespace Mapper.Controls
         private Point lastPanPosition = new();
         private Point measurementStartPosition;
         private ArcSegment arcSegment = null;
-        static private double arcRadius = 30.0;
+        private static readonly double arcRadius = 30.0;
 
         public MapView()
         {
@@ -222,7 +222,7 @@ namespace Mapper.Controls
 
     public static class CustomCommands
     {
-        public static readonly RoutedUICommand AddMarker = new RoutedUICommand(
+        public static readonly RoutedUICommand AddMarker = new(
             "Add marker...",
             "AddMarker",
             typeof(CustomCommands)

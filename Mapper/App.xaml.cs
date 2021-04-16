@@ -52,7 +52,7 @@ namespace Mapper
             return bi;
         }
 
-        private BitmapImage ScaleImage(BitmapImage original, double scale)
+        private static BitmapImage ScaleImage(BitmapImage original, double scale)
         {
             var scaledBitmapSource = new TransformedBitmap();
             scaledBitmapSource.BeginInit();
@@ -62,7 +62,7 @@ namespace Mapper
             return BitmapSourceToBitmap(scaledBitmapSource);
         }
 
-        private BitmapImage BitmapSourceToBitmap(BitmapSource source)
+        private static BitmapImage BitmapSourceToBitmap(BitmapSource source)
         {
             var encoder = new PngBitmapEncoder();
             var memoryStream = new MemoryStream();
