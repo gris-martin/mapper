@@ -18,18 +18,18 @@ namespace Mapper.Windows
     /// </summary>
     public partial class MarkerDialogWindow : Window
     {
-        public DrawingImage Image { get; private set; }
+        public string MarkerType { get; private set; }
 
         public MarkerDialogWindow()
         {
             InitializeComponent();
+            this.DataContext = new MarkerDialogViewModel();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var b = e.Source as Button;
-            var i = b.Content as Image;
-            Image = i.Source as DrawingImage;
+            MarkerType = b.Tag as string;
             DialogResult = true;
             Close();
         }

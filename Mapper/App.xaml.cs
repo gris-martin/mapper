@@ -26,7 +26,7 @@ namespace Mapper
                 var image = CreateBitmap(filepath);
                 //images.Add(image);
                 var size = image.PixelWidth;  // Assume square image
-                var desiredPixelSize = 25.0;
+                double desiredPixelSize = (double)FindResource("MarkerSize");
                 var ratio = desiredPixelSize / size;
                 var scaledImage = ScaleImage(image, ratio);
                 markerSymbols.Add(scaledImage);

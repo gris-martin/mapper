@@ -25,6 +25,9 @@
                 Grid.Column="2"
                 ItemsSource="{Binding Path=MapSymbols}"
                 ClipToBounds="True">
+            <ItemsControl.Resources>
+                <local:CornerToCenterConverter x:Key="CornerToCenterConverter"/>
+            </ItemsControl.Resources>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas/>
@@ -32,9 +35,9 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding Path=Image}"
-                           Width="25"
-                           Height="25"
+                    <Image Source="{Binding Type, Converter={StaticResource StringToResourceConverter}}"
+                           Width="{StaticResource MarkerSize}"
+                           Height="{StaticResource MarkerSize}"
                            MouseEnter="Image_MouseEnter"
                            MouseLeave="Image_MouseLeave"
                            MouseLeftButtonDown="Image_MouseDown"
@@ -43,8 +46,8 @@
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>
                 <Style>
-                    <Setter Property="Canvas.Left" Value="{Binding Path=ScreenPos.X}"/>
-                    <Setter Property="Canvas.Top" Value="{Binding Path=ScreenPos.Y}"/>
+                    <Setter Property="Canvas.Left" Value="{Binding Path=ScreenPos.X, Converter={StaticResource CornerToCenterConverter}}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Path=ScreenPos.Y, Converter={StaticResource CornerToCenterConverter}}"/>
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>

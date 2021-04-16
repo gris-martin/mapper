@@ -12,22 +12,23 @@ namespace Mapper.ViewModels
     {
         private static int staticId = 0;
 
-        public MapMarkerViewModel(DrawingImage image, Point pos, string name)
+        public MapMarkerViewModel(Point pos, string name, string type)
         {
-            this.image = image;
             this.worldPos = MapViewModel.Instance.ToWorldSpace(pos);
             this.name = name;
             this.Id = staticId;
+            this.type = type;
             staticId += 1;
         }
 
-        private DrawingImage image;
-        public DrawingImage Image {
-            get => image;
+        private string type;
+        public string Type
+        {
+            get => type;
             set
             {
-                image = value;
-                NotifyPropertyChanged("Y");
+                type = value;
+                NotifyPropertyChanged("Type");
             }
         }
 

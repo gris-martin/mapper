@@ -2,6 +2,7 @@
 using Mapper.Windows;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -60,10 +61,10 @@ namespace Mapper.Controls
             if (status != true)
                 return;
 
-            var image = markerDialog.Image;
             var pos = lastRightClickPosition;
             var name = nameDialog.CreatedName;
-            MapViewModel.Instance.MapSymbols.Add(new MapMarkerViewModel(image, pos, name));
+            var type = markerDialog.MarkerType;
+            MapViewModel.Instance.MapSymbols.Add(new MapMarkerViewModel(pos, name, type));
         }
 
         #endregion
@@ -228,4 +229,26 @@ namespace Mapper.Controls
         );
     }
 
+    /// <summary>
+    /// By default the markers are placed so that the Canvas.Left and Canvas.Right positions refers
+    /// to their upper left corner. This converter makes sure that the position refers to the
+    /// center of the marker instead.
+    /// </summary>
+    public class CornerToCenterConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+
+            double pos = (double)value;
+            double markerSize = (double)Application.Current.FindResource("MarkerSize");
+            return pos - markerSize / 2.0;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            double pos = (double)value;
+            double markerSize = (double)Application.Current.FindResource("MarkerSize");
+            return pos + markerSize / 2.0;
+        }
+    }
 }

@@ -11,7 +11,6 @@ namespace Mapper.ViewModels
 
         public ObservableCollection<MapMarkerViewModel> MapSymbols { get; } = new ObservableCollection<MapMarkerViewModel>();
 
-
         public MapViewModel()
         {
             this.MapSymbols.CollectionChanged += MapSymbols_CollectionChanged;
