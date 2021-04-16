@@ -48,6 +48,23 @@
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
+        <Path Stroke="Black" Name="ArcPath" Visibility="Hidden">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="300, 200">
+                        <ArcSegment Size="40, 40" Point="350, 150" IsLargeArc="False"/>
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+        <Line Name="Ruler"
+              Visibility="Hidden"
+              X1="0"
+              Y1="0"
+              X2="100"
+              Y2="100"
+              StrokeThickness="4"
+              Stroke="Black"/>
         <Popup Name="worldPositionTip" Placement="Relative" AllowsTransparency="True">
             <TextBlock Name="worldPosition" FontWeight="Bold">Look at me</TextBlock>
         </Popup>

@@ -22,7 +22,11 @@ namespace Mapper.Controls
     {
         private Point lastRightClickPosition = new();
         private bool isPanning = false;
+        private bool isMeasuring = false;
         private Point lastPanPosition = new();
+        private Point measurementStartPosition;
+        private ArcSegment arcSegment = null;
+        static private double arcRadius = 30.0;
 
         public MapView()
         {
@@ -76,6 +80,27 @@ namespace Mapper.Controls
                 this.lastPanPosition = currentPos;
             }
 
+            if (this.isMeasuring)
+            {
+                Ruler.X2 = currentPos.X;
+                Ruler.Y2 = currentPos.Y;
+
+                var relativeRulerPosition = currentPos.Subtract(measurementStartPosition);
+                relativeRulerPosition = relativeRulerPosition.Divide(relativeRulerPosition.Length());
+                var arcEndPoint = measurementStartPosition.Add(relativeRulerPosition.Multiply(arcRadius));
+                arcSegment.Point = arcEndPoint;
+
+                if (currentPos.Y > measurementStartPosition.Y)
+                {
+                    //arcSegment.SweepDirection = SweepDirection.Clockwise;
+                    arcSegment.IsLargeArc = true;
+                } else
+                {
+                    //arcSegment.SweepDirection = SweepDirection.Counterclockwise;
+                    arcSegment.IsLargeArc = false;
+                }
+            }
+
             // Tooltip displaying world position
             if (!this.worldPositionTip.IsOpen)
                 this.worldPositionTip.IsOpen = true;
@@ -104,8 +129,35 @@ namespace Mapper.Controls
 
         private void MapGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            isPanning = true;
-            this.lastPanPosition = e.GetPosition(MapGrid);
+            var mousePos = e.GetPosition(MapGrid);
+            Keyboard.Focus(MapGrid);
+            if (isMeasuring)
+            {
+                isMeasuring = false;
+                Ruler.Visibility = Visibility.Hidden;
+                ArcPath.Visibility = Visibility.Hidden;
+            }
+            else if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                Ruler.X1 = mousePos.X;
+                Ruler.Y1 = mousePos.Y;
+                Ruler.X2 = mousePos.X;
+                Ruler.Y2 = mousePos.Y;
+                Ruler.Visibility = Visibility.Visible;
+                var arcGeometry = ArcPath.Data as PathGeometry;
+                var arcFigure = arcGeometry.Figures[0];
+                arcSegment = arcFigure.Segments[0] as ArcSegment;
+                arcSegment.Size = new Size(arcRadius, arcRadius);
+                arcFigure.StartPoint = new Point(mousePos.X + arcRadius, mousePos.Y);
+                measurementStartPosition = mousePos;
+                ArcPath.Visibility = Visibility.Visible;
+                isMeasuring = true;
+            }
+            else
+            {
+                isPanning = true;
+                this.lastPanPosition = e.GetPosition(MapGrid);
+            }
         }
 
         private void MapGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
