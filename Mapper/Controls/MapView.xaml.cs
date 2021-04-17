@@ -25,9 +25,6 @@ namespace Mapper.Controls
         private bool isPanning = false;
         private bool isMeasuring = false;
         private Point lastPanPosition = new();
-        private Point measurementStartPosition;
-        private ArcSegment arcSegment = null;
-        private static readonly double arcRadius = 30.0;
 
         public MapView()
         {
@@ -64,7 +61,7 @@ namespace Mapper.Controls
             var pos = lastRightClickPosition;
             var name = nameDialog.CreatedName;
             var type = markerDialog.MarkerType;
-            MapViewModel.Instance.MapSymbols.Add(new MapMarkerViewModel(pos, name, type));
+            MapViewModel.Instance.MapSymbols.Add(new MapMarkerViewModel(pos.ToVector2(), name, type));
         }
 
         #endregion
@@ -77,29 +74,15 @@ namespace Mapper.Controls
             Point currentPos = e.GetPosition(MapGrid);
             if (this.isPanning)
             {
-                MapViewModel.Instance.UpdateOriginFromMouseMovement(this.lastPanPosition, currentPos);
+                MapViewModel.Instance.UpdateOriginFromMouseMovement(
+                    this.lastPanPosition.ToVector2(),
+                    currentPos.ToVector2());
                 this.lastPanPosition = currentPos;
             }
 
             if (this.isMeasuring)
             {
-                Ruler.X2 = currentPos.X;
-                Ruler.Y2 = currentPos.Y;
-
-                var relativeRulerPosition = currentPos.Subtract(measurementStartPosition);
-                relativeRulerPosition = relativeRulerPosition.Divide(relativeRulerPosition.Length());
-                var arcEndPoint = measurementStartPosition.Add(relativeRulerPosition.Multiply(arcRadius));
-                arcSegment.Point = arcEndPoint;
-
-                if (currentPos.Y > measurementStartPosition.Y)
-                {
-                    //arcSegment.SweepDirection = SweepDirection.Clockwise;
-                    arcSegment.IsLargeArc = true;
-                } else
-                {
-                    //arcSegment.SweepDirection = SweepDirection.Counterclockwise;
-                    arcSegment.IsLargeArc = false;
-                }
+                MapViewModel.Instance.Ruler.ViewEndPoint = currentPos.ToVector2();
             }
 
             // Tooltip displaying world position
@@ -108,7 +91,7 @@ namespace Mapper.Controls
 
             this.worldPositionTip.HorizontalOffset = currentPos.X;
             this.worldPositionTip.VerticalOffset = currentPos.Y + 20;
-            var worldPos = MapViewModel.Instance.ToWorldSpace(currentPos);
+            var worldPos = MapViewModel.Instance.ToWorldSpace(currentPos.ToVector2());
             this.worldPosition.Text = $"{Math.Round(worldPos.X)}, {Math.Round(worldPos.Y)}";
         }
 
@@ -135,23 +118,13 @@ namespace Mapper.Controls
             if (isMeasuring)
             {
                 isMeasuring = false;
-                Ruler.Visibility = Visibility.Hidden;
-                ArcPath.Visibility = Visibility.Hidden;
+                MapViewModel.Instance.Ruler.IsHidden = true;
             }
             else if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                Ruler.X1 = mousePos.X;
-                Ruler.Y1 = mousePos.Y;
-                Ruler.X2 = mousePos.X;
-                Ruler.Y2 = mousePos.Y;
-                Ruler.Visibility = Visibility.Visible;
-                var arcGeometry = ArcPath.Data as PathGeometry;
-                var arcFigure = arcGeometry.Figures[0];
-                arcSegment = arcFigure.Segments[0] as ArcSegment;
-                arcSegment.Size = new Size(arcRadius, arcRadius);
-                arcFigure.StartPoint = new Point(mousePos.X + arcRadius, mousePos.Y);
-                measurementStartPosition = mousePos;
-                ArcPath.Visibility = Visibility.Visible;
+                var ruler = MapViewModel.Instance.Ruler;
+                ruler.ViewStartPoint = ruler.ViewEndPoint = mousePos.ToVector2();
+                ruler.IsHidden = false;
                 isMeasuring = true;
             }
             else
@@ -168,7 +141,7 @@ namespace Mapper.Controls
 
         private void MapGrid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            MapViewModel.Instance.SetScaleAroundPoint(e.GetPosition(MapGrid), e.Delta > 0);
+            MapViewModel.Instance.SetScaleAroundPoint(e.GetPosition(MapGrid).ToVector2(), e.Delta > 0);
         }
 
         private void MapGrid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -227,28 +200,5 @@ namespace Mapper.Controls
             "AddMarker",
             typeof(CustomCommands)
         );
-    }
-
-    /// <summary>
-    /// By default the markers are placed so that the Canvas.Left and Canvas.Right positions refers
-    /// to their upper left corner. This converter makes sure that the position refers to the
-    /// center of the marker instead.
-    /// </summary>
-    public class CornerToCenterConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-
-            double pos = (double)value;
-            double markerSize = (double)Application.Current.FindResource("MarkerSize");
-            return pos - markerSize / 2.0;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            double pos = (double)value;
-            double markerSize = (double)Application.Current.FindResource("MarkerSize");
-            return pos + markerSize / 2.0;
-        }
     }
 }

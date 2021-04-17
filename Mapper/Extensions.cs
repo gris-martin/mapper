@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -9,29 +10,22 @@ namespace Mapper
 {
     public static class Extensions
     {
-        public static Point Add(this Point current, Point other)
+        /// <summary>
+        /// Convert this Point to a Vector2.
+        /// </summary>
+        /// <returns>A Vector2 object with the same x and y values as this Point.</returns>
+        public static Vector2 ToVector2(this Point p)
         {
-            return new Point(current.X + other.X, current.Y + other.Y);
+            return new Vector2(Convert.ToSingle(p.X), Convert.ToSingle(p.Y));
         }
 
-        public static Point Subtract(this Point current, Point other)
+        /// <summary>
+        /// Convert this Vector2 to a Point.
+        /// </summary>
+        /// <returns>A Point object with the same x and y values as this Vector2.</returns>
+        public static Point ToPoint(this Vector2 v)
         {
-            return new Point(current.X - other.X, current.Y - other.Y);
-        }
-
-        public static Point Multiply(this Point current, double constant)
-        {
-            return new Point(current.X * constant, current.Y * constant);
-        }
-
-        public static Point Divide(this Point current, double constant)
-        {
-            return new Point(current.X / constant, current.Y / constant);
-        }
-
-        public static double Length(this Point current)
-        {
-            return Math.Sqrt(current.X * current.X + current.Y * current.Y);
+            return new Point(v.X, v.Y);
         }
     }
 }

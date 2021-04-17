@@ -19,19 +19,6 @@ namespace Mapper
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var markerSymbols = new List<BitmapImage>();
-            var filepaths = Directory.GetFiles(Directory.GetCurrentDirectory() + System.IO.Path.DirectorySeparatorChar + "images");
-            foreach (var filepath in filepaths)
-            {
-                var image = CreateBitmap(filepath);
-                //images.Add(image);
-                var size = image.PixelWidth;  // Assume square image
-                double desiredPixelSize = (double)FindResource("MarkerSize");
-                var ratio = desiredPixelSize / size;
-                var scaledImage = ScaleImage(image, ratio);
-                markerSymbols.Add(scaledImage);
-            }
-            Resources.Add("MarkerSymbols", markerSymbols);
         }
 
 

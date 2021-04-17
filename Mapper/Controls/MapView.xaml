@@ -1,10 +1,11 @@
 ﻿<UserControl x:Class="Mapper.Controls.MapView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Mapper.Controls"
-             mc:Ignorable="d" 
+             xmlns:viewmodels="clr-namespace:Mapper.ViewModels;assembly=Mapper.ViewModels"
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.CommandBindings>
         <CommandBinding Command="local:CustomCommands.AddMarker"
@@ -25,9 +26,6 @@
                 Grid.Column="2"
                 ItemsSource="{Binding Path=MapSymbols}"
                 ClipToBounds="True">
-            <ItemsControl.Resources>
-                <local:CornerToCenterConverter x:Key="CornerToCenterConverter"/>
-            </ItemsControl.Resources>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas/>
@@ -46,26 +44,32 @@
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>
                 <Style>
-                    <Setter Property="Canvas.Left" Value="{Binding Path=ScreenPos.X, Converter={StaticResource CornerToCenterConverter}}"/>
-                    <Setter Property="Canvas.Top" Value="{Binding Path=ScreenPos.Y, Converter={StaticResource CornerToCenterConverter}}"/>
+                    <Setter Property="Canvas.Left" Value="{Binding Path=ScreenPosX, Converter={StaticResource CornerToCenterConverter}}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Path=ScreenPosY, Converter={StaticResource CornerToCenterConverter}}"/>
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
-        <Path Stroke="Black" Name="ArcPath" Visibility="Hidden">
+        <!--<Path d:DataContext="{d:DesignInstance Type=viewmodels:RulerViewModel}"-->
+        <Path Stroke="Black"
+              Name="ArcPath"
+              Visibility="{Binding Ruler.IsHidden, Converter={StaticResource IsHiddenConverter}}">
             <Path.Data>
                 <PathGeometry>
-                    <PathFigure StartPoint="300, 200">
-                        <ArcSegment Size="40, 40" Point="350, 150" IsLargeArc="False"/>
+                    <PathFigure StartPoint="{Binding Ruler.ArcStartPoint, Converter={StaticResource Vector2ToPointConverter}}">
+                        <ArcSegment Size="{Binding Ruler.ArcRadius, Converter={StaticResource RadiusToSizeConverter}}"
+                                    Point="{Binding Ruler.ArcEndPoint, Converter={StaticResource Vector2ToPointConverter}}"
+                                    IsLargeArc="{Binding Ruler.IsLargeArc}"/>
                     </PathFigure>
                 </PathGeometry>
             </Path.Data>
         </Path>
+        <!--<Line d:DataContext="{d:DesignInstance Type=viewmodels:RulerViewModel}"-->
         <Line Name="Ruler"
-              Visibility="Hidden"
-              X1="0"
-              Y1="0"
-              X2="100"
-              Y2="100"
+              Visibility="{Binding Ruler.IsHidden, Converter={StaticResource IsHiddenConverter}}"
+              X1="{Binding Ruler.ViewStartX}"
+              Y1="{Binding Ruler.ViewStartY}"
+              X2="{Binding Ruler.ViewEndX}"
+              Y2="{Binding Ruler.ViewEndY}"
               StrokeThickness="4"
               Stroke="Black"/>
         <Popup Name="worldPositionTip" Placement="Relative" AllowsTransparency="True">
