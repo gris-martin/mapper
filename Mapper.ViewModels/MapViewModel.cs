@@ -18,7 +18,7 @@ namespace Mapper.ViewModels
 
         #region Callbacks
         /// <summary>
-        /// Add a callback for all newly created markers to make sure their screen position is updated
+        /// Add a callback for all newly created markers to make sure their view position is updated
         /// when the world position is updated.
         /// </summary>
         private void MapSymbols_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -41,7 +41,7 @@ namespace Mapper.ViewModels
         }
 
         /// <summary>
-        /// Update the screen position of markers when their world position is updated.
+        /// Update the view position of markers when their world position is updated.
         /// </summary>
         private void NewSymbol_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -76,11 +76,16 @@ namespace Mapper.ViewModels
                 foreach (var symbol in MapSymbols)
                     symbol.ScreenPos = ToViewSpace(symbol.WorldPos);
                 OnPropertyChanged("Origin");
+                OnPropertyChanged("OriginX");
+                OnPropertyChanged("OriginY");
                 OnPropertyChanged("North");
                 Ruler.OnPropertyChanged("ViewStartPoint");
                 Ruler.OnPropertyChanged("ViewEndPoint");
             }
         }
+
+        public float OriginX => Origin.X;
+        public float OriginY => Origin.Y;
 
         private double scale = 1;
         /// <summary>
@@ -133,6 +138,7 @@ namespace Mapper.ViewModels
         public void UpdateOriginFromMouseMovement(Vector2 lastPosition, Vector2 currentPosition)
         {
             Vector2 scaledDelta = (lastPosition - currentPosition) * (float)Scale;
+            scaledDelta.Y = -scaledDelta.Y;
             Origin += scaledDelta;
         }
 
@@ -141,7 +147,7 @@ namespace Mapper.ViewModels
         /// Set the scale of the map given a view center.
         /// </summary>
         /// <param name="center">The point in view coordinates that the scaling should
-        /// be done around. This point will have the same coordinates (screen and world)
+        /// be done around. This point will have the same coordinates (view and world)
         /// before and after the scaling.</param>
         /// <param name="zoomIn">Set to true if the scaling is a zoom in operation
         /// (Scale will decrease), and false if the scaling is a zoom out operation
@@ -159,10 +165,16 @@ namespace Mapper.ViewModels
 
             // Zoom in
             if (zoomIn)
-                Origin = mousePos + (Origin - mousePos) * (float)scaleAmount;
+            {
+                var newOrigin = mousePos + (Origin - mousePos) * (float)scaleAmount;
+                Origin = newOrigin;
+            }
             // Zoom out
             else
-                Origin -= (mousePos - Origin) * ((float)scaleAmount - 1);
+            {
+                var newOrigin = Origin - (mousePos - Origin) * ((float)scaleAmount - 1);
+                Origin = newOrigin;
+            }
         }
 
 
@@ -173,7 +185,9 @@ namespace Mapper.ViewModels
         /// <returns>The same point in world space</returns>
         public Vector2 ToWorldSpace(Vector2 viewPoint)
         {
-            return viewPoint * (float)Scale + Origin;
+            var scaledViewPoint = viewPoint * (float)Scale;
+            scaledViewPoint.Y = -scaledViewPoint.Y;
+            return Origin + scaledViewPoint;
         }
 
 
@@ -184,7 +198,9 @@ namespace Mapper.ViewModels
         /// <returns>The same point in view space</returns>
         public Vector2 ToViewSpace(Vector2 worldPoint)
         {
-            return (worldPoint - Origin) / (float)Scale;
+            var viewPoint = (worldPoint - Origin) / (float)Scale;
+            viewPoint.Y = -viewPoint.Y;
+            return viewPoint;
         }
 
 
