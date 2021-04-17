@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
 namespace Mapper.Converters
 {
+    /// <summary>
+    /// Convert a float value to a System.Windows.Size value with both its elements
+    /// set to the value. This is used for setting the ArcSegment radius using a float.
+    /// </summary>
     public class RadiusToSizeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Numerics;
-using System.Text;
-using System.Windows;
 
 namespace Mapper.ViewModels
 {

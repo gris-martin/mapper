@@ -5,6 +5,9 @@ using System.Windows.Data;
 
 namespace Mapper.Converters
 {
+    /// <summary>
+    /// Get an Application resource from a string.
+    /// </summary>
     public class StringToResourceConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
