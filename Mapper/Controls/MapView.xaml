@@ -49,7 +49,6 @@
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
-        <!--<Path d:DataContext="{d:DesignInstance Type=viewmodels:RulerViewModel}"-->
         <Path Stroke="Black"
               Name="ArcPath"
               Visibility="{Binding Ruler.IsHidden, Converter={StaticResource IsHiddenConverter}}">
@@ -58,12 +57,12 @@
                     <PathFigure StartPoint="{Binding Ruler.ArcStartPoint, Converter={StaticResource Vector2ToPointConverter}}">
                         <ArcSegment Size="{Binding Ruler.ArcRadius, Converter={StaticResource RadiusToSizeConverter}}"
                                     Point="{Binding Ruler.ArcEndPoint, Converter={StaticResource Vector2ToPointConverter}}"
-                                    IsLargeArc="{Binding Ruler.IsLargeArc}"/>
+                                    IsLargeArc="{Binding Ruler.IsLargeArc}"
+                                    SweepDirection="CounterClockwise"/>
                     </PathFigure>
                 </PathGeometry>
             </Path.Data>
         </Path>
-        <!--<Line d:DataContext="{d:DesignInstance Type=viewmodels:RulerViewModel}"-->
         <Line Name="Ruler"
               Visibility="{Binding Ruler.IsHidden, Converter={StaticResource IsHiddenConverter}}"
               X1="{Binding Ruler.ViewStartX}"

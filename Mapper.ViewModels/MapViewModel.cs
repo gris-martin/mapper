@@ -113,8 +113,7 @@ namespace Mapper.ViewModels
         {
             get
             {
-                var north = ToViewSpace(new Vector2(0, 1));
-                return north / north.Length();
+                return new Vector2(0, -1);
             }
         }
 

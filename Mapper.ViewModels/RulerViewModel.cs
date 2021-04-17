@@ -66,6 +66,7 @@ namespace Mapper.ViewModels
                 OnPropertyChanged("ViewLength");
                 OnPropertyChanged("ViewStartX");
                 OnPropertyChanged("ViewStartY");
+                OnPropertyChanged("ArcRadius");
                 OnPropertyChanged("ArcStartPoint");
                 OnPropertyChanged("ArcEndPoint");
             }
@@ -84,6 +85,8 @@ namespace Mapper.ViewModels
                 OnPropertyChanged("ViewLength");
                 OnPropertyChanged("ViewEndX");
                 OnPropertyChanged("ViewEndY");
+                OnPropertyChanged("ArcRadius");
+                OnPropertyChanged("ArcStartPoint");
                 OnPropertyChanged("ArcEndPoint");
             }
         }
@@ -116,22 +119,29 @@ namespace Mapper.ViewModels
         #endregion
 
         #region Arc-related properties
-        private float arcRadius = 40;
-
+        private float maxArcRadius = 40;
         /// <summary>
-        /// Radius of the drawn arc in view space.
+        /// The maximum radius of the arc.
         /// </summary>
-        public float ArcRadius
-        {
-            get => arcRadius;
+        public float MaxArcRadius {
+            get => maxArcRadius;
             set
             {
-                arcRadius = value;
-                OnPropertyChanged("ArcRadis");
-                OnPropertyChanged("ArcEndPoint");
+                maxArcRadius = value;
+                OnPropertyChanged("MaxArcRadius");
+                OnPropertyChanged("ArcRadius");
                 OnPropertyChanged("ArcStartPoint");
                 OnPropertyChanged("ArcEndPoint");
             }
+        }
+
+        /// <summary>
+        /// Radius of the drawn arc in view space. This will be the smallest value
+        /// of the MaxArcRadius and the length of the ruler.
+        /// </summary>
+        public float ArcRadius
+        {
+            get => Math.Min(MaxArcRadius, ViewLength);
         }
 
         /// <summary>
@@ -142,12 +152,12 @@ namespace Mapper.ViewModels
         /// <summary>
         /// Start point of the arc in view space.
         /// </summary>
-        public Vector2 ArcStartPoint => ViewStartPoint + MapViewModel.Instance.North * ArcRadius;
+        public Vector2 ArcEndPoint => ViewStartPoint + MapViewModel.Instance.North * ArcRadius;
 
         /// <summary>
         /// End point of the arc in view space.
         /// </summary>
-        public Vector2 ArcEndPoint => ViewStartPoint + (ViewEndPoint - ViewStartPoint).UnitVector() * ArcRadius;
+        public Vector2 ArcStartPoint => ViewStartPoint + (ViewEndPoint - ViewStartPoint).UnitVector() * ArcRadius;
 
         #endregion
 
