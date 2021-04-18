@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mapper.Windows"
-        xmlns:viewmodels="clr-namespace:Mapper.ViewModels;assembly=Mapper.ViewModels"
+        xmlns:viewmodels="clr-namespace:Mapper.ViewModels"
         mc:Ignorable="d"
         Title="MarkerDialogWindow" Height="200" Width="245">
     <Window.DataContext>
@@ -20,8 +20,8 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Style="{StaticResource ImageButtonStyle}" Click="Button_Click" Tag="{Binding}">
-                            <Image Source="{Binding Converter={StaticResource StringToResourceConverter}}" Width="25" Height="25" Margin="5"/>
+                        <Button Style="{StaticResource ImageButtonStyle}" Click="Button_Click" Tag="{Binding Type}">
+                            <Image Source="{Binding Source}" Width="25" Height="25" Margin="5"/>
                         </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

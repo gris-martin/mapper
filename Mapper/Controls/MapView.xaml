@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Mapper.Controls"
-             xmlns:viewmodels="clr-namespace:Mapper.ViewModels;assembly=Mapper.ViewModels"
+             xmlns:viewmodels="clr-namespace:Mapper.ViewModels"
+             xmlns:uc="clr-namespace:Mapper.Controls"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.CommandBindings>
@@ -25,9 +26,15 @@
           MouseWheel="MapGrid_MouseWheel"
           MouseLeftButtonUp="MapGrid_MouseLeftButtonUp"
           ContextMenuOpening="MapGrid_ContextMenuOpening">
+        <StackPanel>
+            <TextBlock Text="{Binding ElementName=worldPositionTip, Path=HorizontalOffset, StringFormat='Tip horizontal offset: {0}'}"/>
+            <TextBlock Text="{Binding ElementName=worldPositionTip, Path=VerticalOffset, StringFormat='Tip vertical offset: {0}'}"/>
+            <TextBlock Text="{Binding Ruler.Model.ArcRadius, StringFormat='Arc radius: {0}'}"></TextBlock>
+            <TextBlock Text="{Binding Ruler.Model.ArcRadius, StringFormat='Arc radius: {0}'}"></TextBlock>
+        </StackPanel>
         <ItemsControl
                 Grid.Column="2"
-                ItemsSource="{Binding Path=Map.Markers}"
+                ItemsSource="{Binding Path=Markers}"
                 ClipToBounds="True">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -36,7 +43,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding Type, Converter={StaticResource StringToResourceConverter}}"
+                    <Image Source="{Binding Source}"
                            Width="{StaticResource MarkerSize}"
                            Height="{StaticResource MarkerSize}"
                            MouseEnter="Image_MouseEnter"
@@ -47,33 +54,12 @@
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>
                 <Style>
-                    <Setter Property="Canvas.Left" Value="{Binding Path=ViewPos.X, Converter={StaticResource CornerToCenterConverter}}"/>
-                    <Setter Property="Canvas.Top" Value="{Binding Path=ViewPos.Y, Converter={StaticResource CornerToCenterConverter}}"/>
+                    <Setter Property="Canvas.Left" Value="{Binding Path=CornerPosition.X}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Path=CornerPosition.Y}"/>
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
-        <Path Stroke="Black"
-              Name="ArcPath"
-              Visibility="{Binding Ruler.IsHidden, Converter={StaticResource IsHiddenConverter}}">
-            <Path.Data>
-                <PathGeometry>
-                    <PathFigure StartPoint="{Binding Ruler.ArcStartPoint, Converter={StaticResource Vec2ToPointConverter}}">
-                        <ArcSegment Size="{Binding Ruler.ArcRadius, Converter={StaticResource RadiusToSizeConverter}}"
-                                    Point="{Binding Ruler.ArcEndPoint, Converter={StaticResource Vec2ToPointConverter}}"
-                                    IsLargeArc="{Binding Ruler.IsLargeArc}"
-                                    SweepDirection="CounterClockwise"/>
-                    </PathFigure>
-                </PathGeometry>
-            </Path.Data>
-        </Path>
-        <Line Name="Ruler"
-              Visibility="{Binding Ruler.IsHidden, Converter={StaticResource IsHiddenConverter}}"
-              X1="{Binding Ruler.ViewStartPoint.X}"
-              Y1="{Binding Ruler.ViewStartPoint.Y}"
-              X2="{Binding Ruler.ViewEndPoint.X}"
-              Y2="{Binding Ruler.ViewEndPoint.Y}"
-              StrokeThickness="4"
-              Stroke="Black"/>
+        <uc:RulerView/>
         <Popup Name="worldPositionTip" Placement="Relative" AllowsTransparency="True">
             <TextBlock Name="worldPosition" FontWeight="Bold">Look at me</TextBlock>
         </Popup>

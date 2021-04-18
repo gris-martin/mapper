@@ -9,7 +9,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Markers.xaml"/>
                 <ResourceDictionary Source="/Resources/Style.xaml"/>
-                <ResourceDictionary Source="/Resources/Converters.xaml"/>
                 <ResourceDictionary Source="/Resources/Variables.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

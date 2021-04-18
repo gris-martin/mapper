@@ -6,7 +6,8 @@ namespace Mapper.Models
 {
     public class Map : INotifyPropertyChanged
     {
-        public static Map Instance = new();
+        private static readonly Map instance = new();
+        public static Map Instance => instance;
 
         private Map()
         {
@@ -96,7 +97,7 @@ namespace Mapper.Models
         /// <summary>
         /// A unit vector in view space which corresponds to north in world space
         /// </summary>
-        public Vec2 North
+        public static Vec2 North
         {
             get
             {
@@ -191,7 +192,7 @@ namespace Mapper.Models
         }
 
 
-        public static List<string> MarkerTypes = new()
+        private static readonly List<string> markerTypes = new()
         {
             "_001_helmetDrawingImage",
             "_003_coralDrawingImage",
@@ -225,5 +226,6 @@ namespace Mapper.Models
             "_038_face_maskDrawingImage",
             "_040_compassDrawingImage"
         };
+        public static List<string> MarkerTypes => markerTypes;
     }
 }

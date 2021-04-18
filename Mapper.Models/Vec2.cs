@@ -5,7 +5,7 @@ namespace Mapper.Models
     /// <summary>
     /// Represents a 2-dimensional vector.
     /// </summary>
-    public struct Vec2
+    public struct Vec2 : IFormattable
     {
         /// <summary>
         /// Construct a Vec2 object where both <see cref="X"/> and <see cref="Y"/> will receive the same value.
@@ -121,5 +121,11 @@ namespace Mapper.Models
                 return new Vec2(0, 1);
             return this / Length();
         }
+
+        /// <summary>
+        /// Convert the vector to a string on the form "(x, y)"
+        /// </summary>
+        public string ToString(string format, IFormatProvider provider)
+            => $"({X}, {Y})".ToString(provider);
     }
 }

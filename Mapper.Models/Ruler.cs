@@ -5,7 +5,8 @@ namespace Mapper.Models
 {
     public class Ruler : INotifyPropertyChanged
     {
-        public static Ruler Instance = new();
+        private static readonly Ruler instance = new();
+        public static Ruler Instance => instance;
 
         private Ruler() { }
 
@@ -125,7 +126,7 @@ namespace Mapper.Models
         /// <summary>
         /// Start point of the arc in view space.
         /// </summary>
-        public Vec2 ArcEndPoint => ViewStartPoint + Map.Instance.North * ArcRadius;
+        public Vec2 ArcEndPoint => ViewStartPoint + Map.North * ArcRadius;
 
         /// <summary>
         /// End point of the arc in view space.

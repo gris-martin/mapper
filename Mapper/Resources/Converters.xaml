@@ -1,9 +1,0 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:Mapper.Converters">
-    <converters:StringToResourceConverter x:Key="StringToResourceConverter"/>
-    <converters:Vec2ToPointConverter x:Key="Vec2ToPointConverter"/>
-    <converters:RadiusToSizeConverter x:Key="RadiusToSizeConverter"/>
-    <converters:IsHiddenConverter x:Key="IsHiddenConverter"/>
-    <converters:CornerToCenterConverter x:Key="CornerToCenterConverter"/>
-</ResourceDictionary>
