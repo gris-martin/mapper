@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
-using System.Numerics;
+
+using Mapper.Models;
 
 namespace Mapper.ViewModels
 {
@@ -13,7 +14,7 @@ namespace Mapper.ViewModels
         /// <param name="pos">Position of the marker in world space.</param>
         /// <param name="name">Name of the marker.</param>
         /// <param name="type">Type of the marker (i.e. the type of icon it should show).</param>
-        public MapMarkerViewModel(Vector2 pos, string name, string type)
+        public MapMarkerViewModel(Vec2 pos, string name, string type)
         {
             this.worldPos = MapViewModel.Instance.ToWorldSpace(pos);
             this.name = name;
@@ -40,8 +41,8 @@ namespace Mapper.ViewModels
         /// <summary>
         /// Position of the marker in world space.
         /// </summary>
-        private Vector2 worldPos;
-        public Vector2 WorldPos
+        private Vec2 worldPos;
+        public Vec2 WorldPos
         {
             get => worldPos;
             set
@@ -68,30 +69,16 @@ namespace Mapper.ViewModels
         /// <summary>
         /// Screen position. Should be updated each time <see cref="WorldPos"/> is updated.
         /// </summary>
-        private Vector2 screenPos;
-        public Vector2 ScreenPos
+        private Vec2 viewPos;
+        public Vec2 ViewPos
         {
-            get => screenPos;
+            get => viewPos;
             set
             {
-                screenPos = value;
-                NotifyPropertyChanged("ScreenPos");
-                NotifyPropertyChanged("ScreenPosX");
-                NotifyPropertyChanged("ScreenPosY");
+                viewPos = value;
+                NotifyPropertyChanged("ViewPos");
             }
         }
-
-        /// <summary>
-        /// X position in screen space. Has to make this property since WPF
-        /// can't access field data bindings, and .X and .Y of Vector2 are fields...
-        /// </summary>
-        public float ScreenPosX => ScreenPos.X;
-
-        /// <summary>
-        /// Y position in screen space. Has to make this property since WPF
-        /// can't access field data bindings, and .X and .Y of Vector2 are fields...
-        /// </summary>
-        public float ScreenPosY => ScreenPos.Y;
 
         /// <summary>
         /// Unique ID of this marker. Will be assigned automatically during creation.

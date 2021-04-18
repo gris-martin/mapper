@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Globalization;
-using System.Numerics;
 using System.Windows;
 using System.Windows.Data;
+
+using Mapper.Models;
 
 namespace Mapper.Converters
 {
     /// <summary>
-    /// Convert a Vector2 to a Point
+    /// Convert a Vec2 to a Point
     /// </summary>
-    public class Vector2ToPointConverter : IValueConverter
+    public class Vec2ToPointConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             // TODO: Handle errors when value is not of correct type. How?
-            var v = (Vector2)value;
+            var v = (Vec2)value;
             return v.ToPoint();
         }
 
@@ -22,7 +23,7 @@ namespace Mapper.Converters
         {
             // TODO: Handle errors when value is not of correct type. How?
             var p = (Point)value;
-            return p.ToVector2();
+            return p.ToVec2();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Mapper.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             // TODO: Error handling if value is of wrong type
-            var radius = (float)value;
+            var radius = (double)value;
             return new Size(radius, radius);
         }
 
@@ -22,7 +22,7 @@ namespace Mapper.Converters
         {
             // TODO: Error handling if value is of wrong type or if size[0] != size[1]
             var size = (Size)value;
-            return (float)size.Width;
+            return size.Width;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Mapper.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
 
-            float pos = (float)value;
+            double pos = (double)value;
             double markerSize = (double)Application.Current.FindResource("MarkerSize");
             return pos - markerSize / 2.0;
         }
@@ -24,7 +24,7 @@ namespace Mapper.Converters
         {
             double pos = (double)value;
             double markerSize = (double)Application.Current.FindResource("MarkerSize");
-            return (float)(pos + markerSize / 2.0);
+            return pos + markerSize / 2.0;
         }
     }
 }

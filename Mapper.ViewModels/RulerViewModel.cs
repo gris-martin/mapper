@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Numerics;
+
+using Mapper.Models;
 
 namespace Mapper.ViewModels
 {
@@ -9,11 +10,11 @@ namespace Mapper.ViewModels
         //public static RulerViewModel Instance = new();
 
         #region World space properties
-        private Vector2 startPoint = new(0);
+        private Vec2 startPoint = new(0);
         /// <summary>
         /// The starting point of the ruler in world space.
         /// </summary>
-        public Vector2 StartPoint
+        public Vec2 StartPoint
         {
             get => startPoint;
             set
@@ -25,11 +26,11 @@ namespace Mapper.ViewModels
             }
         }
 
-        private Vector2 endPoint = new(0);
+        private Vec2 endPoint = new(0);
         /// <summary>
         /// The end point of the ruler in world space.
         /// </summary>
-        public Vector2 EndPoint
+        public Vec2 EndPoint
         {
             get => endPoint;
             set
@@ -44,14 +45,14 @@ namespace Mapper.ViewModels
         /// <summary>
         /// The length of the ruler in world space.
         /// </summary>
-        public float Length => (EndPoint - StartPoint).Length();
+        public double Length => (EndPoint - StartPoint).Length();
         #endregion
 
         #region View space properties
         /// <summary>
         /// The start point of the ruler in view space.
         /// </summary>
-        public Vector2 ViewStartPoint
+        public Vec2 ViewStartPoint
         {
             get => MapViewModel.Instance.ToViewSpace(StartPoint);
             set
@@ -59,8 +60,6 @@ namespace Mapper.ViewModels
                 StartPoint = MapViewModel.Instance.ToWorldSpace(value);
                 OnPropertyChanged("ViewStartPoint");
                 OnPropertyChanged("ViewLength");
-                OnPropertyChanged("ViewStartX");
-                OnPropertyChanged("ViewStartY");
                 OnPropertyChanged("ArcRadius");
                 OnPropertyChanged("ArcStartPoint");
                 OnPropertyChanged("ArcEndPoint");
@@ -70,7 +69,7 @@ namespace Mapper.ViewModels
         /// <summary>
         /// The end point of the ruler in view space
         /// </summary>
-        public Vector2 ViewEndPoint
+        public Vec2 ViewEndPoint
         {
             get => MapViewModel.Instance.ToViewSpace(EndPoint);
             set
@@ -78,8 +77,6 @@ namespace Mapper.ViewModels
                 EndPoint = MapViewModel.Instance.ToWorldSpace(value);
                 OnPropertyChanged("ViewEndPoint");
                 OnPropertyChanged("ViewLength");
-                OnPropertyChanged("ViewEndX");
-                OnPropertyChanged("ViewEndY");
                 OnPropertyChanged("ArcRadius");
                 OnPropertyChanged("ArcStartPoint");
                 OnPropertyChanged("ArcEndPoint");
@@ -89,36 +86,16 @@ namespace Mapper.ViewModels
         /// <summary>
         /// The length of the ruler in view space.
         /// </summary>
-        public float ViewLength => (ViewEndPoint - ViewStartPoint).Length();
-
-        /// <summary>
-        /// X component of the end point in view space (for data binding).
-        /// </summary>
-        public float ViewEndX => ViewEndPoint.X;
-
-        /// <summary>
-        /// Y component of the end point in view space (for data binding).
-        /// </summary>
-        public float ViewEndY => ViewEndPoint.Y;
-
-        /// <summary>
-        /// X component of the start point in view space (for data binding).
-        /// </summary>
-        public float ViewStartX => ViewStartPoint.X;
-
-        /// <summary>
-        /// Y component of the start point in view space (for data binding).
-        /// </summary>
-        public float ViewStartY => ViewStartPoint.Y;
+        public double ViewLength => (ViewEndPoint - ViewStartPoint).Length();
 
         #endregion
 
         #region Arc-related properties
-        private float maxArcRadius = 40;
+        private double maxArcRadius = 40;
         /// <summary>
         /// The maximum radius of the arc.
         /// </summary>
-        public float MaxArcRadius {
+        public double MaxArcRadius {
             get => maxArcRadius;
             set
             {
@@ -134,7 +111,7 @@ namespace Mapper.ViewModels
         /// Radius of the drawn arc in view space. This will be the smallest value
         /// of the MaxArcRadius and the length of the ruler.
         /// </summary>
-        public float ArcRadius
+        public double ArcRadius
         {
             get => Math.Min(MaxArcRadius, ViewLength);
         }
@@ -147,12 +124,12 @@ namespace Mapper.ViewModels
         /// <summary>
         /// Start point of the arc in view space.
         /// </summary>
-        public Vector2 ArcEndPoint => ViewStartPoint + MapViewModel.Instance.North * ArcRadius;
+        public Vec2 ArcEndPoint => ViewStartPoint + MapViewModel.Instance.North * ArcRadius;
 
         /// <summary>
         /// End point of the arc in view space.
         /// </summary>
-        public Vector2 ArcStartPoint => ViewStartPoint + (ViewEndPoint - ViewStartPoint).UnitVector() * ArcRadius;
+        public Vec2 ArcStartPoint => ViewStartPoint + (ViewEndPoint - ViewStartPoint).UnitVector() * ArcRadius;
 
         #endregion
 

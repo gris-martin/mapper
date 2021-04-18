@@ -44,8 +44,8 @@
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>
                 <Style>
-                    <Setter Property="Canvas.Left" Value="{Binding Path=ScreenPosX, Converter={StaticResource CornerToCenterConverter}}"/>
-                    <Setter Property="Canvas.Top" Value="{Binding Path=ScreenPosY, Converter={StaticResource CornerToCenterConverter}}"/>
+                    <Setter Property="Canvas.Left" Value="{Binding Path=ViewPos.X, Converter={StaticResource CornerToCenterConverter}}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Path=ViewPos.Y, Converter={StaticResource CornerToCenterConverter}}"/>
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
@@ -54,9 +54,9 @@
               Visibility="{Binding Ruler.IsHidden, Converter={StaticResource IsHiddenConverter}}">
             <Path.Data>
                 <PathGeometry>
-                    <PathFigure StartPoint="{Binding Ruler.ArcStartPoint, Converter={StaticResource Vector2ToPointConverter}}">
+                    <PathFigure StartPoint="{Binding Ruler.ArcStartPoint, Converter={StaticResource Vec2ToPointConverter}}">
                         <ArcSegment Size="{Binding Ruler.ArcRadius, Converter={StaticResource RadiusToSizeConverter}}"
-                                    Point="{Binding Ruler.ArcEndPoint, Converter={StaticResource Vector2ToPointConverter}}"
+                                    Point="{Binding Ruler.ArcEndPoint, Converter={StaticResource Vec2ToPointConverter}}"
                                     IsLargeArc="{Binding Ruler.IsLargeArc}"
                                     SweepDirection="CounterClockwise"/>
                     </PathFigure>
@@ -65,10 +65,10 @@
         </Path>
         <Line Name="Ruler"
               Visibility="{Binding Ruler.IsHidden, Converter={StaticResource IsHiddenConverter}}"
-              X1="{Binding Ruler.ViewStartX}"
-              Y1="{Binding Ruler.ViewStartY}"
-              X2="{Binding Ruler.ViewEndX}"
-              Y2="{Binding Ruler.ViewEndY}"
+              X1="{Binding Ruler.ViewStartPoint.X}"
+              Y1="{Binding Ruler.ViewStartPoint.Y}"
+              X2="{Binding Ruler.ViewEndPoint.X}"
+              Y2="{Binding Ruler.ViewEndPoint.Y}"
               StrokeThickness="4"
               Stroke="Black"/>
         <Popup Name="worldPositionTip" Placement="Relative" AllowsTransparency="True">

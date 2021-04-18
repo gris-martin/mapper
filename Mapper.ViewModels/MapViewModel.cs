@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Numerics;
+
+using Mapper.Models;
 
 namespace Mapper.ViewModels
 {
@@ -31,7 +32,7 @@ namespace Mapper.ViewModels
             {
                 foreach (MapMarkerViewModel newSymbol in e.NewItems)
                 {
-                    newSymbol.ScreenPos = ToViewSpace(newSymbol.WorldPos);
+                    newSymbol.ViewPos = ToViewSpace(newSymbol.WorldPos);
                     newSymbol.PropertyChanged += NewSymbol_PropertyChanged;
                 }
             }
@@ -45,7 +46,7 @@ namespace Mapper.ViewModels
             if (e.PropertyName == "WorldPos")
             {
                 var symbol = sender as MapMarkerViewModel;
-                symbol.ScreenPos = ToViewSpace(symbol.WorldPos);
+                symbol.ViewPos = ToViewSpace(symbol.WorldPos);
             }
         }
         #endregion
@@ -60,18 +61,18 @@ namespace Mapper.ViewModels
         /// </summary>
         public RulerViewModel Ruler { get; } = new();
 
-        private Vector2 origin = new(0, 0);
+        private Vec2 origin = new(0, 0);
         /// <summary>
         /// Current world coordinate of upper left corner
         /// </summary>
-        public Vector2 Origin
+        public Vec2 Origin
         {
             get => origin;
             set
             {
                 origin = value;
                 foreach (var symbol in MapSymbols)
-                    symbol.ScreenPos = ToViewSpace(symbol.WorldPos);
+                    symbol.ViewPos = ToViewSpace(symbol.WorldPos);
                 OnPropertyChanged("Origin");
                 OnPropertyChanged("OriginX");
                 OnPropertyChanged("OriginY");
@@ -80,9 +81,6 @@ namespace Mapper.ViewModels
                 Ruler.OnPropertyChanged("ViewEndPoint");
             }
         }
-
-        public float OriginX => Origin.X;
-        public float OriginY => Origin.Y;
 
         private double scale = 1;
         /// <summary>
@@ -94,7 +92,7 @@ namespace Mapper.ViewModels
             set
             {
                 foreach (var symbol in MapSymbols)
-                    symbol.ScreenPos = ToViewSpace(symbol.WorldPos);
+                    symbol.ViewPos = ToViewSpace(symbol.WorldPos);
                 scale = value;
                 OnPropertyChanged("Scale");
                 OnPropertyChanged("North");
@@ -106,11 +104,11 @@ namespace Mapper.ViewModels
         /// <summary>
         /// A unit vector in view space which corresponds to north in world space
         /// </summary>
-        public Vector2 North
+        public Vec2 North
         {
             get
             {
-                return new Vector2(0, -1);
+                return new Vec2(0, -1);
             }
         }
 
@@ -122,7 +120,7 @@ namespace Mapper.ViewModels
         public void Reset()
         {
             Scale = 1;
-            Origin = new Vector2(0, 0);
+            Origin = new Vec2(0, 0);
         }
 
 
@@ -131,9 +129,9 @@ namespace Mapper.ViewModels
         /// </summary>
         /// <param name="lastPosition">The previous position of the mouse.</param>
         /// <param name="currentPosition">The current position of the mouse.</param>
-        public void UpdateOriginFromMouseMovement(Vector2 lastPosition, Vector2 currentPosition)
+        public void UpdateOriginFromMouseMovement(Vec2 lastPosition, Vec2 currentPosition)
         {
-            Vector2 scaledDelta = (lastPosition - currentPosition) * (float)Scale;
+            Vec2 scaledDelta = (lastPosition - currentPosition) * Scale;
             scaledDelta.Y = -scaledDelta.Y;
             Origin += scaledDelta;
         }
@@ -148,7 +146,7 @@ namespace Mapper.ViewModels
         /// <param name="zoomIn">Set to true if the scaling is a zoom in operation
         /// (Scale will decrease), and false if the scaling is a zoom out operation
         /// (Scale will increase).</param>
-        public void SetScaleAroundPoint(Vector2 center, bool zoomIn)
+        public void SetScaleAroundPoint(Vec2 center, bool zoomIn)
         {
             var zoomConstant = 1.3;
             var mousePos = ToWorldSpace(center);
@@ -162,13 +160,13 @@ namespace Mapper.ViewModels
             // Zoom in
             if (zoomIn)
             {
-                var newOrigin = mousePos + (Origin - mousePos) * (float)scaleAmount;
+                var newOrigin = mousePos + (Origin - mousePos) * scaleAmount;
                 Origin = newOrigin;
             }
             // Zoom out
             else
             {
-                var newOrigin = Origin - (mousePos - Origin) * ((float)scaleAmount - 1);
+                var newOrigin = Origin - (mousePos - Origin) * (scaleAmount - 1);
                 Origin = newOrigin;
             }
         }
@@ -179,9 +177,9 @@ namespace Mapper.ViewModels
         /// </summary>
         /// <param name="viewPoint">A point in view space</param>
         /// <returns>The same point in world space</returns>
-        public Vector2 ToWorldSpace(Vector2 viewPoint)
+        public Vec2 ToWorldSpace(Vec2 viewPoint)
         {
-            var scaledViewPoint = viewPoint * (float)Scale;
+            var scaledViewPoint = viewPoint * Scale;
             scaledViewPoint.Y = -scaledViewPoint.Y;
             return Origin + scaledViewPoint;
         }
@@ -192,9 +190,9 @@ namespace Mapper.ViewModels
         /// </summary>
         /// <param name="worldPoint">A point in world space</param>
         /// <returns>The same point in view space</returns>
-        public Vector2 ToViewSpace(Vector2 worldPoint)
+        public Vec2 ToViewSpace(Vec2 worldPoint)
         {
-            var viewPoint = (worldPoint - Origin) / (float)Scale;
+            var viewPoint = (worldPoint - Origin) / Scale;
             viewPoint.Y = -viewPoint.Y;
             return viewPoint;
         }

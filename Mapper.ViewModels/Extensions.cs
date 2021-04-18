@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+﻿using Mapper.Models;
 
 namespace Mapper.ViewModels
 {
@@ -8,6 +8,6 @@ namespace Mapper.ViewModels
         /// Returns a vector with the same direction as the original vector but with length 1.
         /// </summary>
         /// <returns>A new vector with the same direction and length 1.</returns>
-        public static Vector2 UnitVector(this Vector2 v) => v / v.Length();
+        public static Vec2 UnitVector(this Vec2 v) => v / v.Length();
     }
 }
