@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
         <!--x:Key="_001_helmetDrawingImage"-->
-    <DrawingImage x:Key="_001_helmetDrawingImage"> 
+    <DrawingImage x:Key="_001_helmetDrawingImage">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 V60 H56 V0 H0 Z">
                 <DrawingGroup Opacity="1">
@@ -1067,7 +1067,7 @@
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
-    
-    
-    
+
+
+
 </ResourceDictionary>

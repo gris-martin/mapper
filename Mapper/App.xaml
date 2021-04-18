@@ -7,10 +7,10 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Markers.xaml"/>
-                <ResourceDictionary Source="/Style.xaml"/>
-                <ResourceDictionary Source="/Converters.xaml"/>
-                <ResourceDictionary Source="/Variables.xaml"/>
+                <ResourceDictionary Source="/Resources/Markers.xaml"/>
+                <ResourceDictionary Source="/Resources/Style.xaml"/>
+                <ResourceDictionary Source="/Resources/Converters.xaml"/>
+                <ResourceDictionary Source="/Resources/Variables.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
