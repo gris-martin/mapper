@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Mapper.Models;
 using System.Windows;
-
-using Mapper.Models;
 
 namespace Mapper
 {

@@ -12,6 +12,9 @@
                         CanExecute="AddMarkerCommand_CanExecute"
                         Executed="AddMarkerCommand_Executed"/>
     </UserControl.CommandBindings>
+    <UserControl.DataContext>
+        <viewmodels:MapViewModel/>
+    </UserControl.DataContext>
     <Grid Name="MapGrid"
           Background="LightBlue"
           MouseMove="MapGrid_MouseMove"
@@ -24,7 +27,7 @@
           ContextMenuOpening="MapGrid_ContextMenuOpening">
         <ItemsControl
                 Grid.Column="2"
-                ItemsSource="{Binding Path=MapSymbols}"
+                ItemsSource="{Binding Path=Map.Markers}"
                 ClipToBounds="True">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

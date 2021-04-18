@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Mapper.Models;
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-
-using Mapper.Models;
 
 namespace Mapper.Converters
 {

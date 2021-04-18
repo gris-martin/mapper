@@ -1,4 +1,5 @@
-﻿using Mapper.ViewModels;
+﻿using Mapper.Models;
+using Mapper.ViewModels;
 using Mapper.Windows;
 using System;
 using System.Windows;
@@ -20,7 +21,6 @@ namespace Mapper.Controls
         public MapView()
         {
             InitializeComponent();
-            this.DataContext = MapViewModel.Instance;
         }
 
 
@@ -52,7 +52,7 @@ namespace Mapper.Controls
             var pos = lastRightClickPosition;
             var name = nameDialog.CreatedName;
             var type = markerDialog.MarkerType;
-            MapViewModel.Instance.MapSymbols.Add(new MapMarkerViewModel(pos.ToVec2(), name, type));
+            MapViewModel.Map.Markers.Add(new MapMarker(pos.ToVec2(), name, type));
         }
 
         #endregion
@@ -65,7 +65,7 @@ namespace Mapper.Controls
             Point currentPos = e.GetPosition(MapGrid);
             if (this.isPanning)
             {
-                MapViewModel.Instance.UpdateOriginFromMouseMovement(
+                MapViewModel.Map.UpdateOriginFromMouseMovement(
                     this.lastPanPosition.ToVec2(),
                     currentPos.ToVec2());
                 this.lastPanPosition = currentPos;
@@ -73,7 +73,7 @@ namespace Mapper.Controls
 
             if (this.isMeasuring)
             {
-                MapViewModel.Instance.Ruler.ViewEndPoint = currentPos.ToVec2();
+                MapViewModel.Ruler.ViewEndPoint = currentPos.ToVec2();
             }
 
             // Tooltip displaying world position
@@ -82,7 +82,7 @@ namespace Mapper.Controls
 
             this.worldPositionTip.HorizontalOffset = currentPos.X;
             this.worldPositionTip.VerticalOffset = currentPos.Y + 20;
-            var worldPos = MapViewModel.Instance.ToWorldSpace(currentPos.ToVec2());
+            var worldPos = MapViewModel.Map.ToWorldSpace(currentPos.ToVec2());
             this.worldPosition.Text = $"{Math.Round(worldPos.X)}, {Math.Round(worldPos.Y)}";
         }
 
@@ -109,11 +109,11 @@ namespace Mapper.Controls
             if (isMeasuring)
             {
                 isMeasuring = false;
-                MapViewModel.Instance.Ruler.IsHidden = true;
+                MapViewModel.Ruler.IsHidden = true;
             }
             else if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                var ruler = MapViewModel.Instance.Ruler;
+                var ruler = MapViewModel.Ruler;
                 ruler.ViewStartPoint = ruler.ViewEndPoint = mousePos.ToVec2();
                 ruler.IsHidden = false;
                 isMeasuring = true;
@@ -132,14 +132,14 @@ namespace Mapper.Controls
 
         private void MapGrid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            MapViewModel.Instance.SetScaleAroundPoint(e.GetPosition(MapGrid).ToVec2(), e.Delta > 0);
+            MapViewModel.Map.SetScaleAroundPoint(e.GetPosition(MapGrid).ToVec2(), e.Delta > 0);
         }
 
         private void MapGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Middle)
             {
-                MapViewModel.Instance.Reset();
+                MapViewModel.Map.Reset();
             }
         }
         #endregion
@@ -155,7 +155,7 @@ namespace Mapper.Controls
 
             this.markerTip.VerticalOffset = -25;
 
-            var markerData = target.DataContext as MapMarkerViewModel;
+            var markerData = target.DataContext as MapMarker;
             this.markerName.Text = markerData.Name;
         }
 

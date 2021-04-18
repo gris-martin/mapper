@@ -4,8 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mapper.Windows"
+        xmlns:viewmodels="clr-namespace:Mapper.ViewModels;assembly=Mapper.ViewModels"
         mc:Ignorable="d"
         Title="MarkerDialogWindow" Height="200" Width="245">
+    <Window.DataContext>
+        <viewmodels:MarkerDialogViewModel/>
+    </Window.DataContext>
     <UniformGrid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <ItemsControl Name="icMarkerGrid" ItemsSource="{Binding Markers}">

@@ -1,5 +1,4 @@
-﻿using Mapper.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Mapper
 {
@@ -11,7 +10,6 @@ namespace Mapper
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = MapViewModel.Instance;
         }
     }
 }

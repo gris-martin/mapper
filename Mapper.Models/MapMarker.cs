@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel;
 
-using Mapper.Models;
-
-namespace Mapper.ViewModels
+namespace Mapper.Models
 {
-    public class MapMarkerViewModel : INotifyPropertyChanged
+    public class MapMarker : INotifyPropertyChanged
     {
         private static int staticId = 0;
 
@@ -14,20 +12,20 @@ namespace Mapper.ViewModels
         /// <param name="pos">Position of the marker in world space.</param>
         /// <param name="name">Name of the marker.</param>
         /// <param name="type">Type of the marker (i.e. the type of icon it should show).</param>
-        public MapMarkerViewModel(Vec2 pos, string name, string type)
+        public MapMarker(Vec2 pos, string name, string type)
         {
-            this.worldPos = MapViewModel.Instance.ToWorldSpace(pos);
+            this.worldPos = Map.Instance.ToWorldSpace(pos);
             this.name = name;
             this.Id = staticId;
-            this.type = type;
+            this.Type = type;
             staticId += 1;
         }
 
+        private string type;
         /// <summary>
         /// The type of marker. Corresponds to a key in the resource dictionary
         /// containing the marker images.
         /// </summary>
-        private string type;
         public string Type
         {
             get => type;
@@ -38,10 +36,10 @@ namespace Mapper.ViewModels
             }
         }
 
+        private Vec2 worldPos;
         /// <summary>
         /// Position of the marker in world space.
         /// </summary>
-        private Vec2 worldPos;
         public Vec2 WorldPos
         {
             get => worldPos;
@@ -67,7 +65,7 @@ namespace Mapper.ViewModels
         }
 
         /// <summary>
-        /// Screen position. Should be updated each time <see cref="WorldPos"/> is updated.
+        /// Screen position. Should be updated manually each time <see cref="WorldPos"/> is updated.
         /// </summary>
         private Vec2 viewPos;
         public Vec2 ViewPos
@@ -81,7 +79,7 @@ namespace Mapper.ViewModels
         }
 
         /// <summary>
-        /// Unique ID of this marker. Will be assigned automatically during creation.
+        /// Unique ID of this marker. Will be assigned automatically on creation.
         /// </summary>
         public int Id { get; }
 

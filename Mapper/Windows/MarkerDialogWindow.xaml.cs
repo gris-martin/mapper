@@ -14,7 +14,6 @@ namespace Mapper.Windows
         public MarkerDialogWindow()
         {
             InitializeComponent();
-            this.DataContext = new MarkerDialogViewModel();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
