@@ -38,7 +38,7 @@ namespace Mapper.Models
         /// <param name="right">The second vector.</param>
         /// <returns>The summed vector.</returns>
         public static Vec2 operator +(Vec2 left, Vec2 right)
-            => new(left.X + right.X, left.Y + right.Y);
+            => new Vec2(left.X + right.X, left.Y + right.Y);
 
         /// <summary>
         /// Adds a scalar to a vector.
@@ -47,7 +47,7 @@ namespace Mapper.Models
         /// <param name="right">The scalar to add to the vector.</param>
         /// <returns>The summed vector.</returns>
         public static Vec2 operator +(Vec2 left, double right)
-            => new(left.X + right, left.Y + right);
+            => new Vec2(left.X + right, left.Y + right);
 
         /// <summary>
         /// Subtract a vector from another.
@@ -56,7 +56,7 @@ namespace Mapper.Models
         /// <param name="right">The vector which will be subtracted.</param>
         /// <returns>The subtracted vector.</returns>
         public static Vec2 operator -(Vec2 left, Vec2 right)
-            => new(left.X - right.X, left.Y - right.Y);
+            => new Vec2(left.X - right.X, left.Y - right.Y);
 
         /// <summary>
         /// Subtract a scalar from a vector.
@@ -65,7 +65,7 @@ namespace Mapper.Models
         /// <param name="right">The scalar to be subtracted.</param>
         /// <returns>The subtracted vector.</returns>
         public static Vec2 operator -(Vec2 left, double right)
-            => new(left.X - right, left.Y - right);
+            => new Vec2(left.X - right, left.Y - right);
 
         /// <summary>
         /// Multiply 2 vectors (element-wise multiplication/dot product).
@@ -74,7 +74,7 @@ namespace Mapper.Models
         /// <param name="right">The second vector.</param>
         /// <returns>The multiplied vector.</returns>
         public static Vec2 operator *(Vec2 left, Vec2 right)
-            => new(left.X * right.X, left.Y * right.Y);
+            => new Vec2(left.X * right.X, left.Y * right.Y);
 
         /// <summary>
         /// Multiply a vector with a scalar (element-wise).
@@ -83,7 +83,7 @@ namespace Mapper.Models
         /// <param name="right">The scalar to multiply with.</param>
         /// <returns>The multiplied vector.</returns>
         public static Vec2 operator *(Vec2 left, double right)
-            => new(left.X * right, left.Y * right);
+            => new Vec2(left.X * right, left.Y * right);
 
         /// <summary>
         /// Divide a vector with another (element-wise).
@@ -92,7 +92,7 @@ namespace Mapper.Models
         /// <param name="right">The vector to divide with.</param>
         /// <returns>The divided vector.</returns>
         public static Vec2 operator /(Vec2 left, Vec2 right)
-            => new(left.X / right.X, left.Y / right.Y);
+            => new Vec2(left.X / right.X, left.Y / right.Y);
 
         /// <summary>
         /// Divide a vector with a scalar (element-wise).
@@ -101,7 +101,7 @@ namespace Mapper.Models
         /// <param name="right">The scalar to divide with.</param>
         /// <returns>The divided vector.</returns>
         public static Vec2 operator /(Vec2 left, double right)
-            => new(left.X / right, left.Y / right);
+            => new Vec2(left.X / right, left.Y / right);
 
         /// <summary>
         /// Get the length of the vector.

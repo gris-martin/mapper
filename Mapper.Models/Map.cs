@@ -6,7 +6,7 @@ namespace Mapper.Models
 {
     public class Map : INotifyPropertyChanged
     {
-        private static readonly Map instance = new();
+        private static readonly Map instance = new Map();
         public static Map Instance => instance;
 
         private Map()
@@ -56,7 +56,7 @@ namespace Mapper.Models
         /// </summary>
         public ObservableCollection<MapMarker> Markers { get; } = new ObservableCollection<MapMarker>();
 
-        private Vec2 origin = new(0, 0);
+        private Vec2 origin = new Vec2(0, 0);
         /// <summary>
         /// Current world coordinate of upper left corner
         /// </summary>
@@ -192,7 +192,7 @@ namespace Mapper.Models
         }
 
 
-        private static readonly List<string> markerTypes = new()
+        private static readonly List<string> markerTypes = new List<string>()
         {
             "_001_helmetDrawingImage",
             "_003_coralDrawingImage",

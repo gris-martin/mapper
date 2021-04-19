@@ -5,13 +5,13 @@ namespace Mapper.Models
 {
     public class Ruler : INotifyPropertyChanged
     {
-        private static readonly Ruler instance = new();
+        private static readonly Ruler instance = new Ruler();
         public static Ruler Instance => instance;
 
         private Ruler() { }
 
         #region World space properties
-        private Vec2 startPoint = new(0);
+        private Vec2 startPoint = new Vec2(0);
         /// <summary>
         /// The starting point of the ruler in world space.
         /// </summary>
@@ -30,7 +30,7 @@ namespace Mapper.Models
             }
         }
 
-        private Vec2 endPoint = new(0);
+        private Vec2 endPoint = new Vec2(0);
         /// <summary>
         /// The end point of the ruler in world space.
         /// </summary>
