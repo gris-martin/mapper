@@ -22,8 +22,11 @@ namespace Mapper.Models
             {
                 startPoint = value;
                 OnPropertyChanged("StartPoint");
+                OnPropertyChanged("Length");
                 OnPropertyChanged("ViewStartPoint");
                 OnPropertyChanged("IsLargeArc");
+                OnPropertyChanged("Angle");
+                OnPropertyChanged("Direction");
             }
         }
 
@@ -38,8 +41,11 @@ namespace Mapper.Models
             {
                 endPoint = value;
                 OnPropertyChanged("EndPoint");
+                OnPropertyChanged("Length");
                 OnPropertyChanged("ViewEndPoint");
                 OnPropertyChanged("IsLargeArc");
+                OnPropertyChanged("Angle");
+                OnPropertyChanged("Direction");
             }
         }
 
@@ -47,6 +53,32 @@ namespace Mapper.Models
         /// The length of the ruler in world space.
         /// </summary>
         public double Length => (EndPoint - StartPoint).Length();
+
+        /// <summary>
+        /// The current "compass" angle between north and the current angle, in degrees.
+        /// Goes between 0 and 360, where north => 0, east => 90, south => 180 and west => 270.
+        /// </summary>
+        public double Angle
+        {
+            get
+            {
+                var dir = (EndPoint - StartPoint).Unit();
+                var rotatedDir = new Vec2(dir.Y, -dir.X);  // Rotate vector so that north == (1, 0) (instead of (0, 1))
+                //var rotatedDir = dir;
+                var angle = Math.Atan2(rotatedDir.Y, rotatedDir.X);
+
+                if (rotatedDir.Y > 0)
+                    angle = Math.PI * 2.0 - angle;
+                else
+                    angle = -angle;
+                return angle * 180.0 / Math.PI;
+            }
+        }
+
+        /// <summary>
+        /// The direction the ruler is pointing towards, as a unit vector in world space.
+        /// </summary>
+        public Vec2 Direction => (EndPoint - StartPoint).Unit();
         #endregion
 
         #region View space properties
@@ -61,6 +93,7 @@ namespace Mapper.Models
                 StartPoint = Map.Instance.ToWorldSpace(value);
                 OnPropertyChanged("ViewStartPoint");
                 OnPropertyChanged("ViewLength");
+                OnPropertyChanged("ViewMiddlePoint");
                 OnPropertyChanged("ArcRadius");
                 OnPropertyChanged("ArcStartPoint");
                 OnPropertyChanged("ArcEndPoint");
@@ -78,6 +111,7 @@ namespace Mapper.Models
                 EndPoint = Map.Instance.ToWorldSpace(value);
                 OnPropertyChanged("ViewEndPoint");
                 OnPropertyChanged("ViewLength");
+                OnPropertyChanged("ViewMiddlePoint");
                 OnPropertyChanged("ArcRadius");
                 OnPropertyChanged("ArcStartPoint");
                 OnPropertyChanged("ArcEndPoint");
@@ -88,6 +122,18 @@ namespace Mapper.Models
         /// The length of the ruler in view space.
         /// </summary>
         public double ViewLength => (ViewEndPoint - ViewStartPoint).Length();
+
+        /// <summary>
+        /// Middle point between start and end position.
+        /// </summary>
+        public Vec2 ViewMiddlePoint
+        {
+            get
+            {
+                var v = (ViewEndPoint - ViewStartPoint);
+                return ViewStartPoint + v / 2.0;
+            }
+        }
 
         #endregion
 
@@ -136,17 +182,17 @@ namespace Mapper.Models
         #endregion
 
         #region Other properties
-        private bool isHidden = true;
+        private bool isMeasuring = false;
         /// <summary>
-        /// True if the ruler should be hidden, false otherwise.
+        /// True if the ruler is measuring, false otherwise.
         /// </summary>
-        public bool IsHidden
+        public bool IsMeasuring
         {
-            get => isHidden;
+            get => isMeasuring;
             set
             {
-                isHidden = value;
-                OnPropertyChanged("IsHidden");
+                isMeasuring = value;
+                OnPropertyChanged("IsMeasuring");
             }
         }
         #endregion

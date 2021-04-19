@@ -11,7 +11,8 @@
         <Canvas.DataContext>
             <viewmodels:RulerViewModel/>
         </Canvas.DataContext>
-        <Path Stroke="Black"
+        <Path Stroke="Teal"
+              StrokeThickness="2"
               Name="ArcPath"
               Visibility="{Binding Visibility}">
             <Path.Data>
@@ -32,6 +33,26 @@
               X2="{Binding Model.ViewEndPoint.X}"
               Y2="{Binding Model.ViewEndPoint.Y}"
               StrokeThickness="4"
-              Stroke="Black"/>
+              Stroke="Teal"/>
+        <Popup Name="Angle"
+               IsOpen="{Binding Model.IsMeasuring}"
+               Placement="Relative"
+               AllowsTransparency="True"
+               HorizontalOffset="{Binding AnglePopupHorizontalOffset}"
+               VerticalOffset="{Binding AnglePopupVerticalOffset}">
+            <TextBlock FontWeight="Bold"
+                       Text="{Binding AngleText}"
+                       TextAlignment="Center"/>
+        </Popup>
+        <Popup Name="Length"
+               IsOpen="{Binding Model.IsMeasuring}"
+               Placement="Relative"
+               AllowsTransparency="True"
+               HorizontalOffset="{Binding Model.ViewMiddlePoint.X}"
+               VerticalOffset="{Binding Model.ViewMiddlePoint.Y}">
+            <TextBlock FontWeight="Bold"
+                       Text="{Binding LengthText}"
+                       TextAlignment="Center"/>
+        </Popup>
     </Canvas>
 </UserControl>

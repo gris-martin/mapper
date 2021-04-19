@@ -45,7 +45,7 @@ namespace Mapper.Controls
                 this.lastPanPosition = currentPos;
             }
 
-            if (!Ruler.Instance.IsHidden)
+            if (Ruler.Instance.IsMeasuring)
             {
                 Ruler.Instance.ViewEndPoint = currentPos.ToVec2();
             }
@@ -74,14 +74,14 @@ namespace Mapper.Controls
         private void MapGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var mousePos = e.GetPosition(MapGrid);
-            if (!Ruler.Instance.IsHidden)
+            if (Ruler.Instance.IsMeasuring)
             {
-                Ruler.Instance.IsHidden = true;
+                Ruler.Instance.IsMeasuring = false;
             }
             else if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 Ruler.Instance.ViewStartPoint = Ruler.Instance.ViewEndPoint = mousePos.ToVec2();
-                Ruler.Instance.IsHidden = false;
+                Ruler.Instance.IsMeasuring = true;
             }
             else
             {

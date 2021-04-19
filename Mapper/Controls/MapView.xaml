@@ -22,10 +22,11 @@
           MouseLeftButtonUp="MapGrid_MouseLeftButtonUp"
           ContextMenuOpening="MapGrid_ContextMenuOpening">
         <StackPanel>
-            <TextBlock Text="{Binding ElementName=worldPositionTip, Path=HorizontalOffset, StringFormat='Tip horizontal offset: {0}'}"/>
-            <TextBlock Text="{Binding ElementName=worldPositionTip, Path=VerticalOffset, StringFormat='Tip vertical offset: {0}'}"/>
-            <TextBlock Text="{Binding Ruler.Model.ArcRadius, StringFormat='Arc radius: {0}'}"></TextBlock>
-            <TextBlock Text="{Binding Ruler.Model.ArcRadius, StringFormat='Arc radius: {0}'}"></TextBlock>
+            <TextBlock Text="{Binding ElementName=WorldPositionPopup, Path=HorizontalOffset, StringFormat='Tip horizontal offset: {0}'}"/>
+            <TextBlock Text="{Binding ElementName=WorldPositionPopup, Path=VerticalOffset, StringFormat='Tip vertical offset: {0}'}"/>
+            <TextBlock Text="{Binding Ruler.Model.ArcRadius, StringFormat='Arc radius: {0}'}"/>
+            <TextBlock Text="{Binding Ruler.Model.Angle, StringFormat='Arc angle: {0}'}"/>
+            <TextBlock Text="{Binding Ruler.Direction, StringFormat='Ruler direction: {0}'}"/>
         </StackPanel>
         <ItemsControl
                 Grid.Column="2"
@@ -54,7 +55,7 @@
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
-        <uc:RulerView/>
+        <uc:RulerView ClipToBounds="True" IsHitTestVisible="False"/>
         <Popup Name="WorldPositionPopup"
                Placement="Relative"
                AllowsTransparency="True"
