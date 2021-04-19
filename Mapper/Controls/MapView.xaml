@@ -55,10 +55,17 @@
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
         <uc:RulerView/>
-        <Popup Name="worldPositionTip" Placement="Relative" AllowsTransparency="True">
-            <TextBlock Name="worldPosition" FontWeight="Bold">Look at me</TextBlock>
+        <Popup Name="WorldPositionPopup"
+               Placement="Relative"
+               AllowsTransparency="True"
+               IsOpen="{Binding WorldPositionPopupEnabled}"
+               HorizontalOffset="{Binding WorldPositionPopupHorizontalOffset}"
+               VerticalOffset="{Binding WorldPositionPopupVerticalOffset}">
+            <TextBlock FontWeight="Bold" Text="{Binding FormattedWorldPosition}"/>
         </Popup>
-        <Popup Name="markerTip" Placement="Relative" AllowsTransparency="True">
+        <Popup Name="MarkerTip"
+               Placement="Center"
+               AllowsTransparency="True">
             <TextBlock Name="markerName" FontWeight="Bold">Look at me</TextBlock>
         </Popup>
         <Grid.ContextMenu>
