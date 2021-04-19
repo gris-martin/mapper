@@ -6,26 +6,70 @@
         xmlns:local="clr-namespace:Mapper.Windows"
         xmlns:viewmodels="clr-namespace:Mapper.ViewModels"
         mc:Ignorable="d"
-        Title="MarkerDialogWindow" Height="200" Width="245">
+        Title="MarkerDialogWindow" Height="300" Width="245"
+        FocusManager.FocusedElement="{Binding ElementName=MarkerName}">
     <Window.DataContext>
         <viewmodels:MarkerDialogViewModel/>
     </Window.DataContext>
-    <UniformGrid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ItemsControl Name="icMarkerGrid" ItemsSource="{Binding Markers}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button Style="{StaticResource ImageButtonStyle}" Click="Button_Click" Tag="{Binding Type}">
-                            <Image Source="{Binding Source}" Width="25" Height="25" Margin="5"/>
-                        </Button>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-    </UniformGrid>
-</Window>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <UniformGrid Grid.Row="0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl Name="icMarkerGrid" ItemsSource="{Binding Markers}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Style="{StaticResource ImageButtonStyle}"
+                                    Click="MarkerButton_Click"
+                                    Tag="{Binding Type}"
+                                    IsTabStop="False"
+                                    BorderBrush="Black"
+                                    BorderThickness="1">
+                                <Border BorderThickness="1" BorderBrush="{Binding BorderBrush}">
+                                    <Image Source="{Binding Source}"
+                                           Width="25"
+                                           Height="25"
+                                           Margin="5"/>
+                                </Border>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </UniformGrid>
+        <StackPanel Grid.Row="1" Margin="10">
+            <TextBox Margin="0, 0, 0, 5"
+                     Name="MarkerName"
+                     AcceptsReturn="False"
+                     MaxLines="1"
+                     MaxLength="20"
+                     Grid.Row="0"
+                     Grid.Column="0"
+                     LostKeyboardFocus="MarkerName_LostKeyboardFocus"
+                     Text="{Binding Name, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+            <UniformGrid>
+                <UniformGrid Margin="0, 5, 0, 0">
+                    <Button Name="OKButton"
+                            Margin="0, 0, 5, 0"
+                            Click="OKButton_Click"
+                            IsDefault="True"
+                            IsEnabled="{Binding OkCommandEnabled}">
+                        _OK
+                    </Button>
+                    <Button Name="CancelButton"
+                            Margin="5, 0, 0, 0"
+                            Click="CancelButton_Click"
+                            IsCancel="True">
+                        _Cancel
+                    </Button>
+                </UniformGrid>
+            </UniformGrid>
+        </StackPanel>
+    </Grid></Window>

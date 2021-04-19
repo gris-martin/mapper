@@ -23,40 +23,13 @@ namespace Mapper.Controls
             InitializeComponent();
         }
 
-
-        #region AddMarker callbacks
-
-        private void AddMarkerCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        #region Context menu callbacks
+        private void AddMarkerMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            e.CanExecute = true;
+            MarkerDialogWindow dialog = new(lastRightClickPosition);
+            dialog.ShowDialog();
         }
-
-        private void AddMarkerCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MarkerDialogWindow markerDialog = new()
-            {
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-            var status = markerDialog.ShowDialog();
-            if (status != true)
-                return;
-
-            var nameDialog = new NameDialogWindow()
-            {
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-            status = nameDialog.ShowDialog();
-            if (status != true)
-                return;
-
-            var pos = lastRightClickPosition;
-            var name = nameDialog.CreatedName;
-            var type = markerDialog.MarkerType;
-            MapViewModel.Model.Markers.Add(new MapMarker(pos.ToVec2(), name, type));
-        }
-
         #endregion
-
 
         #region MapGrid callbacks
 
@@ -73,7 +46,7 @@ namespace Mapper.Controls
 
             if (this.isMeasuring)
             {
-                Models.Ruler.Instance.ViewEndPoint = currentPos.ToVec2();
+                Ruler.Instance.ViewEndPoint = currentPos.ToVec2();
             }
 
             // Tooltip displaying world position
@@ -144,7 +117,6 @@ namespace Mapper.Controls
         }
         #endregion
 
-
         #region Image callbacks
 
         private void ShowMarkerTip(FrameworkElement target)
@@ -161,7 +133,7 @@ namespace Mapper.Controls
 
         private void Image_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (isPanning)
+            if (this.isPanning)
                 return;
 
             ShowMarkerTip(sender as FrameworkElement);
@@ -182,14 +154,5 @@ namespace Mapper.Controls
             ShowMarkerTip(sender as FrameworkElement);
         }
         #endregion
-    }
-
-    public static class CustomCommands
-    {
-        public static readonly RoutedUICommand AddMarker = new(
-            "Add marker...",
-            "AddMarker",
-            typeof(CustomCommands)
-        );
     }
 }

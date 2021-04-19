@@ -8,11 +8,6 @@
              xmlns:uc="clr-namespace:Mapper.Controls"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.CommandBindings>
-        <CommandBinding Command="local:CustomCommands.AddMarker"
-                        CanExecute="AddMarkerCommand_CanExecute"
-                        Executed="AddMarkerCommand_Executed"/>
-    </UserControl.CommandBindings>
     <UserControl.DataContext>
         <viewmodels:MapViewModel/>
     </UserControl.DataContext>
@@ -68,8 +63,8 @@
         </Popup>
         <Grid.ContextMenu>
             <ContextMenu>
-                <MenuItem Command="local:CustomCommands.AddMarker"
-                          CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType={x:TypeExtension ContextMenu}}}"/>
+                <MenuItem Click="AddMarkerMenuItem_Click"
+                          Header="Add Marker..."/>
             </ContextMenu>
         </Grid.ContextMenu>
     </Grid>
