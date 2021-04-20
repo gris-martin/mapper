@@ -1,0 +1,51 @@
+﻿<Window x:Class="Mapper.Windows.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Mapper.Windows"
+        mc:Ignorable="d"
+        Title="About Mapper" Height="300" Width="350"
+        ResizeMode="NoResize"
+        Background="LightBlue">
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" x:Key="Header">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0, 20, 0, 5"/>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="0, 0, 0, 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 0, 0, 25">
+            <TextBlock FontSize="30" FontWeight="Bold" Margin="0, 0, 0, 15">Mapper</TextBlock>
+            <TextBlock>
+                <Hyperlink>https://github.com/gris-martin/mapper</Hyperlink>
+            </TextBlock>
+            <TextBlock Style="{StaticResource Header}">Created by</TextBlock>
+            <TextBlock>Martin Törnqvist</TextBlock>
+            <TextBlock Style="{StaticResource Header}">Acknowledments</TextBlock>
+            <!--<div>Icons made by-->
+                <!--<a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from-->
+                <!--<a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>-->
+            <!--</div>-->
+            <TextBlock>
+                Icons made by <Hyperlink NavigateUri="https://www.flaticon.com/authors/smashicons">Smashicons</Hyperlink> from <Hyperlink>www.flaticon.com</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+        <Button Name="CloseButton"
+                Grid.Row="1"
+                Margin="100, 5"
+                Click="CloseButton_Click"
+                IsDefault="True"
+                IsCancel="True">
+            _Close
+        </Button>
+    </Grid>
+</Window>

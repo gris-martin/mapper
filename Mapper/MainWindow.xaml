@@ -13,14 +13,17 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_New"/>
-                <MenuItem Header="_Load..."/>
-                <MenuItem Header="_Save"/>
-                <MenuItem Header="Save _as..."/>
-                <Separator/>
+                <MenuItem Header="_New" Click="New_Click"/>
+                <MenuItem Header="_Load..." Click="Load_Click"/>
+                <MenuItem Header="_Save" Click="Save_Click"/>
+                <MenuItem Header="Save _as..." Click="SaveAs_Click"/>
+                <!--<Separator/>
                 <MenuItem Header="_Measure"/>
-                <Separator/>
-                <MenuItem Header="_Exit"/>
+                <Separator/>-->
+                <MenuItem Header="_Exit" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About Mapper" Click="About_Click"/>
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">

@@ -71,7 +71,7 @@ namespace Mapper.ViewModels
         {
             if (OkCommandEnabled)
             {
-                Map.Instance.Markers.Add(new MapMarker(Position.ToVec2(), this.Name, this.Type));
+                Map.Instance.Markers.Add(MapMarker.CreateFromViewPos(Position.ToVec2(), this.Name, this.Type));
                 return true;
             }
             return false;

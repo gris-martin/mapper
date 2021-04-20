@@ -172,7 +172,7 @@ namespace Mapper.Models
         /// <summary>
         /// Start point of the arc in view space.
         /// </summary>
-        public Vec2 ArcEndPoint => ViewStartPoint + Map.North * ArcRadius;
+        public Vec2 ArcEndPoint => ViewStartPoint + Map.Instance.North * ArcRadius;
 
         /// <summary>
         /// End point of the arc in view space.

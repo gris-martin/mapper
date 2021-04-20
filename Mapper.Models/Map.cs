@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Text.Json;
+using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Mapper.Models
 {
@@ -9,7 +13,7 @@ namespace Mapper.Models
         private static readonly Map instance = new Map();
         public static Map Instance => instance;
 
-        private Map()
+        public Map()
         {
             this.Markers.CollectionChanged += Markers_CollectionChanged;
         }
@@ -53,14 +57,18 @@ namespace Mapper.Models
             }
         }
 
+        private Vec2 north = new Vec2(0, -1);
         /// <summary>
         /// A unit vector in view space which corresponds to north in world space
         /// </summary>
-        public static Vec2 North
+        [JsonIgnore]
+        public Vec2 North
         {
-            get
+            get => north;
+            set
             {
-                return new Vec2(0, -1);
+                north = value;
+                OnPropertyChanged("North");
             }
         }
         #endregion
@@ -144,13 +152,56 @@ namespace Mapper.Models
             viewPoint.Y = -viewPoint.Y;
             return viewPoint;
         }
+
+        /// <summary>
+        /// Serialize this Map object into a file.
+        /// </summary>
+        /// <param name="filepath">Path of the file to be serialized to.</param>
+        public void SaveToFile(string filepath)
+        {
+            var serializerOptions = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+            var jsonString = JsonSerializer.Serialize(this, serializerOptions);
+            var folder = Directory.GetParent(filepath);
+            Directory.CreateDirectory(folder.FullName);
+            File.WriteAllText(filepath, jsonString);
+        }
+
+        /// <summary>
+        /// Deserialize a file into this Map object.
+        /// </summary>
+        /// <param name="filepath">Path of the file to be deserialized.</param>
+        public void LoadFromFile(string filepath)
+        {
+            var jsonString = File.ReadAllText(filepath);
+            var newMap = JsonSerializer.Deserialize<Map>(jsonString);
+            this.Markers.Clear();
+            foreach (var newMarker in newMap.Markers)
+            {
+                if (!markerTypes.Contains(newMarker.Type))
+                    newMarker.Type = markerTypes[0];
+                this.Markers.Add(newMarker);
+            }
+            this.Origin = newMap.Origin;
+            this.Scale = newMap.Scale;
+        }
         #endregion
 
         #region Markers
+        private ObservableCollection<MapMarker> markers = new ObservableCollection<MapMarker>();
         /// <summary>
         /// List of all the map symbols assigned to this view model
         /// </summary>
-        public ObservableCollection<MapMarker> Markers { get; } = new ObservableCollection<MapMarker>();
+        public ObservableCollection<MapMarker> Markers {
+            get => markers;
+            set
+            {
+                markers = value;
+                OnPropertyChanged("Markers");
+            }
+        }
 
         /// <summary>
         /// Add a callback for all newly created markers to make sure their view position is updated
