@@ -77,5 +77,11 @@ namespace Mapper
             var about = new AboutWindow();
             about.ShowDialog();
         }
+
+        private void Controls_Click(object sender, RoutedEventArgs e)
+        {
+            var controls = new ControlsWindow();
+            controls.ShowDialog();
+        }
     }
 }

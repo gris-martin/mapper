@@ -23,6 +23,8 @@
                 <MenuItem Header="_Exit" Click="Exit_Click"/>
             </MenuItem>
             <MenuItem Header="_Help">
+                <MenuItem Header="_Controls" Click="Controls_Click"/>
+                <Separator/>
                 <MenuItem Header="_About Mapper" Click="About_Click"/>
             </MenuItem>
         </Menu>

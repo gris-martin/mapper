@@ -21,13 +21,14 @@
           MouseWheel="MapGrid_MouseWheel"
           MouseLeftButtonUp="MapGrid_MouseLeftButtonUp"
           ContextMenuOpening="MapGrid_ContextMenuOpening">
-        <StackPanel>
+        <!--Debug stuff-->
+        <!--<StackPanel>
             <TextBlock Text="{Binding ElementName=WorldPositionPopup, Path=HorizontalOffset, StringFormat='Tip horizontal offset: {0}'}"/>
             <TextBlock Text="{Binding ElementName=WorldPositionPopup, Path=VerticalOffset, StringFormat='Tip vertical offset: {0}'}"/>
             <TextBlock Text="{Binding Ruler.Model.ArcRadius, StringFormat='Arc radius: {0}'}"/>
             <TextBlock Text="{Binding Ruler.Model.Angle, StringFormat='Arc angle: {0}'}"/>
             <TextBlock Text="{Binding Ruler.Direction, StringFormat='Ruler direction: {0}'}"/>
-        </StackPanel>
+        </StackPanel>-->
         <ItemsControl
                 Grid.Column="2"
                 ItemsSource="{Binding Path=Markers}"
@@ -73,6 +74,8 @@
             <ContextMenu>
                 <MenuItem Click="AddMarkerMenuItem_Click"
                           Header="Add Marker..."/>
+                <MenuItem Click="Measure_Click"
+                          Header="Measure"/>
             </ContextMenu>
         </Grid.ContextMenu>
     </Grid>

@@ -29,6 +29,13 @@ namespace Mapper.Controls
             MarkerDialogWindow dialog = new(lastRightClickPosition);
             dialog.ShowDialog();
         }
+
+
+        private void Measure_Click(object sender, RoutedEventArgs e)
+        {
+            Ruler.Instance.ViewStartPoint = Ruler.Instance.ViewEndPoint = lastRightClickPosition.ToVec2();
+            Ruler.Instance.IsMeasuring = true;
+        }
         #endregion
 
         #region MapGrid callbacks
