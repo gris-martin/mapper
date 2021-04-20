@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Mapper.Models
 {
-    public class Ruler : INotifyPropertyChanged
+    public class Ruler : PropertyChangedBase
     {
         private static readonly Ruler instance = new Ruler();
         public static Ruler Instance => instance;
@@ -196,11 +196,5 @@ namespace Mapper.Models
             }
         }
         #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        internal void OnPropertyChanged(string name)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
     }
 }

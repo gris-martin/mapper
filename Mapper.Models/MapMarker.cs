@@ -2,7 +2,7 @@
 
 namespace Mapper.Models
 {
-    public class MapMarker : INotifyPropertyChanged
+    public class MapMarker : PropertyChangedBase
     {
         private static int staticId = 0;
 
@@ -32,7 +32,7 @@ namespace Mapper.Models
             set
             {
                 type = value;
-                NotifyPropertyChanged("Type");
+                OnPropertyChanged("Type");
             }
         }
 
@@ -46,7 +46,7 @@ namespace Mapper.Models
             set
             {
                 worldPos = value;
-                NotifyPropertyChanged("WorldPos");
+                OnPropertyChanged("WorldPos");
             }
         }
 
@@ -60,7 +60,7 @@ namespace Mapper.Models
             set
             {
                 name = value;
-                NotifyPropertyChanged("Name");
+                OnPropertyChanged("Name");
             }
         }
 
@@ -74,7 +74,7 @@ namespace Mapper.Models
             set
             {
                 viewPos = value;
-                NotifyPropertyChanged("ViewPos");
+                OnPropertyChanged("ViewPos");
             }
         }
 
@@ -82,12 +82,5 @@ namespace Mapper.Models
         /// Unique ID of this marker. Will be assigned automatically on creation.
         /// </summary>
         public int Id { get; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void NotifyPropertyChanged(string propName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-        }
     }
 }

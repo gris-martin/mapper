@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace Mapper.Models
 {
-    public class Map : INotifyPropertyChanged
+    public class Map : PropertyChangedBase
     {
         private static readonly Map instance = new Map();
         public static Map Instance => instance;
@@ -14,48 +14,7 @@ namespace Mapper.Models
             this.Markers.CollectionChanged += Markers_CollectionChanged;
         }
 
-        #region Callbacks
-        /// <summary>
-        /// Add a callback for all newly created markers to make sure their view position is updated
-        /// when the world position is updated.
-        /// </summary>
-        private void Markers_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
-            {
-                foreach (MapMarker removedSymbol in e.OldItems)
-                {
-                    removedSymbol.PropertyChanged -= NewSymbol_PropertyChanged;
-                }
-            }
-            else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
-            {
-                foreach (MapMarker newSymbol in e.NewItems)
-                {
-                    newSymbol.ViewPos = ToViewSpace(newSymbol.WorldPos);
-                    newSymbol.PropertyChanged += NewSymbol_PropertyChanged;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Update the view position of markers when their world position is updated.
-        /// </summary>
-        private void NewSymbol_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "WorldPos")
-            {
-                var symbol = sender as MapMarker;
-                symbol.ViewPos = ToViewSpace(symbol.WorldPos);
-            }
-        }
-        #endregion
-
-        /// <summary>
-        /// List of all the map symbols assigned to this view model
-        /// </summary>
-        public ObservableCollection<MapMarker> Markers { get; } = new ObservableCollection<MapMarker>();
-
+        #region Public properties
         private Vec2 origin = new Vec2(0, 0);
         /// <summary>
         /// Current world coordinate of upper left corner
@@ -104,7 +63,9 @@ namespace Mapper.Models
                 return new Vec2(0, -1);
             }
         }
+        #endregion
 
+        #region Public methods
         /// <summary>
         /// Reset the Origin and Scale. I.e. Scale == 1 and Origin == (0, 0).
         /// </summary>
@@ -183,14 +144,48 @@ namespace Mapper.Models
             viewPoint.Y = -viewPoint.Y;
             return viewPoint;
         }
+        #endregion
 
+        #region Markers
+        /// <summary>
+        /// List of all the map symbols assigned to this view model
+        /// </summary>
+        public ObservableCollection<MapMarker> Markers { get; } = new ObservableCollection<MapMarker>();
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name)
+        /// <summary>
+        /// Add a callback for all newly created markers to make sure their view position is updated
+        /// when the world position is updated.
+        /// </summary>
+        private void Markers_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+            {
+                foreach (MapMarker removedSymbol in e.OldItems)
+                {
+                    removedSymbol.PropertyChanged -= NewSymbol_PropertyChanged;
+                }
+            }
+            else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                foreach (MapMarker newSymbol in e.NewItems)
+                {
+                    newSymbol.ViewPos = ToViewSpace(newSymbol.WorldPos);
+                    newSymbol.PropertyChanged += NewSymbol_PropertyChanged;
+                }
+            }
         }
 
+        /// <summary>
+        /// Update the view position of markers when their world position is updated.
+        /// </summary>
+        private void NewSymbol_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "WorldPos")
+            {
+                var symbol = sender as MapMarker;
+                symbol.ViewPos = ToViewSpace(symbol.WorldPos);
+            }
+        }
 
         private static readonly List<string> markerTypes = new List<string>()
         {
@@ -227,5 +222,6 @@ namespace Mapper.Models
             "_040_compassDrawingImage"
         };
         public static List<string> MarkerTypes => markerTypes;
+        #endregion
     }
 }
