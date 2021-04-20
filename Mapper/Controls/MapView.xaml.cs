@@ -75,7 +75,8 @@ namespace Mapper.Controls
 
         private void MapGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            lastRightClickPosition = new Point(e.CursorLeft, e.CursorTop);
+            var pos = Mouse.GetPosition(MapGrid);
+            lastRightClickPosition = new Point(pos.X, pos.Y);
         }
 
         private void MapGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
