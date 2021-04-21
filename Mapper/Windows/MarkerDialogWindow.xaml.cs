@@ -1,4 +1,5 @@
-﻿using Mapper.ViewModels;
+﻿using Mapper.Models;
+using Mapper.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,10 +11,24 @@ namespace Mapper.Windows
     /// </summary>
     public partial class MarkerDialogWindow : Window
     {
+        /// <summary>
+        /// Constructor when creating a new marker
+        /// </summary>
+        /// <param name="position"></param>
         public MarkerDialogWindow(Point position)
         {
             InitializeComponent();
             (this.DataContext as MarkerDialogViewModel).Position = position;
+        }
+
+        /// <summary>
+        /// Constructor when editing a marker
+        /// </summary>
+        /// <param name="marker"></param>
+        public MarkerDialogWindow(MapMarker marker)
+        {
+            InitializeComponent();
+            (this.DataContext as MarkerDialogViewModel).StartEdit(marker);
         }
 
         private void MarkerButton_Click(object sender, RoutedEventArgs e)

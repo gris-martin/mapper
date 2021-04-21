@@ -73,9 +73,17 @@
         <Grid.ContextMenu>
             <ContextMenu>
                 <MenuItem Click="AddMarkerMenuItem_Click"
-                          Header="Add Marker..."/>
-                <MenuItem Click="Measure_Click"
-                          Header="Measure"/>
+                          Header="Add Marker..."
+                          IsEnabled="{Binding RightClickMenu.AddMarkerEnabled}"/>
+                <MenuItem Click="MeasureMenuItem_Click"
+                          Header="{Binding RightClickMenu.MeasureText}"/>
+                <MenuItem Header="Marker"
+                          IsEnabled="{Binding RightClickMenu.MarkerOptionsEnabled}">
+                    <MenuItem Click="MoveMarkerMenuItem_Click"
+                              Header="{Binding RightClickMenu.MoveMarkerText}"/>
+                    <MenuItem Click="ChangeMarkerTypeMenuItem_Click"
+                              Header="Edit marker..."/>
+                </MenuItem>
             </ContextMenu>
         </Grid.ContextMenu>
     </Grid>

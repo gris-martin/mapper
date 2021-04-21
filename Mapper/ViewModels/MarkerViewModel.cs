@@ -12,8 +12,6 @@ namespace Mapper.ViewModels
 {
     public class MarkerViewModel : ViewModelBase
     {
-        private MarkerViewModel() { }
-
         public MarkerViewModel(MapMarker marker)
         {
             this.model = marker;

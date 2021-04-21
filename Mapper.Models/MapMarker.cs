@@ -54,6 +54,7 @@ namespace Mapper.Models
             {
                 worldPos = value;
                 OnPropertyChanged("WorldPos");
+                OnPropertyChanged("ViewPos");
             }
         }
 
@@ -74,14 +75,13 @@ namespace Mapper.Models
         /// <summary>
         /// Screen position. Should be updated manually each time <see cref="WorldPos"/> is updated.
         /// </summary>
-        private Vec2 viewPos;
         [JsonIgnore]
         public Vec2 ViewPos
         {
-            get => viewPos;
+            get => Map.Instance.ToViewSpace(this.WorldPos);
             set
             {
-                viewPos = value;
+                this.WorldPos = Map.Instance.ToWorldSpace(value);
                 OnPropertyChanged("ViewPos");
             }
         }

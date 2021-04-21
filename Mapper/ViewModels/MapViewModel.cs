@@ -15,13 +15,62 @@ namespace Mapper.ViewModels
             Model.Markers.CollectionChanged += Markers_CollectionChanged;
         }
 
-        private void Markers_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            OnPropertyChanged("Markers");
-        }
-
         public static Map Model => Map.Instance;
         public static RulerViewModel Ruler => new();
+        public static RightClickMenu RightClickMenu => RightClickMenu.Instance;
+
+        #region Move marker properties and methods
+        /// <summary>
+        /// The last selected marker (or an arbitrary marker otherwise)
+        /// </summary>
+        public MarkerViewModel SelectedMarker { get; private set; }
+
+        public bool markerIsSelected;
+        /// <summary>
+        /// Set to true if the selected marker should be visible.
+        /// E.g. if you are moving a marker.
+        /// </summary>
+        public bool MarkerIsSelected
+        {
+            get => markerIsSelected;
+            private set
+            {
+                markerIsSelected = value;
+                OnPropertyChanged("SelectedMarkerVisible");
+            }
+        }
+
+        /// <summary>
+        /// Call this method to select a marker for moving
+        /// </summary>
+        /// <param name="marker"></param>
+        public void SelectMarker(MarkerViewModel marker)
+        {
+            SelectedMarker = marker;
+            MarkerIsSelected = true;
+            RightClickMenu.MoveMarkerText = "Place marker";
+        }
+
+        /// <summary>
+        /// Call this method to stop moving a marker and deselect it
+        /// </summary>
+        public void DeselectMarker()
+        {
+            MarkerIsSelected = false;
+            SelectedMarker = null;
+            RightClickMenu.MoveMarkerText = "Move marker";
+        }
+
+        /// <summary>
+        /// Move the selected marker
+        /// </summary>
+        /// <param name="viewPos">The new position of the marker, in view space</param>
+        public void MoveSelectedMarker(Point viewPos)
+        {
+            SelectedMarker.Model.ViewPos = viewPos.ToVec2();
+        }
+        #endregion
+
 
         #region World position popup properties
         private Point mousePosition;
@@ -79,9 +128,16 @@ namespace Mapper.ViewModels
         public double WorldPositionPopupVerticalOffset => MousePosition.Y + 20;
         #endregion
 
+        #region Marker stuff
+        private void Markers_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged("Markers");
+        }
+
 #pragma warning disable CA1822 // Mark members as static
         public ObservableCollection<MarkerViewModel> Markers =>
             new(Model.Markers.Select(marker => new MarkerViewModel(marker)));
 #pragma warning restore CA1822
+        #endregion
     }
 }

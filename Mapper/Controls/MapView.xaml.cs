@@ -17,6 +17,7 @@ namespace Mapper.Controls
         private bool isPanning = false;
         private Point lastPanPosition = new();
         private MapViewModel ViewModel => this.DataContext as MapViewModel;
+        private MarkerViewModel lastMarkerClicked;
 
         public MapView()
         {
@@ -31,10 +32,39 @@ namespace Mapper.Controls
         }
 
 
-        private void Measure_Click(object sender, RoutedEventArgs e)
+        private void MeasureMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Ruler.Instance.ViewStartPoint = Ruler.Instance.ViewEndPoint = lastRightClickPosition.ToVec2();
-            Ruler.Instance.IsMeasuring = true;
+            var ruler = Ruler.Instance;
+            if (ruler.IsMeasuring)
+            {
+                ruler.ViewEndPoint = lastRightClickPosition.ToVec2();
+                ruler.IsMeasuring = false;
+            }
+            else
+            {
+                ruler.ViewStartPoint = ruler.ViewEndPoint = lastRightClickPosition.ToVec2();
+                ruler.IsMeasuring = true;
+            }
+        }
+
+        private void MoveMarkerMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.MarkerIsSelected)
+            {
+                ViewModel.MoveSelectedMarker(lastRightClickPosition);
+                ViewModel.DeselectMarker();
+            }
+            else
+            {
+                ViewModel.SelectMarker(lastMarkerClicked);
+                this.MarkerTip.IsOpen = false;
+            }
+        }
+
+        private void ChangeMarkerTypeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MarkerDialogWindow dialog = new(lastMarkerClicked.Model);
+            dialog.ShowDialog();
         }
         #endregion
 
@@ -57,6 +87,9 @@ namespace Mapper.Controls
                 Ruler.Instance.ViewEndPoint = currentPos.ToVec2();
             }
 
+            if (ViewModel.MarkerIsSelected)
+                ViewModel.SelectedMarker.Model.ViewPos = currentPos.ToVec2();
+
             // Tooltip displaying world position
             if (!this.ViewModel.WorldPositionPopupEnabled)
                 this.ViewModel.WorldPositionPopupEnabled = true;
@@ -75,6 +108,20 @@ namespace Mapper.Controls
 
         private void MapGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
+            var source = e.OriginalSource as FrameworkElement;
+            var dataContext = source?.DataContext;
+            if (dataContext != null && dataContext is MarkerViewModel marker)
+            {
+                MapViewModel.RightClickMenu.MarkerOptionsEnabled = true;
+                lastMarkerClicked = marker;
+            }
+            else
+            {
+                MapViewModel.RightClickMenu.MarkerOptionsEnabled = false;
+            }
+
+            RightClickMenu.Instance.MeasureText = Ruler.Instance.IsMeasuring ? "Stop measuring" : "Measure";
+
             var pos = Mouse.GetPosition(MapGrid);
             lastRightClickPosition = new Point(pos.X, pos.Y);
         }
@@ -82,14 +129,17 @@ namespace Mapper.Controls
         private void MapGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var mousePos = e.GetPosition(MapGrid);
-            if (Ruler.Instance.IsMeasuring)
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                Ruler.Instance.IsMeasuring = false;
-            }
-            else if (Keyboard.IsKeyDown(Key.LeftCtrl))
-            {
-                Ruler.Instance.ViewStartPoint = Ruler.Instance.ViewEndPoint = mousePos.ToVec2();
-                Ruler.Instance.IsMeasuring = true;
+                if (Ruler.Instance.IsMeasuring)
+                {
+                    Ruler.Instance.IsMeasuring = false;
+                }
+                else
+                {
+                    Ruler.Instance.ViewStartPoint = Ruler.Instance.ViewEndPoint = mousePos.ToVec2();
+                    Ruler.Instance.IsMeasuring = true;
+                }
             }
             else
             {
@@ -135,6 +185,9 @@ namespace Mapper.Controls
             if (this.isPanning)
                 return;
 
+            if (ViewModel.MarkerIsSelected)
+                return;
+
             ShowMarkerTip(sender as FrameworkElement);
         }
 
@@ -150,6 +203,9 @@ namespace Mapper.Controls
 
         private void Image_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            if (ViewModel.MarkerIsSelected)
+                return;
+
             ShowMarkerTip(sender as FrameworkElement);
         }
         #endregion

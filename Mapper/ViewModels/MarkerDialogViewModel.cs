@@ -22,46 +22,45 @@ namespace Mapper.ViewModels
         /// <summary>
         /// Position of the new marker to be created. Should probably be set by the entity creating this ViewModel's view.
         /// </summary>
-        public Point Position { get; set; }
+        public Point Position {
+            get => this._marker.ViewPos.ToPoint();
+            set
+            {
+                this._marker.ViewPos = value.ToVec2();
+                OnPropertyChanged("Position");
+            }
+        }
 
-        private string type;
         /// <summary>
         /// The type of marker to be created.
         /// </summary>
         public string Type {
-            get => type;
+            get => this._marker.Type;
             set
             {
-                type = value;
+                this._marker.Type = value;
                 OnPropertyChanged("Type");
                 OnPropertyChanged("OkCommandEnabled");
             }
         }
 
-        private string name;
         /// <summary>
         /// The name of the marker to be created.
         /// </summary>
         public string Name {
-            get => name;
+            get => this._marker.Name;
             set
             {
-                name = value;
+                this._marker.Name = value;
                 OnPropertyChanged("Name");
                 OnPropertyChanged("OkCommandEnabled");
             }
         }
 
-        //private bool okCommandEnabled = false;
+        /// <summary>
+        /// Should the OK button be enabled?
+        /// </summary>
         public bool OkCommandEnabled => !string.IsNullOrEmpty(Type) && !string.IsNullOrEmpty(Name);
-        //{
-        //    get => okCommandEnabled;
-        //    set
-        //    {
-        //        okCommandEnabled = value;
-        //        OnPropertyChanged("OkCommandEnabled");
-        //    }
-        //}
 
         /// <summary>
         /// Function to be called when the OK button is clicked. Adds a new marker to the Map.
@@ -71,7 +70,8 @@ namespace Mapper.ViewModels
         {
             if (OkCommandEnabled)
             {
-                Map.Instance.Markers.Add(MapMarker.CreateFromViewPos(Position.ToVec2(), this.Name, this.Type));
+                if (!_isEditing)
+                    Map.Instance.Markers.Add(this._marker);
                 return true;
             }
             return false;
@@ -84,17 +84,37 @@ namespace Mapper.ViewModels
         public void MarkerClickedCommand(string type)
         {
             this.Type = type;
+            UpdateBorders();
+        }
 
+        /// <summary>
+        /// Update the borders of the markers. Should remove the borders from all markers except for
+        /// the one with type specified by the Type property.
+        /// </summary>
+        private void UpdateBorders()
+        {
             // Maybe not the most elegant, but performance doesn't seem to be a
             // problem unless there are very many markers.
             foreach (var marker in Markers)
             {
-                if (marker.Type == type)
+                if (marker.Type == this.Type)
                     marker.BorderBrush = new SolidColorBrush(Colors.Black);
                 else
                     marker.BorderBrush = new SolidColorBrush(Colors.Transparent);
             }
         }
+
+        public void StartEdit(MapMarker marker)
+        {
+            this._isEditing = true;
+            this._marker = marker;
+            UpdateBorders();
+            OnPropertyChanged("Name");
+        }
+
+        private bool _isEditing = false;
+        private MapMarker _marker = new MapMarker(new Vec2(), "", "");
+
 
         /// <summary>
         /// Helper class containing a marker type and its corresponding source

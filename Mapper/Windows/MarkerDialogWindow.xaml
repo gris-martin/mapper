@@ -53,7 +53,7 @@
                      Grid.Row="0"
                      Grid.Column="0"
                      LostKeyboardFocus="MarkerName_LostKeyboardFocus"
-                     Text="{Binding Name, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <UniformGrid>
                 <UniformGrid Margin="0, 5, 0, 0">
                     <Button Name="OKButton"
