@@ -2,9 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Text.Json;
-using System.Linq;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Mapper.Models
 {
@@ -159,11 +157,7 @@ namespace Mapper.Models
         /// <param name="filepath">Path of the file to be serialized to.</param>
         public void SaveToFile(string filepath)
         {
-            var serializerOptions = new JsonSerializerOptions
-            {
-                WriteIndented = true
-            };
-            var jsonString = JsonSerializer.Serialize(this, serializerOptions);
+            var jsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
             var folder = Directory.GetParent(filepath);
             Directory.CreateDirectory(folder.FullName);
             File.WriteAllText(filepath, jsonString);
@@ -176,7 +170,7 @@ namespace Mapper.Models
         public void LoadFromFile(string filepath)
         {
             var jsonString = File.ReadAllText(filepath);
-            var newMap = JsonSerializer.Deserialize<Map>(jsonString);
+            var newMap = JsonConvert.DeserializeObject<Map>(jsonString);
             this.Markers.Clear();
             foreach (var newMarker in newMap.Markers)
             {
