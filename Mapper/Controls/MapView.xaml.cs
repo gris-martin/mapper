@@ -28,6 +28,7 @@ namespace Mapper.Controls
         private void AddMarkerMenuItem_Click(object sender, RoutedEventArgs e)
         {
             MarkerDialogWindow dialog = new(lastRightClickPosition);
+            dialog.Owner = Application.Current.MainWindow;
             dialog.ShowDialog();
         }
 
@@ -76,6 +77,7 @@ namespace Mapper.Controls
         private void ChangeMarkerTypeMenuItem_Click(object sender, RoutedEventArgs e)
         {
             MarkerDialogWindow dialog = new(lastMarkerClicked.Model);
+            dialog.Owner = Application.Current.MainWindow;
             dialog.ShowDialog();
         }
         #endregion

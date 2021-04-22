@@ -7,7 +7,8 @@
         xmlns:viewmodels="clr-namespace:Mapper.ViewModels"
         mc:Ignorable="d"
         Title="MarkerDialogWindow" Height="300" Width="275"
-        FocusManager.FocusedElement="{Binding ElementName=MarkerName}">
+        FocusManager.FocusedElement="{Binding ElementName=MarkerName}"
+        WindowStartupLocation="CenterOwner">
     <Window.DataContext>
         <viewmodels:MarkerDialogViewModel/>
     </Window.DataContext>
