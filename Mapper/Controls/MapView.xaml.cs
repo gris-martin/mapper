@@ -61,6 +61,18 @@ namespace Mapper.Controls
             }
         }
 
+        private void RemoveMarkerMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show($"Are you sure you want to delete marker {lastMarkerClicked.Model.Name}?",
+                                         "New map",
+                                         MessageBoxButton.YesNo,
+                                         MessageBoxImage.Exclamation);
+            if (result == MessageBoxResult.Yes)
+            {
+                MapViewModel.Model.Markers.Remove(lastMarkerClicked.Model);
+            }
+        }
+
         private void ChangeMarkerTypeMenuItem_Click(object sender, RoutedEventArgs e)
         {
             MarkerDialogWindow dialog = new(lastMarkerClicked.Model);

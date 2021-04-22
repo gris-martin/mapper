@@ -83,6 +83,8 @@
                               Header="{Binding RightClickMenu.MoveMarkerText}"/>
                     <MenuItem Click="ChangeMarkerTypeMenuItem_Click"
                               Header="Edit marker..."/>
+                    <MenuItem Click="RemoveMarkerMenuItem_Click"
+                              Header="Remove marker"/>
                 </MenuItem>
             </ContextMenu>
         </Grid.ContextMenu>
