@@ -29,6 +29,7 @@
             <TextBlock Text="{Binding Ruler.Model.Angle, StringFormat='Arc angle: {0}'}"/>
             <TextBlock Text="{Binding Ruler.Direction, StringFormat='Ruler direction: {0}'}"/>
         </StackPanel>-->
+        <!--Markers-->
         <ItemsControl
                 Grid.Column="2"
                 ItemsSource="{Binding Path=Markers}"
@@ -56,7 +57,9 @@
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
+        <!--Ruler-->
         <uc:RulerView ClipToBounds="True" IsHitTestVisible="False"/>
+        <!--Popup for displaying world position-->
         <Popup Name="WorldPositionPopup"
                Placement="Relative"
                AllowsTransparency="True"
@@ -65,11 +68,33 @@
                VerticalOffset="{Binding WorldPositionPopupVerticalOffset}">
             <TextBlock FontWeight="Bold" Text="{Binding FormattedWorldPosition}"/>
         </Popup>
+        <!--Popup for displaying marker name-->
         <Popup Name="MarkerTip"
                Placement="Center"
                AllowsTransparency="True">
             <TextBlock Name="markerName" FontWeight="Bold">Look at me</TextBlock>
         </Popup>
+        <!--Scale display-->
+        <Grid>
+            <Grid.DataContext>
+                <viewmodels:ScaleViewModel/>
+            </Grid.DataContext>
+            <StackPanel VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right"
+                    Margin="20">
+                <TextBlock Text="{Binding ScaleText}"
+                       HorizontalAlignment="Left"
+                       Margin="10"/>
+                <Line X1="{Binding StartPosition.X}"
+                  Y1="{Binding StartPosition.Y}"
+                  X2="{Binding EndPosition.X}"
+                  Y2="{Binding EndPosition.Y}"
+                  Stroke="Black"
+                  StrokeThickness="4"
+                  HorizontalAlignment="Right"/>
+            </StackPanel>
+        </Grid>
+        <!--Right click menu-->
         <Grid.ContextMenu>
             <ContextMenu>
                 <MenuItem Click="AddMarkerMenuItem_Click"
