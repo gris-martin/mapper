@@ -90,7 +90,7 @@ namespace Mapper.ViewModels
             }
         }
 
-        private bool worldPositionPopupEnabled = true;
+        private bool worldPositionPopupEnabled = false;
         /// <summary>
         /// Set to true if the popup showing world position at the mouse should be enabled,
         /// and false if it should be hidden.
