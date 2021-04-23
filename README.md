@@ -17,26 +17,31 @@ Here are some of the features visualized:
 
 <details>
   <summary>Adding markers</summary>
+  
   ![Adding markers](doc/images/adding_markers.gif)
 </details>
 
 <details>
   <summary>Editing markers</summary>
+  
   ![Editing markers](doc/images/edit_marker.gif)
 </details>
 
 <details>
   <summary>Measuring</summary>
+  
   ![Measuring](doc/images/measuring.gif)
 </details>
 
 <details>
   <summary>Moving a marker</summary>
+  
   ![Moving a marker](doc/images/moving_marker.gif)
 </details>
 
 <details>
   <summary>Panning and zooming</summary>
+  
   ![Pan and zoom example](doc/images/pan_zoom.gif)
 </details>
 
