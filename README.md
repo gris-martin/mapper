@@ -15,20 +15,30 @@ Features include:
 
 Here are some of the features visualized:
 
-### Adding markers
-![Adding markers](doc/images/adding_markers.gif)
+<details>
+  <summary>Adding markers</summary>
+  ![Adding markers](doc/images/adding_markers.gif)
+</details>
 
-### Editing markers
-![Editing markers](doc/images/edit_marker.gif)
+<details>
+  <summary>Editing markers</summary>
+  ![Editing markers](doc/images/edit_marker.gif)
+</details>
 
-### Measuring
-![Measuring](doc/images/measuring.gif)
+<details>
+  <summary>Measuring</summary>
+  ![Measuring](doc/images/measuring.gif)
+</details>
 
-### Moving a marker
-![Moving a marker](doc/images/moving_marker.gif)
+<details>
+  <summary>Moving a marker</summary>
+  ![Moving a marker](doc/images/moving_marker.gif)
+</details>
 
-### Panning and zooming
-![Pan and zoom example](doc/images/pan_zoom.gif)
+<details>
+  <summary>Panning and zooming</summary>
+  ![Pan and zoom example](doc/images/pan_zoom.gif)
+</details>
 
 ## Contributing
 The project should not be difficult to build, just start up the Mapper.sln file with Visual Studio Community 2019.
