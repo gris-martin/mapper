@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Mapper.Controls"
              xmlns:viewmodels="clr-namespace:Mapper.ViewModels"
              xmlns:uc="clr-namespace:Mapper.Controls"
+             xmlns:converters="clr-namespace:Mapper.Converters"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
@@ -39,21 +40,46 @@
                     <Canvas/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
+            <ItemsControl.Resources>
+                <converters:CenterConverter x:Key="CenterConverter"/>
+            </ItemsControl.Resources>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding Source}"
-                           Width="{StaticResource MarkerSize}"
-                           Height="{StaticResource MarkerSize}"
-                           MouseEnter="Image_MouseEnter"
-                           MouseLeave="Image_MouseLeave"
-                           MouseLeftButtonDown="Image_MouseDown"
-                           MouseLeftButtonUp="Image_MouseUp"/>
+                    <StackPanel Name="Marker">
+                        <TextBlock Text="{Binding Model.Name}"
+                                   HorizontalAlignment="Center"
+                                   Visibility="{Binding MarkerNameEnabled}"
+                                   Margin="0, 0, 0, 3"
+                                   />
+                        <Image Source="{Binding Source}"
+                               Width="{StaticResource MarkerSize}"
+                               Height="{StaticResource MarkerSize}"
+                               MouseEnter="Image_MouseEnter"
+                               MouseLeave="Image_MouseLeave"
+                               MouseLeftButtonDown="Image_MouseDown"
+                               MouseLeftButtonUp="Image_MouseUp"/>
+                        <TextBlock Visibility="Hidden"/>
+                    </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>
                 <Style>
-                    <Setter Property="Canvas.Left" Value="{Binding Path=CornerPosition.X}"/>
-                    <Setter Property="Canvas.Top" Value="{Binding Path=CornerPosition.Y}"/>
+                    <Setter Property="Canvas.Left">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource CenterConverter}">
+                                <Binding Path="Model.ViewPos.X"/>
+                                <Binding RelativeSource="{RelativeSource Self}"  Path="ActualWidth"/>
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Canvas.Top">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource CenterConverter}">
+                                <Binding Path="Model.ViewPos.Y"/>
+                                <Binding RelativeSource="{RelativeSource Self}"  Path="ActualHeight"/>
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
@@ -67,12 +93,6 @@
                HorizontalOffset="{Binding WorldPositionPopupHorizontalOffset}"
                VerticalOffset="{Binding WorldPositionPopupVerticalOffset}">
             <TextBlock FontWeight="Bold" Text="{Binding FormattedWorldPosition}"/>
-        </Popup>
-        <!--Popup for displaying marker name-->
-        <Popup Name="MarkerTip"
-               Placement="Center"
-               AllowsTransparency="True">
-            <TextBlock Name="markerName" FontWeight="Bold">Look at me</TextBlock>
         </Popup>
         <!--Scale display-->
         <Grid>

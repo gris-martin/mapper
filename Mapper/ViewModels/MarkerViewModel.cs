@@ -33,19 +33,27 @@ namespace Mapper.ViewModels
         /// </summary>
         public MapMarker Model => model;
 
+        private Visibility markerNameEnabled = Visibility.Hidden;
         /// <summary>
-        /// Returns the view position of the upper left corner of this marker. Since
-        /// Models.MapMarker only stores the center position we have to do a conversion.
+        /// Should the name of the marker be visible on screen?
         /// </summary>
-        public Point CornerPosition
+        public Visibility MarkerNameEnabled
         {
-            get
-            {
-                var centerPos = this.model.ViewPos;
-                var markerSize = (double)Application.Current.FindResource("MarkerSize");
-                return (centerPos - markerSize / 2).ToPoint();
-            }
+            get => markerNameEnabled;
+            set => SetProperty(ref markerNameEnabled, value);
         }
+
+        /// <summary>
+        /// Show the marker name.
+        /// </summary>
+        public void ShowMarkerName()
+            => MarkerNameEnabled = Visibility.Visible;
+
+        /// <summary>
+        /// Hide the marker name
+        /// </summary>
+        public void HideMarkerName()
+            => MarkerNameEnabled = Visibility.Hidden;
 
         /// <summary>
         /// Get the source for the Image element. Models.MapMarker only stores strings, so

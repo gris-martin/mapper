@@ -14,10 +14,7 @@ namespace Mapper.Controls
     public partial class MapView : UserControl
     {
         private Point lastRightClickPosition = new();
-        private bool isPanning = false;
-        private Point lastPanPosition = new();
         private MapViewModel ViewModel => this.DataContext as MapViewModel;
-        private MarkerViewModel lastMarkerClicked;
 
         public MapView()
         {
@@ -57,26 +54,26 @@ namespace Mapper.Controls
             }
             else
             {
-                ViewModel.SelectMarker(lastMarkerClicked);
-                this.MarkerTip.IsOpen = false;
+                ViewModel.SelectMarker(ViewModel.LastMarkerClicked);
+                ViewModel.LastMarkerClicked.HideMarkerName();
             }
         }
 
         private void RemoveMarkerMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show($"Are you sure you want to delete marker {lastMarkerClicked.Model.Name}?",
+            var result = MessageBox.Show($"Are you sure you want to delete marker {ViewModel.LastMarkerClicked.Model.Name}?",
                                          "New map",
                                          MessageBoxButton.YesNo,
                                          MessageBoxImage.Exclamation);
             if (result == MessageBoxResult.Yes)
             {
-                MapViewModel.Model.Markers.Remove(lastMarkerClicked.Model);
+                MapViewModel.Model.Markers.Remove(ViewModel.LastMarkerClicked.Model);
             }
         }
 
         private void ChangeMarkerTypeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            MarkerDialogWindow dialog = new(lastMarkerClicked.Model);
+            MarkerDialogWindow dialog = new(ViewModel.LastMarkerClicked.Model);
             dialog.Owner = Application.Current.MainWindow;
             dialog.ShowDialog();
         }
@@ -88,12 +85,12 @@ namespace Mapper.Controls
         {
             Point currentPos = e.GetPosition(MapGrid);
             this.ViewModel.MousePosition = currentPos;
-            if (this.isPanning)
+            if (this.ViewModel.IsPanning)
             {
                 MapViewModel.Model.UpdateOriginFromMouseMovement(
-                    this.lastPanPosition.ToVec2(),
+                    ViewModel.LastMousePosition.ToVec2(),
                     currentPos.ToVec2());
-                this.lastPanPosition = currentPos;
+                ViewModel.LastMousePosition = currentPos;
             }
 
             if (Ruler.Instance.IsMeasuring)
@@ -117,7 +114,7 @@ namespace Mapper.Controls
         private void MapGrid_MouseEnter(object sender, MouseEventArgs e)
         {
             if (Mouse.LeftButton == MouseButtonState.Released)
-                this.isPanning = false;
+                ViewModel.IsPanning = false;
         }
 
         private void MapGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -127,7 +124,7 @@ namespace Mapper.Controls
             if (dataContext != null && dataContext is MarkerViewModel marker)
             {
                 MapViewModel.RightClickMenu.MarkerOptionsEnabled = true;
-                lastMarkerClicked = marker;
+                ViewModel.LastMarkerClicked = marker;
             }
             else
             {
@@ -157,14 +154,14 @@ namespace Mapper.Controls
             }
             else
             {
-                isPanning = true;
-                this.lastPanPosition = mousePos;
+                ViewModel.IsPanning = true;
+                ViewModel.LastMousePosition = mousePos;
             }
         }
 
         private void MapGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            isPanning = false;
+            ViewModel.IsPanning = false;
         }
 
         private void MapGrid_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -182,21 +179,19 @@ namespace Mapper.Controls
         #endregion
 
         #region Image callbacks
-
-        private void ShowMarkerTip(FrameworkElement target)
+        private static void ShowMarkerTip(FrameworkElement target)
         {
-            this.MarkerTip.PlacementTarget = target;
-            this.MarkerTip.IsOpen = true;
+            (target.DataContext as MarkerViewModel).ShowMarkerName();
+        }
 
-            this.MarkerTip.VerticalOffset = -25;
-
-            var markerData = target.DataContext as MarkerViewModel;
-            this.markerName.Text = markerData.Model.Name;
+        private static void HideMarkerTip(FrameworkElement target)
+        {
+            (target.DataContext as MarkerViewModel).HideMarkerName();
         }
 
         private void Image_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (this.isPanning)
+            if (ViewModel.IsPanning)
                 return;
 
             if (ViewModel.MarkerIsSelected)
@@ -207,12 +202,12 @@ namespace Mapper.Controls
 
         private void Image_MouseLeave(object sender, MouseEventArgs e)
         {
-            this.MarkerTip.IsOpen = false;
+            HideMarkerTip(sender as FrameworkElement);
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            this.MarkerTip.IsOpen = false;
+            HideMarkerTip(sender as FrameworkElement);
         }
 
         private void Image_MouseUp(object sender, MouseButtonEventArgs e)

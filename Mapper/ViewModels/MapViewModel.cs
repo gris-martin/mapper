@@ -19,7 +19,37 @@ namespace Mapper.ViewModels
         public static RulerViewModel Ruler => new();
         public static RightClickMenu RightClickMenu => RightClickMenu.Instance;
 
-        #region Move marker properties and methods
+        #region Map manipulation
+        private bool isPanning = false;
+        public bool IsPanning
+        {
+            get => isPanning;
+            set => SetProperty(ref isPanning, value);
+        }
+
+        private Point lastMousePosition;
+        public Point LastMousePosition
+        {
+            get => lastMousePosition;
+            set => SetProperty(ref lastMousePosition, value);
+        }
+
+        private Point lastRightClickPosition;
+        public Point LastRightClickPosition
+        {
+            get => lastRightClickPosition;
+            set => SetProperty(ref lastRightClickPosition, value);
+        }
+        #endregion
+
+        #region Marker manipulation
+        private MarkerViewModel lastMarkerClicked;
+        public MarkerViewModel LastMarkerClicked
+        {
+            get => lastMarkerClicked;
+            set => SetProperty(ref lastMarkerClicked, value);
+        }
+
         /// <summary>
         /// The last selected marker (or an arbitrary marker otherwise)
         /// </summary>
@@ -70,7 +100,6 @@ namespace Mapper.ViewModels
             SelectedMarker.Model.ViewPos = viewPos.ToVec2();
         }
         #endregion
-
 
         #region World position popup properties
         private Point mousePosition;
@@ -128,16 +157,20 @@ namespace Mapper.ViewModels
         public double WorldPositionPopupVerticalOffset => MousePosition.Y + 20;
         #endregion
 
-        #region Marker stuff
+        #region Marker collection
+        /// <summary>
+        /// Update state of Markers when underlying model is updated
+        /// </summary>
         private void Markers_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged("Markers");
         }
 
-#pragma warning disable CA1822 // Mark members as static
+        /// <summary>
+        /// Model.MapMarker collection -> MarkerViewModel collection
+        /// </summary>
         public ObservableCollection<MarkerViewModel> Markers =>
             new(Model.Markers.Select(marker => new MarkerViewModel(marker)));
-#pragma warning restore CA1822
         #endregion
     }
 }
