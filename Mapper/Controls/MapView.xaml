@@ -84,7 +84,18 @@
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
         <!--Ruler-->
-        <uc:RulerView ClipToBounds="True" IsHitTestVisible="False"/>
+        <ItemsControl ItemsSource="{Binding Rulers}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <uc:RulerView IsHitTestVisible="False"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
         <!--Popup for displaying world position-->
         <Popup Name="WorldPositionPopup"
                Placement="Relative"

@@ -5,10 +5,21 @@ namespace Mapper.Models
 {
     public class Ruler : PropertyChangedBase
     {
-        private static readonly Ruler instance = new Ruler();
-        public static Ruler Instance => instance;
+        public Ruler(Vec2 startPoint)
+        {
+            Map.Instance.PropertyChanged += Map_PropertyChanged;
+            ViewStartPoint = startPoint;
+            ViewEndPoint = startPoint;
+        }
 
-        private Ruler() { }
+        private void Map_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Origin" || e.PropertyName == "Scale")
+            {
+                OnPropertyChanged("ViewStartPoint");
+                OnPropertyChanged("ViewEndPoint");
+            }
+        }
 
         #region World space properties
         private Vec2 startPoint = new Vec2(0);
@@ -20,13 +31,15 @@ namespace Mapper.Models
             get => startPoint;
             set
             {
-                startPoint = value;
-                OnPropertyChanged("StartPoint");
-                OnPropertyChanged("Length");
-                OnPropertyChanged("ViewStartPoint");
-                OnPropertyChanged("IsLargeArc");
-                OnPropertyChanged("Angle");
-                OnPropertyChanged("Direction");
+                if (SetProperty(ref startPoint, value))
+                {
+                    OnPropertyChanged("StartPoint");
+                    OnPropertyChanged("Length");
+                    OnPropertyChanged("ViewStartPoint");
+                    OnPropertyChanged("IsLargeArc");
+                    OnPropertyChanged("Angle");
+                    OnPropertyChanged("Direction");
+                }
             }
         }
 
@@ -39,13 +52,15 @@ namespace Mapper.Models
             get => endPoint;
             set
             {
-                endPoint = value;
-                OnPropertyChanged("EndPoint");
-                OnPropertyChanged("Length");
-                OnPropertyChanged("ViewEndPoint");
-                OnPropertyChanged("IsLargeArc");
-                OnPropertyChanged("Angle");
-                OnPropertyChanged("Direction");
+                if (SetProperty(ref endPoint, value))
+                {
+                    OnPropertyChanged("EndPoint");
+                    OnPropertyChanged("Length");
+                    OnPropertyChanged("ViewEndPoint");
+                    OnPropertyChanged("IsLargeArc");
+                    OnPropertyChanged("Angle");
+                    OnPropertyChanged("Direction");
+                }
             }
         }
 
@@ -179,22 +194,6 @@ namespace Mapper.Models
         /// </summary>
         public Vec2 ArcStartPoint => ViewStartPoint + (ViewEndPoint - ViewStartPoint).Unit() * ArcRadius;
 
-        #endregion
-
-        #region Other properties
-        private bool isMeasuring = false;
-        /// <summary>
-        /// True if the ruler is measuring, false otherwise.
-        /// </summary>
-        public bool IsMeasuring
-        {
-            get => isMeasuring;
-            set
-            {
-                isMeasuring = value;
-                OnPropertyChanged("IsMeasuring");
-            }
-        }
         #endregion
     }
 }

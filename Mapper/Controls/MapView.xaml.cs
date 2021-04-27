@@ -32,16 +32,16 @@ namespace Mapper.Controls
 
         private void MeasureMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var ruler = Ruler.Instance;
-            if (ruler.IsMeasuring)
+            var rulers = Map.Instance.Rulers;
+            if (Map.Instance.Rulers.Count > 0)
             {
+                var ruler = rulers[0];
                 ruler.ViewEndPoint = lastRightClickPosition.ToVec2();
-                ruler.IsMeasuring = false;
+                Map.Instance.ClearRulers();
             }
             else
             {
-                ruler.ViewStartPoint = ruler.ViewEndPoint = lastRightClickPosition.ToVec2();
-                ruler.IsMeasuring = true;
+                Map.Instance.AddRuler(lastRightClickPosition.ToVec2());
             }
         }
 
@@ -93,9 +93,10 @@ namespace Mapper.Controls
                 ViewModel.LastMousePosition = currentPos;
             }
 
-            if (Ruler.Instance.IsMeasuring)
+            var rulers = Map.Instance.Rulers;
+            if (rulers.Count > 0)
             {
-                Ruler.Instance.ViewEndPoint = currentPos.ToVec2();
+                rulers[0].ViewEndPoint = currentPos.ToVec2();
             }
 
             if (ViewModel.MarkerIsSelected)
@@ -131,7 +132,7 @@ namespace Mapper.Controls
                 MapViewModel.RightClickMenu.MarkerOptionsEnabled = false;
             }
 
-            RightClickMenu.Instance.MeasureText = Ruler.Instance.IsMeasuring ? "Stop measuring" : "Measure";
+            RightClickMenu.Instance.MeasureText = Map.Instance.Rulers.Count > 0 ? "Stop measuring" : "Measure";
 
             var pos = Mouse.GetPosition(MapGrid);
             lastRightClickPosition = new Point(pos.X, pos.Y);
@@ -142,14 +143,13 @@ namespace Mapper.Controls
             var mousePos = e.GetPosition(MapGrid);
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                if (Ruler.Instance.IsMeasuring)
+                if (Map.Instance.Rulers.Count > 0)
                 {
-                    Ruler.Instance.IsMeasuring = false;
+                    Map.Instance.ClearRulers();
                 }
                 else
                 {
-                    Ruler.Instance.ViewStartPoint = Ruler.Instance.ViewEndPoint = mousePos.ToVec2();
-                    Ruler.Instance.IsMeasuring = true;
+                    Map.Instance.AddRuler(mousePos.ToVec2());
                 }
             }
             else

@@ -13,10 +13,10 @@ namespace Mapper.ViewModels
         public MapViewModel()
         {
             Model.Markers.CollectionChanged += Markers_CollectionChanged;
+            Model.Rulers.CollectionChanged += Rulers_CollectionChanged;
         }
 
         public static Map Model => Map.Instance;
-        public static RulerViewModel Ruler => new();
         public static RightClickMenu RightClickMenu => RightClickMenu.Instance;
 
         #region Map manipulation
@@ -157,7 +157,7 @@ namespace Mapper.ViewModels
         public double WorldPositionPopupVerticalOffset => MousePosition.Y + 20;
         #endregion
 
-        #region Marker collection
+        #region Collections and callbacks
         /// <summary>
         /// Update state of Markers when underlying model is updated
         /// </summary>
@@ -171,6 +171,20 @@ namespace Mapper.ViewModels
         /// </summary>
         public ObservableCollection<MarkerViewModel> Markers =>
             new(Model.Markers.Select(marker => new MarkerViewModel(marker)));
+
+        /// <summary>
+        /// Update the state of Rulers when underlying model is updated
+        /// </summary>
+        private void Rulers_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged("Rulers");
+        }
+
+        /// <summary>
+        /// Model.Ruler collection -> RulerViewModel collection
+        /// </summary>
+        public ObservableCollection<RulerViewModel> Rulers
+            => new ObservableCollection<RulerViewModel>(Model.Rulers.Select(ruler => new RulerViewModel(ruler)));
         #endregion
     }
 }

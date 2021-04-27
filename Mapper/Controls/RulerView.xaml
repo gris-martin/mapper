@@ -8,13 +8,14 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Canvas>
-        <Canvas.DataContext>
+        <!--<Canvas.DataContext>
             <viewmodels:RulerViewModel/>
-        </Canvas.DataContext>
+        </Canvas.DataContext>-->
         <Path Stroke="Teal"
               StrokeThickness="2"
               Name="ArcPath"
-              Visibility="{Binding Visibility}">
+              Visibility="Visible"
+              ClipToBounds="True">
             <Path.Data>
                 <PathGeometry>
                     <PathFigure StartPoint="{Binding ArcStartPoint}">
@@ -27,15 +28,16 @@
             </Path.Data>
         </Path>
         <Line Name="Ruler"
-              Visibility="{Binding Visibility}"
+              Visibility="Visible"
               X1="{Binding Model.ViewStartPoint.X}"
               Y1="{Binding Model.ViewStartPoint.Y}"
               X2="{Binding Model.ViewEndPoint.X}"
               Y2="{Binding Model.ViewEndPoint.Y}"
               StrokeThickness="4"
-              Stroke="Teal"/>
+              Stroke="Teal"
+              ClipToBounds="True"/>
         <Popup Name="Angle"
-               IsOpen="{Binding Model.IsMeasuring}"
+               IsOpen="True"
                Placement="Relative"
                AllowsTransparency="True"
                HorizontalOffset="{Binding AnglePopupHorizontalOffset}"
@@ -45,7 +47,7 @@
                        TextAlignment="Center"/>
         </Popup>
         <Popup Name="Length"
-               IsOpen="{Binding Model.IsMeasuring}"
+               IsOpen="True"
                Placement="Relative"
                AllowsTransparency="True"
                HorizontalOffset="{Binding Model.ViewMiddlePoint.X}"

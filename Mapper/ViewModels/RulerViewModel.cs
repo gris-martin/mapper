@@ -8,16 +8,15 @@ namespace Mapper.ViewModels
 {
     public class RulerViewModel : ViewModelBase
     {
-        public RulerViewModel()
+        public RulerViewModel(Ruler model)
         {
+            this.model = model;
             Model.PropertyChanged += Model_PropertyChanged;
         }
 
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsMeasuring")
-                OnPropertyChanged("Visibility");
-            else if (e.PropertyName == "ArcStartPoint")
+            if (e.PropertyName == "ArcStartPoint")
                 OnPropertyChanged("ArcStartPoint");
             else if (e.PropertyName == "ArcEndPoint")
                 OnPropertyChanged("ArcEndPoint");
@@ -37,7 +36,6 @@ namespace Mapper.ViewModels
         }
 
 #pragma warning disable CA1822 // Mark members as static
-        public Visibility Visibility => Model.IsMeasuring ? Visibility.Visible : Visibility.Hidden;
         public Point ArcStartPoint => Model.ArcStartPoint.ToPoint();
         public Point ArcEndPoint => Model.ArcEndPoint.ToPoint();
         public Size ArcRadius => new(Model.ArcRadius, Model.ArcRadius);
@@ -49,7 +47,7 @@ namespace Mapper.ViewModels
             get
             {
                 var angle = Math.Round(Model.Angle);
-                return $"{angle}\n{GetDirectionString()}";
+                return $"{angle}\n{GetDirectionString()}°";
             }
         }
         public string LengthText
@@ -100,17 +98,10 @@ namespace Mapper.ViewModels
             return "N";
         }
 
-
-        /*
-         *                     <PathFigure StartPoint="{Binding Model.ArcStartPoint, Converter={StaticResource Vec2ToPointConverter}}">
-                        <ArcSegment Size="{Binding Model.ArcRadius, Converter={StaticResource RadiusToSizeConverter}}"
-                                    Point="{Binding Model.ArcEndPoint, Converter={StaticResource Vec2ToPointConverter}}"
-
-         */
-
+        private Ruler model;
         /// <summary>
         /// Underlying Ruler model
         /// </summary>
-        public static Ruler Model => Ruler.Instance;
+        public Ruler Model => model;
     }
 }

@@ -26,8 +26,6 @@ namespace Mapper.Models
                     marker.OnPropertyChanged("ViewPos");
                 OnPropertyChanged("Origin");
                 OnPropertyChanged("North");
-                Ruler.Instance.OnPropertyChanged("ViewStartPoint");
-                Ruler.Instance.OnPropertyChanged("ViewEndPoint");
             }
         }
 
@@ -45,8 +43,6 @@ namespace Mapper.Models
                 scale = value;
                 OnPropertyChanged("Scale");
                 OnPropertyChanged("North");
-                Ruler.Instance.OnPropertyChanged("ViewStartPoint");
-                Ruler.Instance.OnPropertyChanged("ViewEndPoint");
             }
         }
 
@@ -64,6 +60,10 @@ namespace Mapper.Models
                 OnPropertyChanged("North");
             }
         }
+
+        private ObservableCollection<Ruler> rulers = new ObservableCollection<Ruler>();
+        public ObservableCollection<Ruler> Rulers => rulers;
+
         #endregion
 
         #region Public methods
@@ -145,6 +145,19 @@ namespace Mapper.Models
             viewPoint.Y = -viewPoint.Y;
             return viewPoint;
         }
+
+        /// <summary>
+        /// Add a new ruler at the specified position in view space.
+        /// </summary>
+        /// <param name="viewStartPoint">The start position of the ruler in view space.</param>
+        public void AddRuler(Vec2 viewStartPoint)
+            => this.Rulers.Add(new Ruler(viewStartPoint));
+
+        /// <summary>
+        /// Clear all rulers from map
+        /// </summary>
+        public void ClearRulers()
+            => this.Rulers.Clear();
 
         /// <summary>
         /// Serialize this Map object into a file.
