@@ -12,11 +12,11 @@ namespace Mapper.Models
         public static Map Instance => instance;
 
         #region Public properties
-        private Vec2 origin = new Vec2(0, 0);
+        private Vec3 origin = new Vec3(0, 0, 0);
         /// <summary>
         /// Current world coordinate of upper left corner
         /// </summary>
-        public Vec2 Origin
+        public Vec3 Origin
         {
             get => origin;
             set
@@ -68,24 +68,24 @@ namespace Mapper.Models
 
         #region Public methods
         /// <summary>
-        /// Reset the Origin and Scale. I.e. Scale == 1 and Origin == (0, 0).
+        /// Reset the Origin and Scale. I.e. Scale == 1 and Origin == (0, 0, 0).
         /// </summary>
         public void Reset()
         {
             Scale = 1;
-            Origin = new Vec2(0, 0);
+            Origin = new Vec3(0, 0, 0);
         }
 
         /// <summary>
         /// Update the Origin from a mouse movement.
         /// </summary>
-        /// <param name="lastPosition">The previous position of the mouse.</param>
-        /// <param name="currentPosition">The current position of the mouse.</param>
+        /// <param name="lastPosition">The previous position of the mouse in view space.</param>
+        /// <param name="currentPosition">The current position of the mouse in view space.</param>
         public void UpdateOriginFromMouseMovement(Vec2 lastPosition, Vec2 currentPosition)
         {
             Vec2 scaledDelta = (lastPosition - currentPosition) * Scale;
             scaledDelta.Y = -scaledDelta.Y;
-            Origin += scaledDelta;
+            Origin += new Vec3(scaledDelta, 0);
         }
 
         /// <summary>
@@ -127,11 +127,11 @@ namespace Mapper.Models
         /// </summary>
         /// <param name="viewPoint">A point in view space</param>
         /// <returns>The same point in world space</returns>
-        public Vec2 ToWorldSpace(Vec2 viewPoint)
+        public Vec3 ToWorldSpace(Vec2 viewPoint, double height = 0)
         {
             var scaledViewPoint = viewPoint * Scale;
             scaledViewPoint.Y = -scaledViewPoint.Y;
-            return Origin + scaledViewPoint;
+            return Origin + new Vec3(scaledViewPoint, 0);
         }
 
         /// <summary>
@@ -139,19 +139,20 @@ namespace Mapper.Models
         /// </summary>
         /// <param name="worldPoint">A point in world space</param>
         /// <returns>The same point in view space</returns>
-        public Vec2 ToViewSpace(Vec2 worldPoint)
+        public Vec2 ToViewSpace(Vec3 worldPoint)
         {
             var viewPoint = (worldPoint - Origin) / Scale;
             viewPoint.Y = -viewPoint.Y;
-            return viewPoint;
+            return new Vec2(viewPoint.X, viewPoint.Y);
         }
 
         /// <summary>
         /// Add a new ruler at the specified position in view space.
         /// </summary>
         /// <param name="viewStartPoint">The start position of the ruler in view space.</param>
-        public void AddRuler(Vec2 viewStartPoint)
-            => this.Rulers.Add(new Ruler(viewStartPoint));
+        /// <param name="height">The start height of the ruler.</param>
+        public void AddRuler(Vec2 viewStartPoint, double height)
+            => this.Rulers.Add(new Ruler(viewStartPoint, height));
 
         /// <summary>
         /// Clear all rulers from map

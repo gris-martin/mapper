@@ -5,11 +5,11 @@ namespace Mapper.Models
 {
     public class Ruler : PropertyChangedBase
     {
-        public Ruler(Vec2 startPoint)
+        public Ruler(Vec2 startPoint, double height)
         {
             Map.Instance.PropertyChanged += Map_PropertyChanged;
-            ViewStartPoint = startPoint;
-            ViewEndPoint = startPoint;
+            SetViewStartPoint(startPoint, height);
+            SetViewEndPoint(startPoint, height);
         }
 
         private void Map_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -22,11 +22,11 @@ namespace Mapper.Models
         }
 
         #region World space properties
-        private Vec2 startPoint = new Vec2(0);
+        private Vec3 startPoint = new Vec3(0, 0, 0);
         /// <summary>
         /// The starting point of the ruler in world space.
         /// </summary>
-        public Vec2 StartPoint
+        public Vec3 StartPoint
         {
             get => startPoint;
             set
@@ -35,30 +35,41 @@ namespace Mapper.Models
                 {
                     OnPropertyChanged("Length");
                     OnPropertyChanged("ViewStartPoint");
+                    OnPropertyChanged("ViewLength");
+                    OnPropertyChanged("ViewMiddlePoint");
+
                     OnPropertyChanged("IsLargeArc");
                     OnPropertyChanged("Angle");
                     OnPropertyChanged("Direction");
+                    OnPropertyChanged("ArcRadius");
+                    OnPropertyChanged("ArcStartPoint");
+                    OnPropertyChanged("ArcEndPoint");
                 }
             }
         }
 
-        private Vec2 endPoint = new Vec2(0);
+        private Vec3 endPoint = new Vec3(0, 0, 0);
         /// <summary>
         /// The end point of the ruler in world space.
         /// </summary>
-        public Vec2 EndPoint
+        public Vec3 EndPoint
         {
             get => endPoint;
             set
             {
                 if (SetProperty(ref endPoint, value))
                 {
-                    OnPropertyChanged("EndPoint");
                     OnPropertyChanged("Length");
                     OnPropertyChanged("ViewEndPoint");
+                    OnPropertyChanged("ViewLength");
+                    OnPropertyChanged("ViewMiddlePoint");
+
                     OnPropertyChanged("IsLargeArc");
                     OnPropertyChanged("Angle");
                     OnPropertyChanged("Direction");
+                    OnPropertyChanged("ArcRadius");
+                    OnPropertyChanged("ArcStartPoint");
+                    OnPropertyChanged("ArcEndPoint");
                 }
             }
         }
@@ -92,45 +103,19 @@ namespace Mapper.Models
         /// <summary>
         /// The direction the ruler is pointing towards, as a unit vector in world space.
         /// </summary>
-        public Vec2 Direction => (EndPoint - StartPoint).Unit();
+        public Vec3 Direction => (EndPoint - StartPoint).Unit();
         #endregion
 
         #region View space properties
         /// <summary>
         /// The start point of the ruler in view space.
         /// </summary>
-        public Vec2 ViewStartPoint
-        {
-            get => Map.Instance.ToViewSpace(StartPoint);
-            set
-            {
-                StartPoint = Map.Instance.ToWorldSpace(value);
-                OnPropertyChanged("ViewStartPoint");
-                OnPropertyChanged("ViewLength");
-                OnPropertyChanged("ViewMiddlePoint");
-                OnPropertyChanged("ArcRadius");
-                OnPropertyChanged("ArcStartPoint");
-                OnPropertyChanged("ArcEndPoint");
-            }
-        }
+        public Vec2 ViewStartPoint => Map.Instance.ToViewSpace(StartPoint);
 
         /// <summary>
         /// The end point of the ruler in view space
         /// </summary>
-        public Vec2 ViewEndPoint
-        {
-            get => Map.Instance.ToViewSpace(EndPoint);
-            set
-            {
-                EndPoint = Map.Instance.ToWorldSpace(value);
-                OnPropertyChanged("ViewEndPoint");
-                OnPropertyChanged("ViewLength");
-                OnPropertyChanged("ViewMiddlePoint");
-                OnPropertyChanged("ArcRadius");
-                OnPropertyChanged("ArcStartPoint");
-                OnPropertyChanged("ArcEndPoint");
-            }
-        }
+        public Vec2 ViewEndPoint => Map.Instance.ToViewSpace(EndPoint);
 
         /// <summary>
         /// The length of the ruler in view space.
@@ -149,6 +134,25 @@ namespace Mapper.Models
             }
         }
 
+        /// <summary>
+        /// Set the start point from a view point and a height.
+        /// </summary>
+        /// <param name="pos">The position in view space.</param>
+        /// <param name="height">The height above see level.</param>
+        public void SetViewStartPoint(Vec2 pos, double height)
+        {
+            StartPoint = Map.Instance.ToWorldSpace(pos, height);
+        }
+
+        /// <summary>
+        /// Set the end point from a view point and a height.
+        /// </summary>
+        /// <param name="pos">The position in view space.</param>
+        /// <param name="height">The height above see level.</param>
+        public void SetViewEndPoint(Vec2 pos, double height)
+        {
+            EndPoint = Map.Instance.ToWorldSpace(pos, height);
+        }
         #endregion
 
         #region Arc-related properties

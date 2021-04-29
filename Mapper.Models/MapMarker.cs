@@ -10,7 +10,7 @@ namespace Mapper.Models
         /// <param name="worldPos">Position of the marker in world space.</param>
         /// <param name="name">Name of the marker.</param>
         /// <param name="type">Type of the marker (i.e. the type of icon it should show).</param>
-        public MapMarker(Vec2 worldPos, string name, string type)
+        public MapMarker(Vec3 worldPos, string name, string type)
         {
             //this.worldPos = Map.Instance.ToWorldSpace(worldPos);
             this.worldPos = worldPos;
@@ -43,17 +43,16 @@ namespace Mapper.Models
             }
         }
 
-        private Vec2 worldPos;
+        private Vec3 worldPos;
         /// <summary>
         /// Position of the marker in world space.
         /// </summary>
-        public Vec2 WorldPos
+        public Vec3 WorldPos
         {
             get => worldPos;
             set
             {
-                worldPos = value;
-                OnPropertyChanged("WorldPos");
+                SetProperty(ref worldPos, value);
                 OnPropertyChanged("ViewPos");
             }
         }
@@ -67,6 +66,12 @@ namespace Mapper.Models
             get => name;
             set => SetProperty(ref name, value);
         }
+
+        private double depth;
+        public double Depth
+        {
+            get => depth;
+            set => SetProperty(ref depth, value);
         }
 
         /// <summary>

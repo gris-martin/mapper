@@ -113,7 +113,7 @@ namespace Mapper.ViewModels
         }
 
         private bool _isEditing = false;
-        private MapMarker _marker = new MapMarker(new Vec2(), "", "");
+        private MapMarker _marker = new MapMarker(new Vec3(), "", "");
 
 
         /// <summary>

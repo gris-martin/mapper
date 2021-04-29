@@ -36,12 +36,12 @@ namespace Mapper.Controls
             if (Map.Instance.Rulers.Count > 0)
             {
                 var ruler = rulers[0];
-                ruler.ViewEndPoint = lastRightClickPosition.ToVec2();
+                ruler.SetViewEndPoint(lastRightClickPosition.ToVec2(), 0);
                 Map.Instance.ClearRulers();
             }
             else
             {
-                Map.Instance.AddRuler(lastRightClickPosition.ToVec2());
+                Map.Instance.AddRuler(lastRightClickPosition.ToVec2(), 0);
             }
         }
 
@@ -96,7 +96,7 @@ namespace Mapper.Controls
             var rulers = Map.Instance.Rulers;
             if (rulers.Count > 0)
             {
-                rulers[0].ViewEndPoint = currentPos.ToVec2();
+                rulers[0].SetViewEndPoint(currentPos.ToVec2(), 0);
             }
 
             if (ViewModel.MarkerIsSelected)
@@ -149,7 +149,7 @@ namespace Mapper.Controls
                 }
                 else
                 {
-                    Map.Instance.AddRuler(mousePos.ToVec2());
+                    Map.Instance.AddRuler(mousePos.ToVec2(), 0);
                 }
             }
             else
