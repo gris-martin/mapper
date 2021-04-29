@@ -20,8 +20,11 @@ namespace Mapper.Models
             get => markerOptionsEnabled;
             set
             {
-                markerOptionsEnabled = value;
-                OnPropertyChanged("MarkerOptionsEnabled");
+                if (SetProperty(ref markerOptionsEnabled, value))
+                {
+                    OnPropertyChanged("AllowMeasureFromMarker");
+                    OnPropertyChanged("AllowSetDepthFromMarker");
+                }
             }
         }
 
@@ -32,11 +35,7 @@ namespace Mapper.Models
         public string MoveMarkerText
         {
             get => moveMarkerText;
-            set
-            {
-                moveMarkerText = value;
-                OnPropertyChanged("MoveMarkerText");
-            }
+            set => SetProperty(ref moveMarkerText, value);
         }
 
         private bool addMarkerEnabled = true;
@@ -46,25 +45,37 @@ namespace Mapper.Models
         public bool AddMarkerEnabled
         {
             get => addMarkerEnabled;
+            set => SetProperty(ref addMarkerEnabled, value);
+        }
+
+        private bool isMeasuring = false;
+        public bool IsMeasuring
+        {
+            get => isMeasuring;
             set
             {
-                addMarkerEnabled = value;
-                OnPropertyChanged("AddMarkerEnabled");
+                if (SetProperty(ref isMeasuring, value))
+                {
+                    OnPropertyChanged("IsNotMeasuring");
+                    OnPropertyChanged("AllowMeasureFromMarker");
+                    OnPropertyChanged("AllowSetDepthFromMarker");
+                }
             }
         }
 
-        private string measureText = "Measure";
         /// <summary>
-        /// Text for the Measure menu item. Should be either "Measure" or "Stop measuring"
+        /// Inverse of <see cref="IsMeasuring"/>.
         /// </summary>
-        public string MeasureText
-        {
-            get => measureText;
-            set
-            {
-                measureText = value;
-                OnPropertyChanged("MeasureText");
-            }
-        }
+        public bool IsNotMeasuring => !IsMeasuring;
+
+        /// <summary>
+        /// True if the "Start measuring from marker" option should be available.
+        /// </summary>
+        public bool AllowMeasureFromMarker => IsNotMeasuring && MarkerOptionsEnabled;
+
+        /// <summary>
+        /// True if the "Set depth from marker" option should be available.
+        /// </summary>
+        public bool AllowSetDepthFromMarker => IsMeasuring && MarkerOptionsEnabled;
     }
 }

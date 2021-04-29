@@ -58,9 +58,48 @@ namespace Mapper.ViewModels
         }
 
         /// <summary>
+        /// The depth of the marker, represented as a string
+        /// </summary>
+        public string Depth
+        {
+            get
+            {
+                var d = (-this._marker.WorldPos.Z).ToString();
+                if (d == "-0") d = "0";
+                return d;
+            }
+            set
+            {
+                var v = value.Replace(".", ",");
+                var success = double.TryParse(v, out double d);
+                if (success)
+                {
+                    this._marker.WorldPos = new Vec3(this._marker.WorldPos.X, this._marker.WorldPos.Y, -d);
+                    OnPropertyChanged("Depth");
+                    OnPropertyChanged("OkCommandEnabled");
+                }
+            }
+        }
+
+        public string Tags
+        {
+            get => string.Join(',', this._marker.Tags);
+            set
+            {
+                var tags = value.Split(",");
+                this._marker.Tags.Clear();
+                foreach (var tag in tags)
+                    this._marker.Tags.Add(tag);
+            }
+        }
+
+        /// <summary>
         /// Should the OK button be enabled?
         /// </summary>
-        public bool OkCommandEnabled => !string.IsNullOrEmpty(Type) && !string.IsNullOrEmpty(Name);
+        public bool OkCommandEnabled =>
+            !string.IsNullOrEmpty(Type) &&
+            !string.IsNullOrEmpty(Name) &&
+            !string.IsNullOrEmpty(Depth);
 
         /// <summary>
         /// Function to be called when the OK button is clicked. Adds a new marker to the Map.

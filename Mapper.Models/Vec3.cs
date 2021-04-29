@@ -109,6 +109,11 @@ namespace Mapper.Models
             => new Vec3(left.X / right, left.Y / right, left.Z / right);
 
         /// <summary>
+        /// The inverse of Z. Useful when using the Vec3 to represent an underwater position.
+        /// </summary>
+        public double Depth => -this.Z;
+
+        /// <summary>
         /// Get the length of the vector.
         /// </summary>
         /// <returns>The length of the vector.</returns>

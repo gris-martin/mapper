@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 namespace Mapper.Models
 {
@@ -67,12 +68,8 @@ namespace Mapper.Models
             set => SetProperty(ref name, value);
         }
 
-        private double depth;
-        public double Depth
-        {
-            get => depth;
-            set => SetProperty(ref depth, value);
-        }
+        private ObservableCollection<string> tags = new ObservableCollection<string>();
+        public ObservableCollection<string> Tags => tags;
 
         /// <summary>
         /// Screen position. Should be updated manually each time <see cref="WorldPos"/> is updated.

@@ -55,7 +55,8 @@ namespace Mapper.Windows
 
         private void MarkerName_LostKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            MarkerName.Focus();
+            if (!(e.NewFocus is TextBox))
+                e.OldFocus.Focus();
         }
     }
 }

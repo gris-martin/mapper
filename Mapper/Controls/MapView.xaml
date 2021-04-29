@@ -49,6 +49,7 @@
                         <TextBlock Text="{Binding Model.Name}"
                                    HorizontalAlignment="Center"
                                    Visibility="{Binding MarkerNameEnabled}"
+                                   FontWeight="Bold"
                                    Margin="0, 0, 0, 3"
                                    />
                         <Image Source="{Binding Source}"
@@ -58,7 +59,13 @@
                                MouseLeave="Image_MouseLeave"
                                MouseLeftButtonDown="Image_MouseDown"
                                MouseLeftButtonUp="Image_MouseUp"/>
-                        <TextBlock Visibility="Hidden"/>
+                        <TextBlock Text="{Binding Model.WorldPos.Z}"
+                                   HorizontalAlignment="Center"
+                                   Visibility="{Binding MarkerNameEnabled}"
+                                   FontWeight="Bold"
+                                   Margin="0, 3, 0, 0"
+                                   />
+                        <!--<TextBlock Visibility="Hidden"/>-->
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -131,8 +138,23 @@
                 <MenuItem Click="AddMarkerMenuItem_Click"
                           Header="Add Marker..."
                           IsEnabled="{Binding RightClickMenu.AddMarkerEnabled}"/>
-                <MenuItem Click="MeasureMenuItem_Click"
-                          Header="{Binding RightClickMenu.MeasureText}"/>
+                <MenuItem Header="Measure">
+                    <MenuItem Click="StartMeasuringFromSurfaceMenuItem_Click"
+                              Header="Start measuring from surface"
+                              IsEnabled="{Binding RightClickMenu.IsNotMeasuring}"/>
+                    <MenuItem Click="StartMeasuringFromMarkerMenuItem_Click"
+                              Header="Start measuring from marker"
+                              IsEnabled="{Binding RightClickMenu.AllowMeasureFromMarker}"/>
+                    <MenuItem Click="StopMeasuringMenuItem_Click"
+                              Header="Stop measuring"
+                              IsEnabled="{Binding RightClickMenu.IsMeasuring}"/>
+                    <MenuItem Click="SetDepthToMarker_Click"
+                              Header="Set depth to marker depth"
+                              IsEnabled="{Binding RightClickMenu.AllowSetDepthFromMarker}"/>
+                    <MenuItem Click="SetDepthToSurface_Click"
+                              Header="Set depth to surface (0)"
+                              IsEnabled="{Binding RightClickMenu.IsMeasuring}"/>
+                    </MenuItem>
                 <MenuItem Header="Marker"
                           IsEnabled="{Binding RightClickMenu.MarkerOptionsEnabled}">
                     <MenuItem Click="MoveMarkerMenuItem_Click"

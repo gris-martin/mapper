@@ -38,6 +38,10 @@
                 <TextBlock Text="{Binding Model.Scale,
                                   StringFormat='Scale: {0} meters per pixel'}"></TextBlock>
             </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock Text="{Binding FormattedWorldPosition}"/>
+            </StatusBarItem>
         </StatusBar>
         <uc:MapView/>
     </DockPanel>

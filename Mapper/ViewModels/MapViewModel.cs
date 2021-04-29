@@ -111,11 +111,6 @@ namespace Mapper.ViewModels
             get => mousePosition;
             set
             {
-                mousePosition = value;
-                OnPropertyChanged("MousePosition");
-                OnPropertyChanged("FormattedWorldPosition");
-                OnPropertyChanged("WorldPositionPopupHorizontalOffset");
-                OnPropertyChanged("WorldPositionPopupVerticalOffset");
                 if (SetProperty(ref mousePosition, value))
                 {
                     OnPropertyChanged("FormattedWorldPosition");
@@ -143,20 +138,23 @@ namespace Mapper.ViewModels
         {
             get
             {
-                var worldPos = Map.Instance.ToWorldSpace(MousePosition.ToVec2());
-                return $"{Math.Round(worldPos.X)}, {Math.Round(worldPos.Y)}";
+                var worldPos = Map.Instance.ToWorldSpace(MousePosition.ToVec2(), 0);
+                var depth = worldPos.Depth.ToString();
+                if (depth == "-0") depth = "0";
+                var output = $"x: {Math.Round(worldPos.X)}, y: {Math.Round(worldPos.Y)}, depth: {depth}";
+                return $"x: {Math.Round(worldPos.X)}, y: {Math.Round(worldPos.Y)}, depth: {worldPos.Depth}";
             }
         }
 
         /// <summary>
         /// Horizontal offset of the world position popup (relative to mouse)
         /// </summary>
-        public double WorldPositionPopupHorizontalOffset => MousePosition.X;
+        public double WorldPositionPopupHorizontalOffset => MousePosition.X + 20;
 
         /// <summary>
         /// Vertical offset of the world position popup (relative to mouse)
         /// </summary>
-        public double WorldPositionPopupVerticalOffset => MousePosition.Y + 20;
+        public double WorldPositionPopupVerticalOffset => MousePosition.Y + 0;
         #endregion
 
         #region Collections and callbacks

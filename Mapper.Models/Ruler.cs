@@ -5,19 +5,34 @@ namespace Mapper.Models
 {
     public class Ruler : PropertyChangedBase
     {
+        /// <summary>
+        /// Construct a ruler from a point in view space and a height.
+        /// </summary>
+        /// <param name="startPoint">Point in view space.</param>
+        /// <param name="height">Height above water level.</param>
         public Ruler(Vec2 startPoint, double height)
         {
             Map.Instance.PropertyChanged += Map_PropertyChanged;
             SetViewStartPoint(startPoint, height);
-            SetViewEndPoint(startPoint, height);
+            SetViewEndPoint(startPoint);
+        }
+
+        /// <summary>
+        /// Construct a ruler from a point in world space.
+        /// </summary>
+        /// <param name="startPoint">Point in world space.</param>
+        public Ruler(Vec3 startPoint)
+        {
+            Map.Instance.PropertyChanged += Map_PropertyChanged;
+            StartPoint = startPoint;
+            EndPoint = startPoint;
         }
 
         private void Map_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Origin" || e.PropertyName == "Scale")
             {
-                OnPropertyChanged("ViewStartPoint");
-                OnPropertyChanged("ViewEndPoint");
+                UpdateAll();
             }
         }
 
@@ -33,17 +48,7 @@ namespace Mapper.Models
             {
                 if (SetProperty(ref startPoint, value))
                 {
-                    OnPropertyChanged("Length");
-                    OnPropertyChanged("ViewStartPoint");
-                    OnPropertyChanged("ViewLength");
-                    OnPropertyChanged("ViewMiddlePoint");
-
-                    OnPropertyChanged("IsLargeArc");
-                    OnPropertyChanged("Angle");
-                    OnPropertyChanged("Direction");
-                    OnPropertyChanged("ArcRadius");
-                    OnPropertyChanged("ArcStartPoint");
-                    OnPropertyChanged("ArcEndPoint");
+                    UpdateAll();
                 }
             }
         }
@@ -59,17 +64,7 @@ namespace Mapper.Models
             {
                 if (SetProperty(ref endPoint, value))
                 {
-                    OnPropertyChanged("Length");
-                    OnPropertyChanged("ViewEndPoint");
-                    OnPropertyChanged("ViewLength");
-                    OnPropertyChanged("ViewMiddlePoint");
-
-                    OnPropertyChanged("IsLargeArc");
-                    OnPropertyChanged("Angle");
-                    OnPropertyChanged("Direction");
-                    OnPropertyChanged("ArcRadius");
-                    OnPropertyChanged("ArcStartPoint");
-                    OnPropertyChanged("ArcEndPoint");
+                    UpdateAll();
                 }
             }
         }
@@ -149,9 +144,18 @@ namespace Mapper.Models
         /// </summary>
         /// <param name="pos">The position in view space.</param>
         /// <param name="height">The height above see level.</param>
-        public void SetViewEndPoint(Vec2 pos, double height)
+        public void SetViewEndPoint(Vec2 pos)
         {
-            EndPoint = Map.Instance.ToWorldSpace(pos, height);
+            EndPoint = Map.Instance.ToWorldSpace(pos, EndPoint.Z);
+        }
+
+        /// <summary>
+        /// Set the depth (i.e. the inverse height) of the ruler end point.
+        /// </summary>
+        /// <param name="depth"></param>
+        public void SetEndPointDepth(double depth)
+        {
+            EndPoint = new Vec3(EndPoint.X, EndPoint.Y, -depth);
         }
         #endregion
 
@@ -194,6 +198,24 @@ namespace Mapper.Models
         /// </summary>
         public Vec2 ArcStartPoint => ViewStartPoint + (ViewEndPoint - ViewStartPoint).Unit() * ArcRadius;
 
+        #endregion
+
+        #region Private methods
+        private void UpdateAll()
+        {
+            OnPropertyChanged("Length");
+            OnPropertyChanged("ViewStartPoint");
+            OnPropertyChanged("ViewEndPoint");
+            OnPropertyChanged("ViewLength");
+            OnPropertyChanged("ViewMiddlePoint");
+
+            OnPropertyChanged("IsLargeArc");
+            OnPropertyChanged("Angle");
+            OnPropertyChanged("Direction");
+            OnPropertyChanged("ArcRadius");
+            OnPropertyChanged("ArcStartPoint");
+            OnPropertyChanged("ArcEndPoint");
+        }
         #endregion
     }
 }

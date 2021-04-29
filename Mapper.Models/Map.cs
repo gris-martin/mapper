@@ -131,7 +131,7 @@ namespace Mapper.Models
         {
             var scaledViewPoint = viewPoint * Scale;
             scaledViewPoint.Y = -scaledViewPoint.Y;
-            return Origin + new Vec3(scaledViewPoint, 0);
+            return Origin + new Vec3(scaledViewPoint, height);
         }
 
         /// <summary>
@@ -153,6 +153,13 @@ namespace Mapper.Models
         /// <param name="height">The start height of the ruler.</param>
         public void AddRuler(Vec2 viewStartPoint, double height)
             => this.Rulers.Add(new Ruler(viewStartPoint, height));
+
+        /// <summary>
+        /// Add a new ruler at a position in world space.
+        /// </summary>
+        /// <param name="startPoint">The start position of the ruler in world space.</param>
+        public void AddRuler(Vec3 viewStartPoint)
+            => this.Rulers.Add(new Ruler(viewStartPoint));
 
         /// <summary>
         /// Clear all rulers from map

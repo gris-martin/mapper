@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Mapper.Windows"
         xmlns:viewmodels="clr-namespace:Mapper.ViewModels"
         mc:Ignorable="d"
-        Title="MarkerDialogWindow" Height="300" Width="275"
-        FocusManager.FocusedElement="{Binding ElementName=MarkerName}"
+        Title="MarkerDialogWindow" Height="350" Width="275"
+        FocusManager.FocusedElement="{Binding ElementName=NameInput}"
         WindowStartupLocation="CenterOwner">
     <Window.DataContext>
         <viewmodels:MarkerDialogViewModel/>
@@ -15,7 +15,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="70"/>
+            <RowDefinition Height="130"/>
         </Grid.RowDefinitions>
         <UniformGrid Grid.Row="0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -45,16 +45,62 @@
                 </ItemsControl>
             </ScrollViewer>
         </UniformGrid>
+        <!--Name block-->
         <StackPanel Grid.Row="1" Margin="10">
-            <TextBox Margin="0, 0, 0, 5"
-                     Name="MarkerName"
-                     AcceptsReturn="False"
-                     MaxLines="1"
-                     MaxLength="20"
-                     Grid.Row="0"
-                     Grid.Column="0"
-                     LostKeyboardFocus="MarkerName_LostKeyboardFocus"
-                     Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Grid Margin="0, 0, 0, 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock FontWeight="Bold"
+                           Grid.Column="0"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center">Name</TextBlock>
+                <TextBox Grid.Column="1"
+                         Name="NameInput"
+                         AcceptsReturn="False"
+                         MaxLines="1"
+                         MaxLength="20"
+                         VerticalAlignment="Center"
+                         LostKeyboardFocus="MarkerName_LostKeyboardFocus"
+                         Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+            <!--Depth block-->
+            <Grid Margin="0, 5, 0, 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock FontWeight="Bold"
+                           Grid.Column="0"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center">Depth</TextBlock>
+                <TextBox Grid.Column="1"
+                         AcceptsReturn="False"
+                         MaxLines="1"
+                         MaxLength="20"
+                         VerticalAlignment="Center"
+                         LostKeyboardFocus="MarkerName_LostKeyboardFocus"
+                         Text="{Binding Depth, Mode=TwoWay}"/>
+            </Grid>
+            <!--Tags block-->
+            <Grid Margin="0, 5, 0, 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock FontWeight="Bold"
+                           Grid.Column="0"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center">Tags</TextBlock>
+                <TextBox Grid.Column="1"
+                         AcceptsReturn="False"
+                         MaxLines="1"
+                         MaxLength="20"
+                         VerticalAlignment="Center"
+                         LostKeyboardFocus="MarkerName_LostKeyboardFocus"
+                         Text="{Binding Tags, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
             <UniformGrid>
                 <UniformGrid Margin="0, 5, 0, 0">
                     <Button Name="OKButton"
