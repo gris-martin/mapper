@@ -116,6 +116,12 @@ namespace Mapper.ViewModels
                 OnPropertyChanged("FormattedWorldPosition");
                 OnPropertyChanged("WorldPositionPopupHorizontalOffset");
                 OnPropertyChanged("WorldPositionPopupVerticalOffset");
+                if (SetProperty(ref mousePosition, value))
+                {
+                    OnPropertyChanged("FormattedWorldPosition");
+                    OnPropertyChanged("WorldPositionPopupHorizontalOffset");
+                    OnPropertyChanged("WorldPositionPopupVerticalOffset");
+                }
             }
         }
 
@@ -127,11 +133,7 @@ namespace Mapper.ViewModels
         public bool WorldPositionPopupEnabled
         {
             get => worldPositionPopupEnabled;
-            set
-            {
-                worldPositionPopupEnabled = value;
-                OnPropertyChanged("WorldPositionPopupEnabled");
-            }
+            set => SetProperty(ref worldPositionPopupEnabled, value);
         }
 
         /// <summary>

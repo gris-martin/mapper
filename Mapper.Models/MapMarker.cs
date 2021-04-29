@@ -65,11 +65,8 @@ namespace Mapper.Models
         public string Name
         {
             get => name;
-            set
-            {
-                name = value;
-                OnPropertyChanged("Name");
-            }
+            set => SetProperty(ref name, value);
+        }
         }
 
         /// <summary>

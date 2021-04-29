@@ -33,7 +33,6 @@ namespace Mapper.Models
             {
                 if (SetProperty(ref startPoint, value))
                 {
-                    OnPropertyChanged("StartPoint");
                     OnPropertyChanged("Length");
                     OnPropertyChanged("ViewStartPoint");
                     OnPropertyChanged("IsLargeArc");
@@ -174,10 +173,7 @@ namespace Mapper.Models
         /// Radius of the drawn arc in view space. This will be the smallest value
         /// of the MaxArcRadius and the length of the ruler.
         /// </summary>
-        public double ArcRadius
-        {
-            get => Math.Min(MaxArcRadius, ViewLength);
-        }
+        public double ArcRadius => Math.Min(MaxArcRadius, ViewLength);
 
         /// <summary>
         /// True if the arc is larger than 180 degrees, false otherwise.
