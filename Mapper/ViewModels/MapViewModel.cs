@@ -119,42 +119,6 @@ namespace Mapper.ViewModels
                 }
             }
         }
-
-        private bool worldPositionPopupEnabled = false;
-        /// <summary>
-        /// Set to true if the popup showing world position at the mouse should be enabled,
-        /// and false if it should be hidden.
-        /// </summary>
-        public bool WorldPositionPopupEnabled
-        {
-            get => worldPositionPopupEnabled;
-            set => SetProperty(ref worldPositionPopupEnabled, value);
-        }
-
-        /// <summary>
-        /// Display the world position on the form (xxx, yyy)
-        /// </summary>
-        public string FormattedWorldPosition
-        {
-            get
-            {
-                var worldPos = Map.Instance.ToWorldSpace(MousePosition.ToVec2(), 0);
-                var depth = worldPos.Depth.ToString();
-                if (depth == "-0") depth = "0";
-                var output = $"x: {Math.Round(worldPos.X)}, y: {Math.Round(worldPos.Y)}, depth: {depth}";
-                return $"x: {Math.Round(worldPos.X)}, y: {Math.Round(worldPos.Y)}, depth: {worldPos.Depth}";
-            }
-        }
-
-        /// <summary>
-        /// Horizontal offset of the world position popup (relative to mouse)
-        /// </summary>
-        public double WorldPositionPopupHorizontalOffset => MousePosition.X + 20;
-
-        /// <summary>
-        /// Vertical offset of the world position popup (relative to mouse)
-        /// </summary>
-        public double WorldPositionPopupVerticalOffset => MousePosition.Y + 0;
         #endregion
 
         #region Collections and callbacks (rulers and markers)

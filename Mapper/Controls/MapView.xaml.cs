@@ -139,7 +139,6 @@ namespace Mapper.Controls
         private void MapGrid_MouseMove(object sender, MouseEventArgs e)
         {
             Point currentPos = e.GetPosition(MapGrid);
-            this.ViewModel.MousePosition = currentPos;
             if (this.ViewModel.IsPanning)
             {
                 MapViewModel.Model.UpdateOriginFromMouseMovement(
@@ -156,15 +155,6 @@ namespace Mapper.Controls
 
             if (ViewModel.MarkerIsSelected)
                 ViewModel.SelectedMarker.Model.ViewPos = currentPos.ToVec2();
-
-            // Tooltip displaying world position
-            if (!this.ViewModel.WorldPositionPopupEnabled)
-                this.ViewModel.WorldPositionPopupEnabled = true;
-        }
-
-        private void MapGrid_MouseLeave(object sender, MouseEventArgs e)
-        {
-            this.ViewModel.WorldPositionPopupEnabled = false;
         }
 
         private void MapGrid_MouseEnter(object sender, MouseEventArgs e)

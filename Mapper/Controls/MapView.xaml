@@ -16,7 +16,6 @@
           Background="LightBlue"
           MouseMove="MapGrid_MouseMove"
           MouseEnter="MapGrid_MouseEnter"
-          MouseLeave="MapGrid_MouseLeave"
           MouseDown="MapGrid_MouseDown"
           MouseLeftButtonDown="MapGrid_MouseLeftButtonDown"
           MouseWheel="MapGrid_MouseWheel"
@@ -111,15 +110,6 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-        <!--Popup for displaying world position-->
-        <!--<Popup Name="WorldPositionPopup"
-               Placement="Relative"
-               AllowsTransparency="True"
-               IsOpen="{Binding WorldPositionPopupEnabled}"
-               HorizontalOffset="{Binding WorldPositionPopupHorizontalOffset}"
-               VerticalOffset="{Binding WorldPositionPopupVerticalOffset}">
-            <TextBlock FontWeight="Bold" Text="{Binding FormattedWorldPosition}"/>
-        </Popup>-->
         <!--Scale display-->
         <Grid>
             <Grid.DataContext>
