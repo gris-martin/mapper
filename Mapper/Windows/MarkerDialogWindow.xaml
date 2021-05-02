@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Mapper.Windows"
         xmlns:viewmodels="clr-namespace:Mapper.ViewModels"
         mc:Ignorable="d"
-        Title="MarkerDialogWindow" Height="350" Width="275"
+        Title="MarkerDialogWindow" Height="400" Width="275"
         FocusManager.FocusedElement="{Binding ElementName=NameInput}"
         WindowStartupLocation="CenterOwner">
     <Window.DataContext>
@@ -15,7 +15,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="130"/>
+            <RowDefinition Height="170"/>
         </Grid.RowDefinitions>
         <UniformGrid Grid.Row="0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -78,12 +78,12 @@
                 <TextBox Grid.Column="1"
                          AcceptsReturn="False"
                          MaxLines="1"
-                         MaxLength="20"
+                         MaxLength="30"
                          VerticalAlignment="Center"
                          LostKeyboardFocus="MarkerName_LostKeyboardFocus"
                          Text="{Binding Depth, Mode=TwoWay}"/>
             </Grid>
-            <!--Tags block-->
+            <!--Description block-->
             <Grid Margin="0, 5, 0, 5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -92,14 +92,14 @@
                 <TextBlock FontWeight="Bold"
                            Grid.Column="0"
                            VerticalAlignment="Center"
-                           HorizontalAlignment="Center">Tags</TextBlock>
+                           HorizontalAlignment="Center">Descrpition</TextBlock>
                 <TextBox Grid.Column="1"
-                         AcceptsReturn="False"
-                         MaxLines="1"
-                         MaxLength="20"
+                         AcceptsReturn="True"
+                         MaxLength="500"
+                         Height="60"
                          VerticalAlignment="Center"
                          LostKeyboardFocus="MarkerName_LostKeyboardFocus"
-                         Text="{Binding Tags, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
             <UniformGrid>
                 <UniformGrid Margin="0, 5, 0, 0">

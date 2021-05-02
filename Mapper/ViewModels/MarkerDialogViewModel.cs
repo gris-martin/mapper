@@ -81,16 +81,10 @@ namespace Mapper.ViewModels
             }
         }
 
-        public string Tags
+        public string Description
         {
-            get => string.Join(',', this._marker.Tags);
-            set
-            {
-                var tags = value.Split(",");
-                this._marker.Tags.Clear();
-                foreach (var tag in tags)
-                    this._marker.Tags.Add(tag);
-            }
+            get => _marker.Description;
+            set => _marker.Description = value;
         }
 
         /// <summary>
@@ -153,32 +147,5 @@ namespace Mapper.ViewModels
 
         private bool _isEditing = false;
         private Marker _marker = new Marker(new Vec3(), "", "");
-
-
-        /// <summary>
-        /// Helper class containing a marker type and its corresponding source
-        /// </summary>
-        public class MarkerSource : ViewModelBase
-        {
-            private MarkerSource() { }
-            public MarkerSource(string type)
-            {
-                this.Type = type;
-            }
-            public string Type { get; }
-            public ImageSource Source
-                => Application.Current.FindResource(Type) as ImageSource;
-
-            private Brush borderBrush = new SolidColorBrush(Colors.Transparent);
-            public Brush BorderBrush
-            {
-                get => borderBrush;
-                set
-                {
-                    borderBrush = value;
-                    OnPropertyChanged("BorderBrush");
-                }
-            }
-        }
     }
 }

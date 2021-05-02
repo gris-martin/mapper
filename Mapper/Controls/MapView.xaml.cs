@@ -29,7 +29,6 @@ namespace Mapper.Controls
             dialog.ShowDialog();
         }
 
-
         private void StartMeasuringFromSurfaceMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (Map.Instance.Rulers.Count > 0)
@@ -106,6 +105,13 @@ namespace Mapper.Controls
                 ViewModel.SelectMarker(ViewModel.LastMarkerClicked);
                 ViewModel.LastMarkerClicked.HideMarkerName();
             }
+        }
+
+        private void ShowMarkerDescriptionMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var marker = ViewModel.LastMarkerClicked;
+            var currentState = marker.MarkerDescriptionEnabled;
+            marker.MarkerDescriptionEnabled = currentState == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
         }
 
         private void RemoveMarkerMenuItem_Click(object sender, RoutedEventArgs e)

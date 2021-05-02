@@ -43,6 +43,16 @@ namespace Mapper.ViewModels
             set => SetProperty(ref markerNameEnabled, value);
         }
 
+        private Visibility markerDescriptionEnabled = Visibility.Hidden;
+        /// <summary>
+        /// Should the description of the marker be visible on screen?
+        /// </summary>
+        public Visibility MarkerDescriptionEnabled
+        {
+            get => markerDescriptionEnabled;
+            set => SetProperty(ref markerDescriptionEnabled, value);
+        }
+
         /// <summary>
         /// Show the marker name.
         /// </summary>

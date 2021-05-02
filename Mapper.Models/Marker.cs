@@ -74,8 +74,12 @@ namespace Mapper.Models
             set => SetProperty(ref name, value);
         }
 
-        private ObservableCollection<string> tags = new ObservableCollection<string>();
-        public ObservableCollection<string> Tags => tags;
+        private string description;
+        public string Description
+        {
+            get => description;
+            set => SetProperty(ref description, value);
+        }
 
         /// <summary>
         /// Screen position. Should be updated manually each time <see cref="WorldPos"/> is updated.

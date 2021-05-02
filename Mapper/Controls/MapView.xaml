@@ -45,26 +45,35 @@
             </ItemsControl.Resources>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Name="Marker">
-                        <TextBlock Text="{Binding Model.Name}"
-                                   HorizontalAlignment="Center"
-                                   Visibility="{Binding MarkerNameEnabled}"
-                                   FontWeight="Bold"
-                                   Margin="0, 0, 0, 3"
-                                   />
-                        <Image Source="{Binding Source}"
-                               Width="{StaticResource MarkerSize}"
-                               Height="{StaticResource MarkerSize}"
-                               MouseEnter="Image_MouseEnter"
-                               MouseLeave="Image_MouseLeave"
-                               MouseLeftButtonDown="Image_MouseDown"
-                               MouseLeftButtonUp="Image_MouseUp"/>
-                        <TextBlock Text="{Binding Model.WorldPos.Z}"
-                                   HorizontalAlignment="Center"
-                                   Visibility="{Binding MarkerNameEnabled}"
-                                   FontWeight="Bold"
-                                   Margin="0, 3, 0, 0"
-                                   />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   Visibility="Hidden"
+                                   Text="{Binding Model.Description}"/>
+                        <StackPanel Name="Marker" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Model.Name}"
+                                       HorizontalAlignment="Center"
+                                       Visibility="{Binding MarkerNameEnabled}"
+                                       FontWeight="Bold"
+                                       Margin="0, 0, 0, 3"
+                                       />
+                            <Image Source="{Binding Source}"
+                                   Width="{StaticResource MarkerSize}"
+                                   Height="{StaticResource MarkerSize}"
+                                   MouseEnter="Image_MouseEnter"
+                                   MouseLeave="Image_MouseLeave"
+                                   MouseLeftButtonDown="Image_MouseDown"
+                                   MouseLeftButtonUp="Image_MouseUp"/>
+                            <TextBlock Text="{Binding Model.WorldPos.Z}"
+                                       HorizontalAlignment="Center"
+                                       Visibility="{Binding MarkerNameEnabled}"
+                                       FontWeight="Bold"
+                                       Margin="0, 3, 0, 0"
+                                       />
+                        </StackPanel>
+                        <TextBlock VerticalAlignment="Center"
+                                   Visibility="{Binding MarkerDescriptionEnabled}"
+                                   Text="{Binding Model.Description}"/>
+
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -158,6 +167,8 @@
                           IsEnabled="{Binding RightClickMenu.MarkerClicked}">
                     <MenuItem Click="MoveMarkerMenuItem_Click"
                               Header="{Binding RightClickMenu.MoveMarkerText}"/>
+                    <MenuItem Click="ShowMarkerDescriptionMenuItem_Click"
+                              Header="Toggle marker description"/>
                     <MenuItem Click="ChangeMarkerTypeMenuItem_Click"
                               Header="Edit marker..."/>
                     <MenuItem Click="RemoveMarkerMenuItem_Click"
