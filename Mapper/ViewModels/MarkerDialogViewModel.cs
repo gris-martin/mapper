@@ -143,6 +143,9 @@ namespace Mapper.ViewModels
             this._marker = marker;
             UpdateBorders();
             OnPropertyChanged("Name");
+            OnPropertyChanged("Type");
+            OnPropertyChanged("Description");
+            OnPropertyChanged("OkCommandEnabled");
         }
 
         private bool _isEditing = false;

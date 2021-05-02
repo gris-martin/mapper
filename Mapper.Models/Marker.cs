@@ -44,11 +44,7 @@ namespace Mapper.Models
         public string Type
         {
             get => type;
-            set
-            {
-                type = value;
-                OnPropertyChanged("Type");
-            }
+            set => SetProperty(ref type, value, setDirty: true);
         }
 
         private Vec3 worldPos;
@@ -60,7 +56,7 @@ namespace Mapper.Models
             get => worldPos;
             set
             {
-                SetProperty(ref worldPos, value);
+                SetProperty(ref worldPos, value, setDirty: true);
                 OnPropertyChanged("ViewPos");
             }
         }
@@ -72,14 +68,14 @@ namespace Mapper.Models
         public string Name
         {
             get => name;
-            set => SetProperty(ref name, value);
+            set => SetProperty(ref name, value, setDirty: true);
         }
 
         private string description;
         public string Description
         {
             get => description;
-            set => SetProperty(ref description, value);
+            set => SetProperty(ref description, value, setDirty: true);
         }
 
         /// <summary>

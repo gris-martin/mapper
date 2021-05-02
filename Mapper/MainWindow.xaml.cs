@@ -31,16 +31,16 @@ namespace Mapper
             }
         }
 
-        private void Save_Click(object sender, RoutedEventArgs e)
+        private static void Save()
         {
             var lastSavePath = Settings.FromFile().LastSavePath;
             if (string.IsNullOrEmpty(lastSavePath))
-                SaveAs_Click(sender, e);
+                SaveAs();
             else
                 Map.Instance.SaveToFile(lastSavePath);
         }
 
-        private void SaveAs_Click(object sender, RoutedEventArgs e)
+        private static void SaveAs()
         {
             SaveFileDialog saveDialog = new SaveFileDialog
             {
@@ -54,6 +54,16 @@ namespace Mapper
                 var settings = Settings.FromFile();
                 settings.LastSavePath = saveDialog.FileName;
             }
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            Save();
+        }
+
+        private void SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            SaveAs();
         }
 
         private void Load_Click(object sender, RoutedEventArgs e)
@@ -99,6 +109,21 @@ namespace Mapper
             }
 
             PositionBlock.Text = text;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (Map.Instance.IsDirty)
+            {
+                var result = MessageBox.Show("There are unsaved changes. Do you want to save before exiting?",
+                                             "Save before exiting?",
+                                             MessageBoxButton.YesNoCancel,
+                                             MessageBoxImage.Exclamation);
+                if (result == MessageBoxResult.Cancel)
+                    e.Cancel = true;
+                else if (result == MessageBoxResult.Yes)
+                    Save();
+            }
         }
     }
 }

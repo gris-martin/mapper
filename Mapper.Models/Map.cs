@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace Mapper.Models
 {
@@ -10,6 +11,28 @@ namespace Mapper.Models
     {
         private static readonly Map instance = new Map();
         public static Map Instance => instance;
+
+        public override bool IsDirty {
+            get {
+                var markersDirty = Markers.Aggregate(false, (current, m) => current || m.IsDirty);
+                return base.IsDirty || markersDirty;
+            }
+            set {
+                base.IsDirty = value;
+            }
+        }
+
+        #region Constructor
+        // We have to set the state to dirty if anything changes
+        public Map()
+        {
+            Markers.CollectionChanged += Markers_CollectionChanged;
+        }
+
+        private void Markers_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+            => IsDirty = true;
+
+        #endregion
 
         #region Public properties
         private Vec3 origin = new Vec3(0, 0, 0);
@@ -177,6 +200,7 @@ namespace Mapper.Models
             var folder = Directory.GetParent(filepath);
             Directory.CreateDirectory(folder.FullName);
             File.WriteAllText(filepath, jsonString);
+            IsDirty = false;
         }
 
         /// <summary>
@@ -196,6 +220,7 @@ namespace Mapper.Models
             }
             this.Origin = newMap.Origin;
             this.Scale = newMap.Scale;
+            IsDirty = false;
         }
         #endregion
 
