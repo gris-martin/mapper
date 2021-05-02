@@ -30,18 +30,67 @@ namespace Mapper.Controls
         }
 
 
-        private void MeasureMenuItem_Click(object sender, RoutedEventArgs e)
+        private void StartMeasuringFromSurfaceMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var rulers = Map.Instance.Rulers;
             if (Map.Instance.Rulers.Count > 0)
             {
-                var ruler = rulers[0];
-                ruler.ViewEndPoint = lastRightClickPosition.ToVec2();
+                //TODO: Add warning
                 Map.Instance.ClearRulers();
+            }
+            Map.Instance.AddRuler(lastRightClickPosition.ToVec2(), 0);
+            RightClickMenu.Instance.IsMeasuring = true;
+        }
+
+        private void StartMeasuringFromMarkerMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (Map.Instance.Rulers.Count > 0)
+            {
+                //TODO: Add warning
+                Map.Instance.ClearRulers();
+            }
+            Map.Instance.AddRuler(ViewModel.LastMarkerClicked.Model.WorldPos);
+            RightClickMenu.Instance.IsMeasuring = true;
+        }
+
+        private void StopMeasuringMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (Map.Instance.Rulers.Count > 0)
+            {
+                //TODO: Remove only 1 ruler
+                var ruler = Map.Instance.Rulers[0];
+                ruler.SetViewEndPoint(lastRightClickPosition.ToVec2());
+                Map.Instance.Rulers.Clear();
             }
             else
             {
-                Map.Instance.AddRuler(lastRightClickPosition.ToVec2());
+                //TODO: Add warning
+            }
+            RightClickMenu.Instance.IsMeasuring = false;
+        }
+
+        private void SetDepthToMarker_Click(object sender, RoutedEventArgs e)
+        {
+            if (Map.Instance.Rulers.Count > 0)
+            {
+                var ruler = Map.Instance.Rulers[0];
+                ruler.SetEndPointDepth(ViewModel.LastMarkerClicked.Model.WorldPos.Depth);
+            }
+            else
+            {
+                //TODO: Add warning
+            }
+        }
+
+        private void SetDepthToSurface_Click(object sender, RoutedEventArgs e)
+        {
+            if (Map.Instance.Rulers.Count > 0)
+            {
+                var ruler = Map.Instance.Rulers[0];
+                ruler.SetEndPointDepth(0);
+            }
+            else
+            {
+                //TODO: Add warning
             }
         }
 
@@ -96,7 +145,7 @@ namespace Mapper.Controls
             var rulers = Map.Instance.Rulers;
             if (rulers.Count > 0)
             {
-                rulers[0].ViewEndPoint = currentPos.ToVec2();
+                rulers[0].SetViewEndPoint(currentPos.ToVec2());
             }
 
             if (ViewModel.MarkerIsSelected)
@@ -124,15 +173,15 @@ namespace Mapper.Controls
             var dataContext = source?.DataContext;
             if (dataContext != null && dataContext is MarkerViewModel marker)
             {
-                MapViewModel.RightClickMenu.MarkerOptionsEnabled = true;
+                MapViewModel.RightClickMenu.MarkerClicked = true;
                 ViewModel.LastMarkerClicked = marker;
             }
             else
             {
-                MapViewModel.RightClickMenu.MarkerOptionsEnabled = false;
+                MapViewModel.RightClickMenu.MarkerClicked = false;
             }
 
-            RightClickMenu.Instance.MeasureText = Map.Instance.Rulers.Count > 0 ? "Stop measuring" : "Measure";
+            RightClickMenu.Instance.IsMeasuring = Map.Instance.Rulers.Count > 0;
 
             var pos = Mouse.GetPosition(MapGrid);
             lastRightClickPosition = new Point(pos.X, pos.Y);
@@ -146,10 +195,12 @@ namespace Mapper.Controls
                 if (Map.Instance.Rulers.Count > 0)
                 {
                     Map.Instance.ClearRulers();
+                    RightClickMenu.Instance.IsMeasuring = false;
                 }
                 else
                 {
-                    Map.Instance.AddRuler(mousePos.ToVec2());
+                    Map.Instance.AddRuler(mousePos.ToVec2(), 0);
+                    RightClickMenu.Instance.IsMeasuring = true;
                 }
             }
             else

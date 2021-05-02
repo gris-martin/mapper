@@ -25,7 +25,7 @@ namespace Mapper.Windows
         /// Constructor when editing a marker
         /// </summary>
         /// <param name="marker"></param>
-        public MarkerDialogWindow(MapMarker marker)
+        public MarkerDialogWindow(Marker marker)
         {
             InitializeComponent();
             (this.DataContext as MarkerDialogViewModel).StartEdit(marker);
@@ -55,7 +55,8 @@ namespace Mapper.Windows
 
         private void MarkerName_LostKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            MarkerName.Focus();
+            if (!(e.NewFocus is TextBox))
+                e.OldFocus.Focus();
         }
     }
 }

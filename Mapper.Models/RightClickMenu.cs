@@ -13,30 +13,29 @@ namespace Mapper.Models
 
         private bool markerOptionsEnabled = false;
         /// <summary>
-        /// Should the marker options be enabled?
+        /// True if a marker was right clicked
         /// </summary>
-        public bool MarkerOptionsEnabled
+        public bool MarkerClicked
         {
             get => markerOptionsEnabled;
             set
             {
-                markerOptionsEnabled = value;
-                OnPropertyChanged("MarkerOptionsEnabled");
+                if (SetProperty(ref markerOptionsEnabled, value))
+                {
+                    OnPropertyChanged("AllowMeasureFromMarker");
+                    OnPropertyChanged("AllowSetDepthFromMarker");
+                }
             }
         }
 
         private string moveMarkerText = "Move marker";
         /// <summary>
-        /// Text for Move marker menu item (should be either "Move marker" or "Place marker"
+        /// Text for Move marker menu item (should be either "Move marker" or "Place marker")
         /// </summary>
         public string MoveMarkerText
         {
             get => moveMarkerText;
-            set
-            {
-                moveMarkerText = value;
-                OnPropertyChanged("MoveMarkerText");
-            }
+            set => SetProperty(ref moveMarkerText, value);
         }
 
         private bool addMarkerEnabled = true;
@@ -46,25 +45,40 @@ namespace Mapper.Models
         public bool AddMarkerEnabled
         {
             get => addMarkerEnabled;
+            set => SetProperty(ref addMarkerEnabled, value);
+        }
+
+        private bool isMeasuring = false;
+        /// <summary>
+        /// True if a ruler is currently measuring.
+        /// </summary>
+        public bool IsMeasuring
+        {
+            get => isMeasuring;
             set
             {
-                addMarkerEnabled = value;
-                OnPropertyChanged("AddMarkerEnabled");
+                if (SetProperty(ref isMeasuring, value))
+                {
+                    OnPropertyChanged("IsNotMeasuring");
+                    OnPropertyChanged("AllowMeasureFromMarker");
+                    OnPropertyChanged("AllowSetDepthFromMarker");
+                }
             }
         }
 
-        private string measureText = "Measure";
         /// <summary>
-        /// Text for the Measure menu item. Should be either "Measure" or "Stop measuring"
+        /// Inverse of <see cref="IsMeasuring"/>.
         /// </summary>
-        public string MeasureText
-        {
-            get => measureText;
-            set
-            {
-                measureText = value;
-                OnPropertyChanged("MeasureText");
-            }
-        }
+        public bool IsNotMeasuring => !IsMeasuring;
+
+        /// <summary>
+        /// True if it should be possible to start measuring from a marker.
+        /// </summary>
+        public bool AllowMeasureFromMarker => IsNotMeasuring && MarkerClicked;
+
+        /// <summary>
+        /// True if it should be possible to set the depth of a ruler from a currently clicked marker.
+        /// </summary>
+        public bool AllowSetDepthFromMarker => IsMeasuring && MarkerClicked;
     }
 }

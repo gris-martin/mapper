@@ -35,11 +35,10 @@ namespace Mapper.ViewModels
                 OnPropertyChanged("LengthText");
         }
 
-#pragma warning disable CA1822 // Mark members as static
         public Point ArcStartPoint => Model.ArcStartPoint.ToPoint();
         public Point ArcEndPoint => Model.ArcEndPoint.ToPoint();
         public Size ArcRadius => new(Model.ArcRadius, Model.ArcRadius);
-        public Point Direction => Model.Direction.ToPoint();
+        public Point Direction => Model.Direction.ToVec2().ToPoint();
         public double AnglePopupHorizontalOffset => Model.ViewStartPoint.X - 5;
         public double AnglePopupVerticalOffset => Model.ViewStartPoint.Y + 5;
         public string AngleText
@@ -57,7 +56,6 @@ namespace Mapper.ViewModels
                 return $"{Math.Round(Model.Length)} m";
             }
         }
-#pragma warning restore CA1822 // Mark members as static
 
         private string GetDirectionString()
         {

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:Mapper.Controls"
         xmlns:viewmodels="clr-namespace:Mapper.ViewModels"
+        xmlns:converters="clr-namespace:Mapper.Converters"
         mc:Ignorable="d"
         Title="Mapper" Height="450" Width="800">
     <Window.DataContext>
@@ -29,16 +30,24 @@
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
+            <StatusBar.Resources>
+                <converters:Vec3IntegerStringConverter x:Key="Vec3IntegerStringConverter"/>
+            </StatusBar.Resources>
             <StatusBarItem>
                 <TextBlock Text="{Binding Model.Origin,
-                                  StringFormat='Origin: {0},'}"></TextBlock>
+                                 Converter={StaticResource Vec3IntegerStringConverter},
+                                 StringFormat='Origin: {0}'}"></TextBlock>
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
                 <TextBlock Text="{Binding Model.Scale,
-                                  StringFormat='Scale: {0} meters per pixel'}"></TextBlock>
+                                  StringFormat='Scale: {0:G3} meters per pixel'}"></TextBlock>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock Name="PositionBlock"/>
             </StatusBarItem>
         </StatusBar>
-        <uc:MapView/>
+        <uc:MapView MouseMove="MapView_MouseMove" x:Name="MapView"/>
     </DockPanel>
 </Window>

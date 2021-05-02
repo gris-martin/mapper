@@ -74,7 +74,7 @@ namespace Mapper.ViewModels
                 var normalizedDiscreteScale = Discretize(normalizedScale);
                 var discreteScale = normalizedDiscreteScale * powerOf10;
                 var worldStartPoint = Map.Instance.ToWorldSpace(StartPosition.ToVec2());
-                var worldEndPoint = worldStartPoint - new Vec2(100 * discreteScale, 0);
+                var worldEndPoint = worldStartPoint - new Vec3(100 * discreteScale, 0, 0);
                 return Map.Instance.ToViewSpace(worldEndPoint).ToPoint();
             }
         }
