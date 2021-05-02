@@ -10,12 +10,7 @@ namespace Mapper.Models
         /// </summary>
         /// <param name="startPoint">Point in view space.</param>
         /// <param name="height">Height above water level.</param>
-        public Ruler(Vec2 startPoint, double height)
-        {
-            Map.Instance.PropertyChanged += Map_PropertyChanged;
-            SetViewStartPoint(startPoint, height);
-            SetViewEndPoint(startPoint);
-        }
+        public Ruler(Vec2 startPoint, double height) : this(Map.Instance.ToWorldSpace(startPoint, height)) { }
 
         /// <summary>
         /// Construct a ruler from a point in world space.
@@ -25,7 +20,7 @@ namespace Mapper.Models
         {
             Map.Instance.PropertyChanged += Map_PropertyChanged;
             StartPoint = startPoint;
-            EndPoint = startPoint;
+            EndPoint = new Vec3(startPoint.X, startPoint.Y, 0);
         }
 
         private void Map_PropertyChanged(object sender, PropertyChangedEventArgs e)

@@ -83,5 +83,23 @@ namespace Mapper
             var controls = new ControlsWindow();
             controls.ShowDialog();
         }
+
+        private void MapView_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var mousePos = e.GetPosition(MapView);
+            var worldPos = Map.Instance.ToWorldSpace(mousePos.ToVec2());
+            var text = $"x: {Math.Round(worldPos.X)}; y: {Math.Round(worldPos.Y)}";
+
+            if (Map.Instance.Rulers.Count > 0)
+            {
+                var ruler = Map.Instance.Rulers[0];
+                var depthText = Math.Round(ruler.EndPoint.Depth).ToString();
+                if (depthText == "-0")
+                    depthText = "0";
+                text += $"; depth: {depthText}";
+            }
+
+            PositionBlock.Text = text;
+        }
     }
 }

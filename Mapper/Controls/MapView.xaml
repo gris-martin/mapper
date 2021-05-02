@@ -103,14 +103,14 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
         <!--Popup for displaying world position-->
-        <Popup Name="WorldPositionPopup"
+        <!--<Popup Name="WorldPositionPopup"
                Placement="Relative"
                AllowsTransparency="True"
                IsOpen="{Binding WorldPositionPopupEnabled}"
                HorizontalOffset="{Binding WorldPositionPopupHorizontalOffset}"
                VerticalOffset="{Binding WorldPositionPopupVerticalOffset}">
             <TextBlock FontWeight="Bold" Text="{Binding FormattedWorldPosition}"/>
-        </Popup>
+        </Popup>-->
         <!--Scale display-->
         <Grid>
             <Grid.DataContext>
