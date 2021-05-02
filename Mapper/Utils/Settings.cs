@@ -12,21 +12,23 @@ namespace Mapper.Utils
 {
     class Settings
     {
-        [JsonIgnore]
-        public static string SettingsFilePath
-        {
-            get
-            {
-                var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                var relativeSettingsPath = Application.Current.FindResource("RelativeSettingsPath") as string;
-                return Path.Combine(localAppData, relativeSettingsPath);
-            }
-        }
+        private readonly static string settingsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Mapper");
 
+        [JsonIgnore]
+        public static string SettingsFilePath => Path.Combine(settingsFolder, "settings.json");
+
+        private string lastSavePath;
         /// <summary>
         /// Path to the last saved file.
         /// </summary>
-        public string LastSavePath { get; set; }
+        public string LastSavePath {
+            get => lastSavePath;
+            set
+            {
+                lastSavePath = value;
+                Save();
+            }
+        }
 
         /// <summary>
         /// Create a new Settings object from the default file path.
@@ -36,7 +38,11 @@ namespace Mapper.Utils
         public static Settings FromFile()
         {
             if (!File.Exists(SettingsFilePath))
-                return new Settings();
+            {
+                var settings = new Settings();
+                settings.Save();
+                return settings;
+            }
 
             var jsonString = File.ReadAllText(SettingsFilePath);
             return JsonSerializer.Deserialize<Settings>(jsonString);

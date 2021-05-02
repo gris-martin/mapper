@@ -53,7 +53,6 @@ namespace Mapper
                 Map.Instance.SaveToFile(saveDialog.FileName);
                 var settings = Settings.FromFile();
                 settings.LastSavePath = saveDialog.FileName;
-                settings.Save();
             }
         }
 

@@ -11,6 +11,7 @@ namespace Mapper.Models
         /// <param name="worldPos">Position of the marker in world space.</param>
         /// <param name="name">Name of the marker.</param>
         /// <param name="type">Type of the marker (i.e. the type of icon it should show).</param>
+        [JsonConstructor]
         public Marker(Vec3 worldPos, string name, string type)
         {
             //this.worldPos = Map.Instance.ToWorldSpace(worldPos);

@@ -2,5 +2,4 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:core="clr-namespace:System;assembly=mscorlib">
     <core:Double x:Key="MarkerSize">25.0</core:Double>
-    <core:String x:Key="RelativeSettingsPath">Mapper/settings.json</core:String>
 </ResourceDictionary>
