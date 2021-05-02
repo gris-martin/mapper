@@ -13,11 +13,11 @@ namespace Mapper.ViewModels
     {
 
 
-        private readonly List<MarkerSource> markers = Map.MarkerTypes.Select(type => new MarkerSource(type)).ToList();
+        private readonly List<MarkerViewModel> markers = Map.MarkerTypes.Select(type => new MarkerViewModel(new Marker(type))).ToList();
         /// <summary>
         /// All the markers that can be chosen
         /// </summary>
-        public IEnumerable<MarkerSource> Markers => markers;
+        public IEnumerable<MarkerViewModel> Markers => markers;
 
         /// <summary>
         /// Position of the new marker to be created. Should probably be set by the entity creating this ViewModel's view.
@@ -136,14 +136,14 @@ namespace Mapper.ViewModels
             // problem unless there are very many markers.
             foreach (var marker in Markers)
             {
-                if (marker.Type == this.Type)
-                    marker.BorderBrush = new SolidColorBrush(Colors.Black);
+                if (marker.Model.Type == this.Type)
+                    marker.BorderColor = new SolidColorBrush(Colors.Black);
                 else
-                    marker.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                    marker.BorderColor = new SolidColorBrush(Colors.Transparent);
             }
         }
 
-        public void StartEdit(MapMarker marker)
+        public void StartEdit(Marker marker)
         {
             this._isEditing = true;
             this._marker = marker;
@@ -152,7 +152,7 @@ namespace Mapper.ViewModels
         }
 
         private bool _isEditing = false;
-        private MapMarker _marker = new MapMarker(new Vec3(), "", "");
+        private Marker _marker = new Marker(new Vec3(), "", "");
 
 
         /// <summary>

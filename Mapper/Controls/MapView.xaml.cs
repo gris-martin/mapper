@@ -173,12 +173,12 @@ namespace Mapper.Controls
             var dataContext = source?.DataContext;
             if (dataContext != null && dataContext is MarkerViewModel marker)
             {
-                MapViewModel.RightClickMenu.MarkerOptionsEnabled = true;
+                MapViewModel.RightClickMenu.MarkerClicked = true;
                 ViewModel.LastMarkerClicked = marker;
             }
             else
             {
-                MapViewModel.RightClickMenu.MarkerOptionsEnabled = false;
+                MapViewModel.RightClickMenu.MarkerClicked = false;
             }
 
             RightClickMenu.Instance.IsMeasuring = Map.Instance.Rulers.Count > 0;

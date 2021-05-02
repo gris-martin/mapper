@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace Mapper.Models
 {
-    public class MapMarker : PropertyChangedBase
+    public class Marker : PropertyChangedBase
     {
         /// <summary>
         /// Main constructor.
@@ -11,7 +11,7 @@ namespace Mapper.Models
         /// <param name="worldPos">Position of the marker in world space.</param>
         /// <param name="name">Name of the marker.</param>
         /// <param name="type">Type of the marker (i.e. the type of icon it should show).</param>
-        public MapMarker(Vec3 worldPos, string name, string type)
+        public Marker(Vec3 worldPos, string name, string type)
         {
             //this.worldPos = Map.Instance.ToWorldSpace(worldPos);
             this.worldPos = worldPos;
@@ -20,14 +20,20 @@ namespace Mapper.Models
         }
 
         /// <summary>
+        /// Construct a Marker from only a type. Used when name and position will be set later.
+        /// </summary>
+        /// <param name="type"></param>
+        public Marker(string type) : this(new Vec3(), "", type) { }
+
+        /// <summary>
         /// Function for creating a marker from a position in view space.
         /// </summary>
         /// <param name="viewPos">Position of the marker in view space.</param>
         /// <param name="name">Name of the marker.</param>
         /// <param name="type">Type of the marker (i.e. the type of icon it should show).</param>
-        /// <returns>A new MapMarker.</returns>
-        public static MapMarker CreateFromViewPos(Vec2 viewPos, string name, string type)
-            => new MapMarker(Map.Instance.ToWorldSpace(viewPos), name, type);
+        /// <returns>A new Marker.</returns>
+        public static Marker CreateFromViewPos(Vec2 viewPos, string name, string type)
+            => new Marker(Map.Instance.ToWorldSpace(viewPos), name, type);
 
         private string type;
         /// <summary>

@@ -25,7 +25,7 @@ namespace Mapper.Windows
         /// Constructor when editing a marker
         /// </summary>
         /// <param name="marker"></param>
-        public MarkerDialogWindow(MapMarker marker)
+        public MarkerDialogWindow(Marker marker)
         {
             InitializeComponent();
             (this.DataContext as MarkerDialogViewModel).StartEdit(marker);

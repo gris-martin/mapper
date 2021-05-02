@@ -203,7 +203,7 @@ namespace Mapper.Models
         /// <summary>
         /// List of all the map symbols assigned to this view model
         /// </summary>
-        public ObservableCollection<MapMarker> Markers { get; } = new ObservableCollection<MapMarker>();
+        public ObservableCollection<Marker> Markers { get; } = new ObservableCollection<Marker>();
 
         private static readonly List<string> markerTypes = new List<string>()
         {

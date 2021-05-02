@@ -157,7 +157,7 @@ namespace Mapper.ViewModels
         public double WorldPositionPopupVerticalOffset => MousePosition.Y + 0;
         #endregion
 
-        #region Collections and callbacks
+        #region Collections and callbacks (rulers and markers)
         /// <summary>
         /// Update state of Markers when underlying model is updated
         /// </summary>
@@ -167,7 +167,7 @@ namespace Mapper.ViewModels
         }
 
         /// <summary>
-        /// Model.MapMarker collection -> MarkerViewModel collection
+        /// Model.Marker collection -> MarkerViewModel collection
         /// </summary>
         public ObservableCollection<MarkerViewModel> Markers =>
             new(Model.Markers.Select(marker => new MarkerViewModel(marker)));

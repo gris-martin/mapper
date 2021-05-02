@@ -29,11 +29,11 @@
                         <DataTemplate>
                             <Button Style="{StaticResource ImageButtonStyle}"
                                     Click="MarkerButton_Click"
-                                    Tag="{Binding Type}"
+                                    Tag="{Binding Model.Type}"
                                     IsTabStop="False"
                                     BorderBrush="Black"
                                     BorderThickness="1">
-                                <Border BorderThickness="1" BorderBrush="{Binding BorderBrush}">
+                                <Border BorderThickness="1" BorderBrush="{Binding BorderColor}">
                                     <Image Source="{Binding Source}"
                                            Width="25"
                                            Height="25"

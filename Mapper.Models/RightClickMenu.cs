@@ -13,9 +13,9 @@ namespace Mapper.Models
 
         private bool markerOptionsEnabled = false;
         /// <summary>
-        /// Should the marker options be enabled?
+        /// True if a marker was right clicked
         /// </summary>
-        public bool MarkerOptionsEnabled
+        public bool MarkerClicked
         {
             get => markerOptionsEnabled;
             set
@@ -30,7 +30,7 @@ namespace Mapper.Models
 
         private string moveMarkerText = "Move marker";
         /// <summary>
-        /// Text for Move marker menu item (should be either "Move marker" or "Place marker"
+        /// Text for Move marker menu item (should be either "Move marker" or "Place marker")
         /// </summary>
         public string MoveMarkerText
         {
@@ -49,6 +49,9 @@ namespace Mapper.Models
         }
 
         private bool isMeasuring = false;
+        /// <summary>
+        /// True if a ruler is currently measuring.
+        /// </summary>
         public bool IsMeasuring
         {
             get => isMeasuring;
@@ -69,13 +72,13 @@ namespace Mapper.Models
         public bool IsNotMeasuring => !IsMeasuring;
 
         /// <summary>
-        /// True if the "Start measuring from marker" option should be available.
+        /// True if it should be possible to start measuring from a marker.
         /// </summary>
-        public bool AllowMeasureFromMarker => IsNotMeasuring && MarkerOptionsEnabled;
+        public bool AllowMeasureFromMarker => IsNotMeasuring && MarkerClicked;
 
         /// <summary>
-        /// True if the "Set depth from marker" option should be available.
+        /// True if it should be possible to set the depth of a ruler from a currently clicked marker.
         /// </summary>
-        public bool AllowSetDepthFromMarker => IsMeasuring && MarkerOptionsEnabled;
+        public bool AllowSetDepthFromMarker => IsMeasuring && MarkerClicked;
     }
 }

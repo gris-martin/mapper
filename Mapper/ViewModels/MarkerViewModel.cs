@@ -12,7 +12,7 @@ namespace Mapper.ViewModels
 {
     public class MarkerViewModel : ViewModelBase
     {
-        public MarkerViewModel(MapMarker marker)
+        public MarkerViewModel(Marker marker)
         {
             this.model = marker;
             this.model.PropertyChanged += Marker_PropertyChanged;
@@ -27,11 +27,11 @@ namespace Mapper.ViewModels
                 OnPropertyChanged("Source");
         }
 
-        private readonly MapMarker model;
+        private readonly Marker model;
         /// <summary>
         /// The underlying model for this view model.
         /// </summary>
-        public MapMarker Model => model;
+        public Marker Model => model;
 
         private Visibility markerNameEnabled = Visibility.Hidden;
         /// <summary>
@@ -55,8 +55,15 @@ namespace Mapper.ViewModels
         public void HideMarkerName()
             => MarkerNameEnabled = Visibility.Hidden;
 
+        private Brush borderColor = new SolidColorBrush(Colors.Transparent);
+        public Brush BorderColor
+        {
+            get => borderColor;
+            set => SetProperty(ref borderColor, value);
+        }
+
         /// <summary>
-        /// Get the source for the Image element. Models.MapMarker only stores strings, so
+        /// Get the source for the Image element. Models.Marker only stores strings, so
         /// we get the Application resource with that string as key.
         /// </summary>
         public ImageSource Source => Application.Current.FindResource(model.Type) as ImageSource;

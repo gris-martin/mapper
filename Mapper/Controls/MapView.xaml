@@ -65,7 +65,6 @@
                                    FontWeight="Bold"
                                    Margin="0, 3, 0, 0"
                                    />
-                        <!--<TextBlock Visibility="Hidden"/>-->
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -156,7 +155,7 @@
                               IsEnabled="{Binding RightClickMenu.IsMeasuring}"/>
                     </MenuItem>
                 <MenuItem Header="Marker"
-                          IsEnabled="{Binding RightClickMenu.MarkerOptionsEnabled}">
+                          IsEnabled="{Binding RightClickMenu.MarkerClicked}">
                     <MenuItem Click="MoveMarkerMenuItem_Click"
                               Header="{Binding RightClickMenu.MoveMarkerText}"/>
                     <MenuItem Click="ChangeMarkerTypeMenuItem_Click"
