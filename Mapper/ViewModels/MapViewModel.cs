@@ -97,7 +97,7 @@ namespace Mapper.ViewModels
         /// <param name="viewPos">The new position of the marker, in view space</param>
         public void MoveSelectedMarker(Point viewPos)
         {
-            SelectedMarker.Model.ViewPos = viewPos.ToVec2();
+            SelectedMarker.Model.SetViewSpacePosition(viewPos.ToVec2());
         }
         #endregion
 

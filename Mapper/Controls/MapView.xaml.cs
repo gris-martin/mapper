@@ -154,7 +154,7 @@ namespace Mapper.Controls
             }
 
             if (ViewModel.MarkerIsSelected)
-                ViewModel.SelectedMarker.Model.ViewPos = currentPos.ToVec2();
+                ViewModel.SelectedMarker.Model.SetViewSpacePosition(currentPos.ToVec2());
         }
 
         private void MapGrid_MouseEnter(object sender, MouseEventArgs e)

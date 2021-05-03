@@ -26,7 +26,7 @@ namespace Mapper.ViewModels
             get => this._marker.ViewPos.ToPoint();
             set
             {
-                this._marker.ViewPos = value.ToVec2();
+                this._marker.SetViewSpacePosition(value.ToVec2());
                 OnPropertyChanged("Position");
             }
         }

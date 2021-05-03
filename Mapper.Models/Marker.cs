@@ -56,8 +56,8 @@ namespace Mapper.Models
             get => worldPos;
             set
             {
-                SetProperty(ref worldPos, value, setDirty: true);
-                OnPropertyChanged("ViewPos");
+                if (SetProperty(ref worldPos, value, setDirty: true))
+                    OnPropertyChanged("ViewPos");
             }
         }
 
@@ -79,17 +79,26 @@ namespace Mapper.Models
         }
 
         /// <summary>
-        /// Screen position. Should be updated manually each time <see cref="WorldPos"/> is updated.
+        /// Position in view space.
         /// </summary>
         [JsonIgnore]
-        public Vec2 ViewPos
-        {
-            get => Map.Instance.ToViewSpace(this.WorldPos);
-            set
-            {
-                this.WorldPos = Map.Instance.ToWorldSpace(value);
-                OnPropertyChanged("ViewPos");
-            }
-        }
+        public Vec2 ViewPos => Map.Instance.ToViewSpace(this.WorldPos);
+
+
+        /// <summary>
+        /// Set the position of the Marker from a position in view space.
+        /// The height will not change.
+        /// </summary>
+        /// <param name="viewPos">The new position in view space.</param>
+        public void SetViewSpacePosition(Vec2 viewPos)
+            => SetViewSpacePosition(viewPos, this.WorldPos.Z);
+
+        /// <summary>
+        /// Set the position of the Marker from a position in view space and a height.
+        /// </summary>
+        /// <param name="viewPos">The new position in view space.</param>
+        /// <param name="height">The new height.</param>
+        public void SetViewSpacePosition(Vec2 viewPos, double height)
+            => this.WorldPos = Map.Instance.ToWorldSpace(viewPos, height);
     }
 }
