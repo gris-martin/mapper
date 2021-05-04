@@ -15,7 +15,7 @@ namespace Mapper.Models
         /// Set to true if the model is dirty.
         /// </summary>
         [JsonIgnore]
-        public virtual bool IsDirty { get; set; }
+        public virtual bool IsDirty { get; set; } = false;
 
         public void OnPropertyChanged(string name)
         {
