@@ -155,6 +155,8 @@
                     </MenuItem>
                 <MenuItem Header="Marker"
                           IsEnabled="{Binding RightClickMenu.MarkerClicked}">
+                    <MenuItem Click="AddMarkerRelativeMenuItem_Click"
+                              Header="Add marker relative..."/>
                     <MenuItem Click="MoveMarkerMenuItem_Click"
                               Header="{Binding RightClickMenu.MoveMarkerText}"/>
                     <MenuItem Click="ShowMarkerDescriptionMenuItem_Click"

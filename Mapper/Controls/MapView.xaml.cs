@@ -93,6 +93,13 @@ namespace Mapper.Controls
             }
         }
 
+        private void AddMarkerRelativeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            AddMarkerRelativeWindow dialog = new(lastRightClickPosition, ViewModel.LastMarkerClicked);
+            dialog.Owner = Application.Current.MainWindow;
+            dialog.ShowDialog();
+        }
+
         private void MoveMarkerMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (ViewModel.MarkerIsSelected)
@@ -154,7 +161,7 @@ namespace Mapper.Controls
             }
 
             if (ViewModel.MarkerIsSelected)
-                ViewModel.SelectedMarker.Model.ViewPos = currentPos.ToVec2();
+                ViewModel.SelectedMarker.Model.SetViewSpacePosition(currentPos.ToVec2());
         }
 
         private void MapGrid_MouseEnter(object sender, MouseEventArgs e)

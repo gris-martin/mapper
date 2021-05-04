@@ -73,22 +73,7 @@ namespace Mapper.Models
         /// The current "compass" angle between north and the current angle, in degrees.
         /// Goes between 0 and 360, where north => 0, east => 90, south => 180 and west => 270.
         /// </summary>
-        public double Angle
-        {
-            get
-            {
-                var dir = (EndPoint - StartPoint).Unit();
-                var rotatedDir = new Vec2(dir.Y, -dir.X);  // Rotate vector so that north == (1, 0) (instead of (0, 1))
-                //var rotatedDir = dir;
-                var angle = Math.Atan2(rotatedDir.Y, rotatedDir.X);
-
-                if (rotatedDir.Y > 0)
-                    angle = Math.PI * 2.0 - angle;
-                else
-                    angle = -angle;
-                return angle * 180.0 / Math.PI;
-            }
-        }
+        public double Angle => Utils.GetCompassAngle(StartPoint, EndPoint);
 
         /// <summary>
         /// The direction the ruler is pointing towards, as a unit vector in world space.

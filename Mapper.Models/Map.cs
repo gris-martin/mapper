@@ -12,13 +12,19 @@ namespace Mapper.Models
         private static readonly Map instance = new Map();
         public static Map Instance => instance;
 
+        public bool isDirty = false;
         public override bool IsDirty {
             get {
                 var markersDirty = Markers.Aggregate(false, (current, m) => current || m.IsDirty);
-                return base.IsDirty || markersDirty;
+                return isDirty || markersDirty;
             }
             set {
-                base.IsDirty = value;
+                isDirty = value;
+                if (!value)
+                {
+                    foreach (var marker in Markers)
+                        marker.IsDirty = false;
+                }
             }
         }
 

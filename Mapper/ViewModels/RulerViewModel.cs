@@ -46,7 +46,7 @@ namespace Mapper.ViewModels
             get
             {
                 var angle = Math.Round(Model.Angle);
-                return $"{angle}\n{GetDirectionString()}°";
+                return $"{angle}°\n{Models.Utils.GetCompassString(Model.Angle)}";
             }
         }
         public string LengthText
@@ -55,45 +55,6 @@ namespace Mapper.ViewModels
             {
                 return $"{Math.Round(Model.Length)} m";
             }
-        }
-
-        private string GetDirectionString()
-        {
-            var angle = Model.Angle;
-            var i = 22.5;
-            if (angle < 11.25)
-                return "N";
-            else if (angle < (12.25 + i))
-                return "NNE";
-            else if (angle < (12.25 + i * 2))
-                return "NE";
-            else if (angle < (12.25 + i * 3))
-                return "ENE";
-            else if (angle < (12.25 + i * 4))
-                return "E";
-            else if (angle < (12.25 + i * 5))
-                return "ESE";
-            else if (angle < (12.25 + i * 6))
-                return "SE";
-            else if (angle < (12.25 + i * 7))
-                return "SSE";
-            else if (angle < (12.25 + i * 8))
-                return "S";
-            else if (angle < (12.25 + i * 9))
-                return "SSW";
-            else if (angle < (12.25 + i * 10))
-                return "SW";
-            else if (angle < (12.25 + i * 11))
-                return "WSW";
-            else if (angle < (12.25 + i * 12))
-                return "W";
-            else if (angle < (12.25 + i * 13))
-                return "WNW";
-            else if (angle < (12.25 + i * 14))
-                return "NW";
-            else if (angle < (12.25 + i * 15))
-                return "NNW";
-            return "N";
         }
 
         private Ruler model;
