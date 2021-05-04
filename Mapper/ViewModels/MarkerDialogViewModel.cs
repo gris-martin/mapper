@@ -11,9 +11,7 @@ namespace Mapper.ViewModels
 {
     public class MarkerDialogViewModel : ViewModelBase
     {
-
-
-        private readonly List<MarkerViewModel> markers = Map.MarkerTypes.Select(type => new MarkerViewModel(new Marker(type))).ToList();
+        protected readonly List<MarkerViewModel> markers = Map.MarkerTypes.Select(type => new MarkerViewModel(new Marker(type))).ToList();
         /// <summary>
         /// All the markers that can be chosen
         /// </summary>
@@ -60,24 +58,18 @@ namespace Mapper.ViewModels
         /// <summary>
         /// The depth of the marker, represented as a string
         /// </summary>
-        public string Depth
+        public double Depth
         {
             get
             {
-                var d = (-this._marker.WorldPos.Z).ToString();
-                if (d == "-0") d = "0";
-                return d;
+                var depth = this._marker.WorldPos.Depth;
+                return depth == -0 ? 0 : depth;
             }
             set
             {
-                var v = value.Replace(".", ",");
-                var success = double.TryParse(v, out double d);
-                if (success)
-                {
-                    this._marker.WorldPos = new Vec3(this._marker.WorldPos.X, this._marker.WorldPos.Y, -d);
-                    OnPropertyChanged("Depth");
-                    OnPropertyChanged("OkCommandEnabled");
-                }
+                this._marker.WorldPos = new Vec3(this._marker.WorldPos.X, this._marker.WorldPos.Y, -value);
+                OnPropertyChanged("Depth");
+                OnPropertyChanged("OkCommandEnabled");
             }
         }
 
@@ -92,8 +84,7 @@ namespace Mapper.ViewModels
         /// </summary>
         public bool OkCommandEnabled =>
             !string.IsNullOrEmpty(Type) &&
-            !string.IsNullOrEmpty(Name) &&
-            !string.IsNullOrEmpty(Depth);
+            !string.IsNullOrEmpty(Name);
 
         /// <summary>
         /// Function to be called when the OK button is clicked. Adds a new marker to the Map.
@@ -124,7 +115,7 @@ namespace Mapper.ViewModels
         /// Update the borders of the markers. Should remove the borders from all markers except for
         /// the one with type specified by the Type property.
         /// </summary>
-        private void UpdateBorders()
+        protected void UpdateBorders()
         {
             // Maybe not the most elegant, but performance doesn't seem to be a
             // problem unless there are very many markers.
@@ -137,6 +128,10 @@ namespace Mapper.ViewModels
             }
         }
 
+        /// <summary>
+        /// Call this when a marker should be edited rather than added.
+        /// </summary>
+        /// <param name="marker"></param>
         public void StartEdit(Marker marker)
         {
             this._isEditing = true;
@@ -148,7 +143,7 @@ namespace Mapper.ViewModels
             OnPropertyChanged("OkCommandEnabled");
         }
 
-        private bool _isEditing = false;
-        private Marker _marker = new Marker(new Vec3(), "", "");
+        protected bool _isEditing = false;
+        protected Marker _marker = new Marker(new Vec3(), "", "");
     }
 }
